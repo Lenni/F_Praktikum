@@ -1,0 +1,17 @@
+start with DCM
+clock frequency           200.000000 MHz
+measurement time per SPAD 0.100000 s
+measure frames per SPAD   305 frames
+SPAD addresses to measure 3200
+waitTimeFsms              10 ms
+waitTimeProgramming       70 ms
+rowsNum                   128
+rowsIncrement             1
+columnsNum                50
+columnsIncrement          2
+
+finished DCM
+took                      822.187927 s
+number of acquisitions    3260
+av. time per SPAD address 256.933730 ms
+av. time per SPAD acquisi 252.204889 ms
