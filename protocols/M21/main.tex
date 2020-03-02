@@ -47,7 +47,7 @@
 \pagenumbering{arabic}
 
 \section{Einleitung}
-	
+
 	Die PET ist ein wichtiges Bildgebendes Verfahren in der modernen Medizin um auch kleine Tumore im menschlichen Körper ausfindig zu machen. Daher ist die Entwicklung leistungsfähiger Detektoren ein wichtiger Aspekt moderner Forschung. \\
 
 	Das zugrunde liegende Prinzip basiert auf der besonders hohen Biologischen Aktivität von Tumorgewebe. Wir einem Patienten nun ein mit einem Radioaktiven Isotop markierter Zucker (sog. Tracer) verabreicht, sammelt sich dieser in dem Tumor an. Wenn dieser nun zerfällt emittiert er Positronen die sich mit den Elektronen im umliegenden Gewebe auslöchen und zwei Gamma Photonen in entgegengestezte Richtung aussenden. Diese sollen durch die Detektoren aufgefangen und ausgewertet werden um Informationen über Flugzeit und Energie der Strahlung zu erhalten. Für die Konstruktion dieser Detektoren gibt es mehrere Ansätze, allerdings wurde in diesem Experiment ein Silicon-Photomultiplier (SiPM) zusammen mit einem LYSO Szintillator verwendet.\\
@@ -57,59 +57,89 @@
 	\newpage
 
 \section{Versuchsaufbau}
-	
+
 	Der Aufbau besteht aus verschiedenen Teilen:
 	\begin{itemize}
-		\item Dunkelbox mit 
+		\item Dunkelbox mit
 		\begin{itemize}
 			\item 2 $\gamma$-Detektoren
 			\item Backbone
 			\item Aluminiumgstell mit Schrittmotoren für Probenhalter
 			\item Probenhalter für Radioaktive Probe
-			\item 
+			\item
 		\end{itemize}
 		\item Netzteile für Detektoren und Backbone
 		\item Data Aquisition and Processing Server (DAPS)
 		\item Kühlung
-		\item Steuerungsrechner mit Benutzerinterface
+		\item Steuerungsrechner mit Benutzerinterfaces
 	\end{itemize}
 
-	\begin{figure*}[H]
-	
-		
-		\begin{minipage}{0.25\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width = 0.7\textwidth]{Pictures/Netzteile.jpg}
+		\label{Aufbau::Netzteile}
+		\caption{Netzteile mit verschiedenen Spannungen}
 
-					\includegraphics[width = 0.2 \textwidth]{Bilder/Netzteile.jpeg}
-					\label{Aufbau::Netzteile}
-					\caption{Netzteile mit verschiedenen Spannungen}
+	\end{figure}
 
-		\end{minipage}
-		\begin{minipage}{0.25\textwidth}
+	\begin{figure}[H]
+		\begin{minipage}{0.69\textwidth}
 
-					\includegraphics[width = 0.2 \textwidth]{Bilder/Kammer.jpeg}
+					\includegraphics[width = \textwidth]{Pictures/Kammer.jpg}
 					\label{Aufbau::Kammer}
 					\caption{Geöffnete Dunkelkammer}
 
 		\end{minipage}
-		\begin{minipage}{0.25\textwidth}
-		
-					\includegraphics[width = 0.2 \textwidth]{Bilder/Kühlung.jpeg}
+		\begin{minipage}{0.3\textwidth}
+
+					\includegraphics[width = \textwidth]{Pictures/Kühlung.jpg}
 					\label{Aufbau::Kühlung}
 					\caption{Wasserkühlung}
 		\end{minipage}
+	\end{figure}
 
-	\end{figure*}
+
+	Um den Aufbau einzuschalten, muss zuerst die Kühlung gestartet werden. Danach werden die LOW, MID und HIGH Spannungen des Backbone in dieser Reihenfolge eingeschaltet. Daraufhin bootet dieser, wobei der vollständige Start durch einen Sprung in der Stromaufnahme der HIGH-Versorgungsspannung festgestellt werden kann. Nachdem der Backbone gestartet ist, können die 2 Detektoren (SPUs) eingeschaltet werden, indem wie schon bei dem Backbone zuerst die Versorgungsspannungen in der Oben angegebenen Reihenfolge sowie die BIAS-Spannung eingeschaltet werden. Auch hier ist die Betriebsbereitschaft durch einen Sprung in der Stromaufnahme auf ungefär 1.6 A erkennbar. Nun kann der Steuerungsrechner mit dem Aufbau verbunden werden. Dazu startet man die \glqq Hyperion\grqq \ Software und führt dort das zu dem Versuch gehörenden Startskript aus. Daraufhin wird eine Verbindung hergestellt, die Detektoren initialisiert und mit dem Backbone synchronisiert. Aufgrund von sporadisch auftretenden Verbindungsproblemen zwischen Backbone und den SPUs kann dieser Schritt fehlschlagen, worauf dann die Spannungen un der umgekehrten Reihenfolge abgeschaltet und der Aufbau neu gestartet werden muss.
+	Ist erfolgreich eine Verbindung zwischen allen Komponenten hergestellt, sollte spätenstens nun die Dunkelkammer geschlossen werden, da im nächsten Schritt die Bias-Spannungen an die SiPMs angeschlossen werden. Wären diese nun nicht im dunklen würden sie konstant ausgelöst, was Messungen unmöglich macht und sie außerdem beschädigen kann. Ist die Kammer also geschlossen, kann mit dem Skript \glqq Continue\_Start \grqq der Aufbau in einen Messbereiten Zustand versetzt werden.
+
+	\section{Kalibration des Probenhalters}
+
+		\subsection{Ziel}
+			Da die Steuerungssoftware mit eigenen Einheiten (nachfolgend \glqq Pulse\grqq genannt) arbeitet, muss zuerst ermittelt werden wie sich diese zu dem tatsächlich verfahrernen Strecken des Probenhalters verhalten.
+
+		\subsection{Aufbau und Durchführung}
+			Am unteren Ende des Schlittens, auf dem sich der Probenhalter befindet, ist eine Ablesenadel für einen Metermaßstab angebracht. Der entsprechende Maßstab ist unter dieser aud dem Aluminiumprofil des Aufbaus angebracht. Zum Start der Messung wird der Motor mittels der Kontrollsoftware in seine Startposition gebracht, bei der er 0 Pulse verfahren ist. Dann lässt man diesen 5000 Pulse vorfahren und liest die Aktuelle Position des Schlitten auf dem Maßstab ab. Dies wird so lange wiederholt, bis der Schlitten am Endstop Schalter auf der anderen Seite angekommen ist.
+
+		\subsection{Auswertung}
+
+			Es wurden bei der Messung folgende Daten aufgenommen:
+
+				\input{Tables/Calib_Motor.tex}
 
 
-	Um den Aufbau einzuschalten, muss zuerst die Kühlung gestartet werden. Danach werden die LOW, MID und HIGH Spannungen des Backbone in dieser Reihenfolge eingeschaltet. Daraufhin bootet dieser, wobei der vollständige Start durch einen Sprung in der Stromaufnahme der HIGH-Versorgungsspannung festgestellt werden kann. Nachdem der Backbone gestartet ist, können die 2 Detektoren (SPUs) eingeschaltet werden, indem wie schon bei dem Backbone zuerst die Versorgungsspannungen in der Oben angegebenen Reihenfolge sowie die BIAS-Spannung eingeschaltet werden. Auch hier ist die Betriebsbereitschaft durch einen Sprung in der Stromaufnahme auf ungefär 1.6 A erkennbar. Nun kann der Steuerungsrechner mit dem Aufbau verbunden werden. Dazu startet man die "Hyperion" Software und führt dort das zu dem Versuch gehörenden Startskript aus. Daraufhin wird eine Verbindung hergestellt, die Detektoren initialisiert und mit dem Backbone synchronisiert. Aufgrund von sporadisch auftretenden Verbindungsproblemen zwischen Backbone und den SPUs kann dieser Schritt fehlschlagen, worauf dann die Spannungen un der umgekehrten Reihenfolge abgeschaltet und der Aufbau neu gestartet werden muss.
-	Ist erfolgreich eine Verbindung zwischen allen Komponenten hergestellt, sollte spätenstens nun die Dunkelkammer geschlossen werden, da im nächsten Schritt die Bias-Spannungen an die SiPMs angeschlossen werden. Wären diese nun nicht im dunklen würden sie konstant ausgelöst, was Messungen unmöglich macht und sie außerdem beschädigen kann. Ist die Kammer also geschlossen, kann mit dem Skript "Continue\_Start" der Aufbau in einen Messbereiten Zustand versetzt werden.
+			Es ist sinnvoll anzunehmen dass die verfahrene Strecke und die ausgegebenen Pulse in einem linearen Zusammenhang stehen, daher wird die Modellfunktion
+			\begin{align*}
+					s = m \cdot x + b
+			\end{align*}
+			angenommen.
+			Mitilfe eines Python Skriptes wird nun die Funktion an die aufgenommenen Messdaten gefittet:
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.7\textwidth]{Plots/Calib_Fit.eps}
+				\caption{Gradenanpassung an gemessene Daten}
+			\end{figure}
+
+				Damit folgt ein Umrechnungsfaktor von $m = (??? \pm ???) \frac{\si{\centi \metre}}{\text{Puls}}$ bei einem Offset von $b = (??? \pm ???) \si{\centi \metre}$.
+
 
 	\section{Dark Count Map}
+	\label{DCM}
 
 		\subsection{Aufbau und Durchführung}
 
-			Aufgrund des thermischen Rauschens der Dioden, sowie Herstellungsprzessen und -ungenauigkeiten haben diese eine sog. "Dunkelzählrate", d.h. eine Signalausgabe bei nicht vorhandener Stimulation. Um nun einzelne Dioden mit besonders hoher Rate zu erkennen und abzuschalten, wird vor der ersten Messung eine "Dark Count Map" der SiPMs ohne eine Probe erstellt. Mithilfe dieser kann man nun ermitteln welche SPADs abgeschaltet werden sollten, um eine Reduzierung der Dunkelzählrate ohne eine zu hohe Reduktion der anderen Genauigkeiten zu errreichen.\\
-			Zur Durchführung der Messung wird der Aufbau wie oben beschrieben eingeschaltet und das Skript zum durchführen der Messung gestartet. Diese dauert einige Minuten, und nach Abschluss werden die Daten auf dem DPAS gespeichert und müssen von dort auf den Rechner übertragen werden.
+			Aufgrund des thermischen Rauschens der Dioden, sowie Herstellungsprzessen und -ungenauigkeiten haben diese eine sog. \glqq Dunkelzählrate\grqq, d.h. eine Signalausgabe bei nicht vorhandener Stimulation. Um nun einzelne Dioden mit besonders hoher Rate zu erkennen und abzuschalten, wird vor der ersten Messung eine \glqq Dark Count Map\grqq der SiPMs ohne eine Probe erstellt. Mithilfe dieser kann man nun ermitteln welche SPADs abgeschaltet werden sollten, um eine Reduzierung der Dunkelzählrate ohne eine zu hohe Reduktion der anderen Genauigkeiten zu errreichen.\\
+			Zur Durchführung der Messung wird der Aufbau wie oben beschrieben eingeschaltet und das Skript zum Aufnehmen der Messung gestartet. Dies dauert einige Minuten, und nach Abschluss werden die Daten auf dem DPAS gespeichert und müssen von dort auf den Rechner übertragen werden.
 
 		\subsection{Auswertung}
 
@@ -124,7 +154,7 @@
 					\includegraphics[width = \textwidth]{Plots/DCM_2.eps}
 					\caption{Dark Count Map von SPU 2}
 				\end{minipage}
-			\end{figure*} 
+			\end{figure*}
 
 			Außerdem wurde die Gesamtzählrate in Abhängigkeit von den abgeschalteten SPADs mit besonders hoher Rate ermittelt:
 
@@ -138,13 +168,55 @@
 		Man sieht das N SPADs für einen Großteil des Rauschens sorgen der durch die Abschaltung dieser eliminiert werden kann. Für die weiteren Messungen ist sies leider nicht sonderlich relevant, da für die Sensoren vorkonfigurierte Prarameter verwendet wurden, in die wir leider keine Einsicht hatten.
 
 	\section{Rauschmessung}
-	
 
-	\section{Detektoreffizienz und Count Rate}
+	\subsection{Ziel}
+
+		Da sowohl das im Szintillator enthaltene Lutetium selbst radioaktiv ist, als auch die Umgebung eine natürliche Strahlenbelastung aufweist, ist es nötig vor der ersten Messung eine Rauschmessung vorzunehmen um die statistischen Messfehler des Detektors abschätzen zu können.
+
+	\subsection{Aufbau und Durchführung}
+
+		Der Aufbau wird wie schon im Abschnitt \ref{DCM} ohne das radioaktive Präparat hochgefahren, und es wird gewartet bis sich die Temperatur der SPUs stabilisiert hat.
+		Dann wird mit dem Skript \glqq Start Scan\grqq die Messung gestartet und die Ansicht in der Hyperion-Software auf das Energie Histogramm gewechselt. Dort sind dann die Histogramme für einzeln auftreffende Photonen (Singles) und Koinzident auftreffende Photonen (Coincidences) sichtbar. Nach einigen Minuten kann die Messung mit \glqq Stop Scan\grqq beendet werden, und beide Histogramme werden gespeichert.
+
+		\subsection{Auswertung}
+
+		Die in der gespeicherten Datei enthaltenen Daten werden durch ein Python Porgramm aufbereitet und ausgewertet.
+		Es folgen Plots für die Energie-Histogramme von Singles und Koinzidenten.
+
+		\begin{figure}
+				\begin{minipage}{0.49 \textwidth}
+					\includegraphics[width=\textwidth]{Plots/Energy_Hist_Singles.eps}
+					\caption{Histogramm Singles}
+				\end{minipage}
+				\begin{minipage}{0.49 \textwidth}
+						\includegraphics[width=\textwidth]{Plots/Energy_Hist_Co.eps}
+						\caption{Histogramm Koinzidenzen}
+					\end{minipage}
+		\end{figure}
+
+		Man kann hier deutlich sehen dass kaum Koinzidenzen gemessen werden, was darauf schließen lässt dass die Photonen nicht aus einem Ereignis stammen.
+		Außerdem kann mit diesen Messungen das Hintergrundrauschen der Singles gut eliminiert werden.
+
+		\subsection{Fazit}
+
+		\textbf{TODO}
+
+	\section{Detektorsensitivität und Count Rate}
 
 		\subsection{Aufbau und Durchführung}
 
+			Das radioaktive Na-22 Präparat wird in den Probenhalter eingesetzt, und die minimalen Abstände der Probe zu dem beiden Sensoren vermessen. Nun wird die Dunkelbox geschlossen und der Aufbau wie schon in den beiden vorherigen Abschnitten eingeschaltet. Nachdem sich wieder eine stabile Temperatur an den Sensoren eingestellt hat, wird der Schlitten mit dem Probenhalter in die Mitte zwischen den beiden Detektoren verfahren und um diesen Punkt so mittels einer binären Suche so lange verfahren bis die Summe der Count-Rate der Detektoren maximal ist. Anschließend wurde das Messystem zurückgesetzt und die Count-Rate der Sensoren gespeichert.
+
 		\subsection{Auswertung}
+
+			Um die Detektorsensitivität zu bestimmen, kann man die theoretische Aktivität der Probe mit der tatsächlich gemessenen vergleichen.
+			Dabei ist allerdings zu beachten dass durch die begrenzte Detektorfläche nur ein gewisser Anteil der tatsächlich abgestrahlten Positronen auch gemessen werden kann.
+			Unter der Annahme dass die Positronen gleichmäßig unter allen Raumwinkeln abgestreut werden, muss nun als Korrekturfaktor der Anteil der Detektorfläche an der Fläche der Kugel mit dem Radius R, wobei dieser der Abstand zwischen Detektor und Probe ist, berechnet werden.
+
+			\begin{align*}
+				A_{\text{Detektor}} = \int_0^a \int_0^a 1 \dd{x} \dd{y} \\
+				\frac{A_{\text{Detektor}}}{A_{\text{Kugel}}} = \\
+			\end{align*}
 
 		\subsection{Fazit}
 
