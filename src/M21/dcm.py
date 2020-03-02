@@ -30,7 +30,7 @@ any_list = list()
 while True:
     try:
         match_obj = re.match(r'\s*([0-9]+)\s+([0-9]+)\s+([0-9]+)', raw_spu_1_3.readline())
-        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), int(match_obj.group(3))))
+        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), float(match_obj.group(3))))
     except:
         break
 dcm_file_data.append(any_list)
@@ -38,7 +38,7 @@ dcm_file_data.append(any_list)
 while True:
     try:
         match_obj = re.match(r'\s*([0-9]+)\s+([0-9]+)\s+([0-9]+)', raw_spu_1_6.readline())
-        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), int(match_obj.group(3))))
+        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), float(match_obj.group(3))))
     except:
         break
 dcm_file_data.append(any_list)
@@ -46,7 +46,7 @@ dcm_file_data.append(any_list)
 while True:
     try:
         match_obj = re.match(r'\s*([0-9]+)\s+([0-9]+)\s+([0-9]+)', raw_spu_2_3.readline())
-        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), int(match_obj.group(3))))
+        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), float(match_obj.group(3))))
     except:
         break
 dcm_file_data.append(any_list)
@@ -54,7 +54,7 @@ dcm_file_data.append(any_list)
 while True:
     try:
         match_obj = re.match(r'\s*([0-9]+)\s+([0-9]+)\s+([0-9]+)', raw_spu_2_6.readline())
-        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), int(match_obj.group(3))))
+        any_list.append((int(match_obj.group(1)) - 1, int(match_obj.group(2)), float(match_obj.group(3))))
     except:
         break
 dcm_file_data.append(any_list)
@@ -80,13 +80,17 @@ for plot_data in dcm:
     def color_map(value):
         a = [float(light_color[i] - dark_color[i])/float(mmax - mmin) * float(value)
             + float(dark_color[i]) for i in range(3)]
-        return (a[0], a[1], a[2], 1.0)
+        return (a[0], a[1], a[2])
 
     #turn plot data to rgb
-    pplot = np.array([[color_map(x) for x in xs] for xs in plot_data])
-    print(type(pplot))
-    print(type(pplot[0]))
-    pcm = plt.pcolor(pplot)
+    pplot = [[x for x in xs] for xs in plot_data]
+
+    tplot = np.empty((len(pplot), len(pplot[0])))
+    for l in range(len(pplot)):
+        for j in range(len(pplot[l])):
+                tplot[l, j] = pplot[l][j]
+
+    pcm = plt.pcolor(tplot)
     #plt.colorbar(pcm)
     plt.title("DCM " + str(i))
     plt.savefig("test" + str(i) + ".png")
