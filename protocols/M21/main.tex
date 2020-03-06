@@ -52,7 +52,7 @@
 
 	Das zugrunde liegende Prinzip basiert auf der besonders hohen Biologischen Aktivität von Tumorgewebe. Wir einem Patienten nun ein mit einem Radioaktiven Isotop markierter Zucker (sog. Tracer) verabreicht, sammelt sich dieser in dem Tumor an. Wenn dieser nun zerfällt emittiert er Positronen die sich mit den Elektronen im umliegenden Gewebe auslöchen und zwei Gamma Photonen in entgegengestezte Richtung aussenden. Diese sollen durch die Detektoren aufgefangen und ausgewertet werden um Informationen über Flugzeit und Energie der Strahlung zu erhalten. Für die Konstruktion dieser Detektoren gibt es mehrere Ansätze, allerdings wurde in diesem Experiment ein Silicon-Photomultiplier (SiPM) zusammen mit einem LYSO Szintillator verwendet.\\
 
-	Ein auftreffendes Gamma-Photon regt den Szintillierenden Kristall nun an optische Photonen auszusenden, die auf den SiPM treffen. Dort werden sie in ein elektrisches Signal umgewandelt, welches durch einen ASIC ausgelesen und verarbeitet werden kann, um aus der Anzahl der Photonen die Energie des detektierten Photons sowie die Flugzeit udn Position zu rekonstruieren. In einem mdeizinischen PET-Scanner kann mit diesen Informationen nun die lage der Tumoren im Patienten errechnet werden. In diesem Versuch ist allerdings eher die Vermessung des verwendeten Detektors im Fokus, weswegen nur zwei sich gegenüberstehende Detektoren verwendet werden.
+	Ein auftreffendes Gamma-Photon regt den Szintillierenden Kristall nun an optische Photonen auszusenden, die auf den SiPM treffen. Dort werden sie in ein elektrisches Signal umgewandelt, welches durch einen ASIC ausgelesen und verarbeitet werden kann, um aus der Anzahl der Photonen die Energie des detektierten Photons sowie die Flugzeit udn Position zu rekonstruieren. In einem medizinischen PET-Scanner kann mit diesen Informationen nun die Lage der Tumoren im Patienten errechnet werden. In diesem Versuch ist allerdings eher die Vermessung des verwendeten Detektors im Fokus, weswegen nur zwei sich gegenüberstehende Detektoren verwendet werden.
 
 	\newpage
 
@@ -85,14 +85,14 @@
 	\begin{figure}[H]
 		\begin{minipage}{0.69\textwidth}
 
-					\includegraphics[width = \textwidth]{Pictures/Kammer.jpg}
+					\includegraphics[width = 0.8\textwidth]{Pictures/Kammer.jpg}
 					\label{Aufbau::Kammer}
 					\caption{Geöffnete Dunkelkammer}
 
 		\end{minipage}
 		\begin{minipage}{0.3\textwidth}
 
-					\includegraphics[width = \textwidth]{Pictures/Kühlung.jpg}
+					\includegraphics[width = 0.8\textwidth]{Pictures/Kühlung.jpg}
 					\label{Aufbau::Kühlung}
 					\caption{Wasserkühlung}
 		\end{minipage}
@@ -126,7 +126,7 @@
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width = 0.7\textwidth]{Plots/Calib_Fit.eps}
+				%\includegraphics[width = 0.7\textwidth]{Plots/Calib_Fit.eps}
 				\caption{Gradenanpassung an gemessene Daten}
 			\end{figure}
 
@@ -145,23 +145,38 @@
 
 			Die aus der Messung erhaltenen Daten lagen als eine Datei mit Tab seperierten Werten (TSV) vor (siehe Rochdatenverzeichnis). Um eine einfache Übersicht über die Sensoren zu erhalten wurde die Datei nun meit einem Python Skript eingelesen und die enhalten Zählraten in einer 2D-Grafik angezeigt:
 
-			\begin{figure*}[H]
+			\begin{figure}[H]
 				\begin{minipage}{0.49 \textwidth}
-					\includegraphics[width = \textwidth]{Plots/DCM_1.eps}
-					\caption{Dark Count Map von SPU 1}
+					\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU1_Sensor1_lin.eps}
+					\caption{Dark Count Map von SPU 1, Sensor 1}
 				\end{minipage}
 				\begin{minipage}{0.49 \textwidth}
-					\includegraphics[width = \textwidth]{Plots/DCM_2.eps}
-					\caption{Dark Count Map von SPU 2}
+					\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU1_Sensor2_lin.eps}
+					\caption{Dark Count Map von SPU 1, Sensor 2}
 				\end{minipage}
-			\end{figure*}
+			\end{figure}
 
-			Außerdem wurde die Gesamtzählrate in Abhängigkeit von den abgeschalteten SPADs mit besonders hoher Rate ermittelt:
+			\begin{figure}[H]
+				\begin{minipage}{0.49 \textwidth}
+					\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU2_Sensor1_lin.eps}
+					\caption{Dark Count Map von SPU 2, Sensor 1}
+				\end{minipage}
+				\begin{minipage}{0.49 \textwidth}
+					\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU2_Sensor2_lin.eps}
+					\caption{Dark Count Map von SPU 2, Sensor 2}
+				\end{minipage}
+			\end{figure}
+			Man kann erkennen dass die SPADs der Sensoren im allgemeinen geringe Dark Count Rates aufweisen, wobei einige wenige, den großteil der gesamten Rate ausmachen.
+			In den Messdaten von SPU 2 ist auffällig, dass Cluster von SPADs ausgefallen sind, was auch in den Rohdaten der Messung so vorzufinden ist, sodass ein Auswertungsfehler unwahrscheinlich ist.
+			Außerdem wird auf den Anhang \ref{Anhang} verwiesen in dem die Plots noch einmal größer und linear sowie logarithmisch skaliert zu finden sind.
 
-			\begin{figure*}[H]
-				\includegraphics[width = 0.5 \textwidth]{Plots/DCR.eps}
+			Außerdem wurde die Gesamtzählrate in Abhängigkeit von den abgeschalteten SPADs, wobei SPADs mit höherer Zählrate früher abgeschaltet wurden, ermittelt:
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.9 \textwidth]{Plots/DCM/DCR_vs_N.png}
 				\caption{Dunkelzählrate der SPUs}
-			\end{figure*}
+			\end{figure}
 
 		\subsection{Fazit}
 
@@ -185,11 +200,11 @@
 
 		\begin{figure}
 				\begin{minipage}{0.49 \textwidth}
-					\includegraphics[width=\textwidth]{Plots/Energy_Hist_Singles.eps}
+					%\includegraphics[width=\textwidth]{Plots/Energy_Hist_Singles.eps}
 					\caption{Histogramm Singles}
 				\end{minipage}
 				\begin{minipage}{0.49 \textwidth}
-						\includegraphics[width=\textwidth]{Plots/Energy_Hist_Co.eps}
+						%\includegraphics[width=\textwidth]{Plots/Energy_Hist_Co.eps}
 						\caption{Histogramm Koinzidenzen}
 					\end{minipage}
 		\end{figure}
@@ -221,5 +236,51 @@
 		\subsection{Fazit}
 
 	\section{Energiemessung}
+
+
+	\section{Anhang}
+		\label{Anhang}
+
+		\subsection{Dark Count Maps}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU1_Sensor1_lin.eps}
+			\caption{DCM SPU 1, Sensor 1, Linear}
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU1_Sensor1_log.eps}
+			\caption{DCM SPU 1, Sensor 1, Logarithmisch}
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU1_Sensor2_lin.eps}
+			\caption{DCM SPU 1, Sensor 2, Linear}
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU1_Sensor2_log.eps}
+			\caption{DCM SPU 1, Sensor 2, Logarithmisch}
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU2_Sensor1_lin.eps}
+			\caption{DCM SPU 2, Sensor 1, Linear}
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU2_Sensor1_log.eps}
+			\caption{DCM SPU 2, Sensor 1, Logarithmisch}
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU2_Sensor2_lin.eps}
+			\caption{DCM SPU 2, Sensor 2, Linear}
+		\end{figure}
+
+		\begin{figure}[H]
+			\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU2_Sensor2_log.eps}
+			\caption{DCM SPU 2, Sensor 2, Logarithmisch}
+		\end{figure}
 
 \end{document}
