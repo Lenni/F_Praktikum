@@ -4,6 +4,7 @@
 \usepackage[paper=a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm]{geometry}
 \usepackage{wrapfig}
 \usepackage{amsmath}
+\usepackage{hyperref}
 %Für Literaturverzeichnis
 
 \usepackage{biblatex}
@@ -180,7 +181,7 @@
 
 		\subsection{Fazit}
 
-		Man sieht das N SPADs für einen Großteil des Rauschens sorgen der durch die Abschaltung dieser eliminiert werden kann. Für die weiteren Messungen ist sies leider nicht sonderlich relevant, da für die Sensoren vorkonfigurierte Prarameter verwendet wurden, in die wir leider keine Einsicht hatten.
+		Man sieht das N SPADs für einen Großteil des Rauschens sorgen, der durch die Abschaltung dieser eliminiert werden kann. Für die weiteren Messungen ist dies leider nicht sonderlich relevant, da für die Sensoren vorkonfigurierte Prarameter verwendet wurden, in die wir leider keine Einsicht hatten.
 
 	\section{Rauschmessung}
 
@@ -235,7 +236,89 @@
 
 		\subsection{Fazit}
 
+
+
 	\section{Energiemessung}
+
+	\subsection{Auswertung}
+
+		Die Daten wurden aus der mit Hyperion exportierten CSV Datei mit einem Python Skript \footnote{\url{https://github.com/Lenni/F_Praktikum}} weiter verarbeitet. Dabei wurde das Rauschen der Sensoren wurde auf die Messzeit normiert und von den Messdaten subtrahiert. Mithilfe der bekannten Peaks bei $511 \si{\kilo \electronvolt}$ und $1275 \si{\kilo \electronvolt}$ wurde die Energieskala kalibriert. Um die Mittelpunkte und Fehler auf die Spitze der Peaks zu finden wurde eine Gaußverteilung an den jeweiligen Peak gefittet, wobei dann die Standardabweichung den Fehler auf den Messwert und der Mittelwert der Verteilung den Messwert selbst darstellt.
+
+		Die dabei in den Fit eingehenden Fehler setzen sich aus dem Zählfehler der Detektoren $(\sigma)$ und  der \textbf{????} zusammen.
+
+		Man erhält nun folgendes Diagramm mit Residuenplots für die obrn erwähnten Fits:
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width = 0.7 \textwidth]{Plots/energy_resultion.eps}
+			\caption{Energieauswertung}
+		\end{figure}
+
+		Dabei sind die transparent markierten Bereiche die angenommenen Fehler auf die Peaks.
+
+	\newpage
+
+	\section{Timing Resolution}
+
+		\subsection{Ziel}
+
+		\subsection{Aufbau und Durchführung}
+			Das Experiment wird wie oben schon beschrieben aufgebaut und die Probe in den Probenhalter gestellt. Nun wird dieser mit der Motorensteuerung an eine zufällige Position zwischen den SPUs gefahren und die Messung gestartet. Die Position des Motors wird außerdem aus der Steuerung abgelesen und notiert, um einen Vergleich der Vorraussage mit der tatsächlichen Position zu ermoglichen. Im 'Time Difference Spectrum' der Software kann nun in einem Histogramm die Zeitdifferenz zwischen 2 als koinzident gewerteten Photonen gezeigt werden. Da die von einem der Detektoren weiter als vom anderen entfernt sind, werden die von einem auch früher detektiert. Aus der Zeitdifferenz zwischen den Signalen kann nun ein vermuteter Ursprungspunkt zwischen den beiden SPUs berechnet werden. Diese Prozedur wird nun 3 weitere Male wiederholt, wobei die Probe jedes Mal an eine andere, zufällige Position verschoben wird.
+
+			\subsection{Auswertung}
+				Um den Fehler auf die Zeitauflösung des Messystems zu erhalten, kann an das erhaltene Histogramm der mittigen Messung eine Gaußverteilung gefittet werden.
+
+				\begin{figure}[H]
+					\centering
+
+%					\includegraphics[width = 0.8 \textwidth]{Plots/Time/gaussian.eps}
+
+					\caption{Fit Zeitauflösung}
+				\end{figure}
+
+				Für die Gaußverteilung
+				\begin{align*}
+					f(t) &= \sqrt{\frac{1}{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}
+				\end{align*}
+
+				werden folgende Parameter bestimmt:
+
+				\begin{align*}
+					\mu &= \SI{000}{\second} \pm \SI{000}{\second} \\
+					\sigma &= \SI{000}{\second} \pm \SI{000}{\second} \\
+					\frac{\chi^2}{NDF} &= ???
+				\end{align*}
+
+				An dem nicht verschwindenden Mittelwert, kann man erkennen, dass die Probe wahrscheinlich nicht perfekt mittig zwischen den Detektoren war.
+				Die Standardabweichung von $\sigma = ???$ beschreibt die Koinzidenzzeit des Systems. Theoretisch sollte diese Genauigkeit ausreichen um Strecken von $\SI{000}{\centi \metre}$ aufzulösen.
+				 \\
+				 \\
+
+				 Nun kann mit diesen gewonnenen Informationen die Position der Probe bei den verschiedenen Messungen ermittelt werden:
+
+				 \begin{figure*}
+				 		\centering
+
+						%\includegraphics[width = 0.7 \textwidth]{Plots/Time/diffs}
+
+						\caption{Zeitdifferenzen}
+				 \end{figure*}
+
+				 Dabei wurden folgende Daten ermittelt:
+
+				 \include{Tables/Time.tex}
+
+				 Diese Daten lassen auf folgende Positionen der Probe schließen:
+
+				 \begin{align*}
+				 	\text{Meesung 1:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
+					\text{Meesung 2:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
+					\text{Meesung 3:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
+				 \end{align*}
+
+				 Wenn man diese mit den tatsächlichen Positionen vergleicht, sieht man \textbf{dass wir absolut daneben lagen!}
+
+	\section{}
 
 
 	\section{Anhang}
