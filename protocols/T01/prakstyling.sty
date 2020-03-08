@@ -1,0 +1,169 @@
+\ProvidesPackage{prakstyling}[2019 Grundpaktikum Styling]
+
+% Packages
+\RequirePackage[nenglish]{babel}             % Language and spell check
+\RequirePackage[utf8]{inputenc}             % Text encoding
+\RequirePackage{amsmath}                    % Additional mathematical formulas and environments
+\RequirePackage{amssymb}                    % Additional mathematical symbols
+\RequirePackage{amsfonts}                   % Additional mathematical fonts
+\RequirePackage{mathrsfs}                   % Font: MathSkript
+\RequirePackage{physics}                    % Physics package for beatiful vectors, matrices, ... Please use, Lennart
+\RequirePackage[onehalfspacing]{setspace}   % SPAAAAACING
+\RequirePackage{graphicx}                   % Simple inclusion of pictures
+\RequirePackage{cancel}                     % CANCELTO. (Diagonal crossout with limit)
+\RequirePackage{tensor}                     % Fucking tensors
+\RequirePackage{scrlayer-scrpage}           % HELP! https://www.ctan.org/pkg/scrlayer-scrpage
+\RequirePackage{pgffor}                     % whaaaaaaaaa...?
+\RequirePackage{bigints}                    % Bigger integers
+\RequirePackage{esint}                      % Mooooooore integrals
+\RequirePackage{siunitx}                    % Support for simple SI units
+\RequirePackage{scalerel}                   % Relative scaling, completely fucked up
+\RequirePackage{csquotes}
+\def\parenthis#1{\scaleleftright[1.5ex]{(}{#1}{)}}
+
+%Packages for CSV Tables
+
+\RequirePackage{csvsimple}
+\RequirePackage{array}
+\RequirePackage{booktabs}
+
+%Packages for Formatting
+
+\RequirePackage{float}
+\RequirePackage{wrapfig}
+\RequirePackage{ragged2e}
+\RequirePackage{graphicx}
+
+% Simple persistent binds
+% Symbols and neat stuff
+\newcommand{\lagr}{\mathcal{L}}         % "Lagrange - L"
+\newcommand{\hamil}{\mathcal{H}}        % "Hamilton - H"
+\newcommand{\vphi}{\varphi}             % "nice" phi
+\newcommand{\dva}[1]{\dot{\va{#1}}}     % dotted, arrowed vector
+\newcommand{\dvb}[1]{\dot{\vb{#1}}}     % dotted, unarrowed vector
+\newcommand{\ix}[1]{\indices{#1}}       % indices for tensors
+\newcommand{\numberthis}{\addtocounter{equation}{1}\tag{\theequation}} % Numbering inside align*. Thanks Stackexchange.
+\newcommand{\pdl}[1]{\partial_{#1}}     % partial derivative with lower index
+\newcommand{\pdu}[1]{\partial^{#1}}     % partial derivative with upper index
+\newcommand{\leci}[1]{\epsilon_{#1}}    % Levi - Civita-Symbol with lower indices
+\newcommand{\krone}[1]{\delta_{#1}}     % Kronecker-Symbol with lower indices
+\newcommand{\laplace}{\mathbf{\Delta}}  % Laplacian
+\newcommand{\degrees}{^\circ}           % Degrees symbol
+\newcommand{\peqcomment}[1]{&\quad\left| #1\right.}  % Equation comments
+
+% Title and header customisation
+\newcommand{\@pLongSubject}{\fbox{Long Subject}}    % Long subject String
+\newcommand{\@pShortSubject}{\fbox{Short Subject}}  % Short Subject String
+\newcommand{\@pShortAuthor}{\fbox{Short Author}}    % Short Author String
+\newcommand{\@pTitlePrefix}{Abgabe}                 % Prefix for numbering in title
+\newcommand{\@pSubtitle}{}                          % Subtitle Management
+
+\newcommand{\pSetLongSubject}[1]{\renewcommand{\@pLongSubject}{#1}}
+\newcommand{\pSetShortSubject}[1]{\renewcommand{\@pShortSubject}{#1}}
+\newcommand{\pSetShortAuthor}[1]{\renewcommand{\@pShortAuthor}{#1}}
+\newcommand{\pSetTitlePrefix}[1]{\renewcommand{\@pTitlePrefix}{#1}}
+
+
+
+\newcommand{\pSetTitleNumber}[1][X]{                % Convenience macro for Title
+    \title{\@pTitlePrefix\ #1}
+}
+
+\newcommand{\pheading}[2]{\ohead{#1}\chead{#2}} % Custom headings
+
+
+% Our own sectioning
+\newcommand{\@pSectionPrefix}{Aufgabe}
+\newcommand{\psetsectionprefix}[1]{\renewcommand{\@pSectionPrefix}{#1}}
+
+\newcounter{psection}
+\newcounter{psubsection}[psection]
+\newcounter{psubsubsection}[psubsection]
+
+\newcommand{\psection}{
+    \stepcounter{psection}
+    \section*{\@pSectionPrefix\ \arabic{psection}}
+}
+
+\newcommand{\psubsection}{
+    \stepcounter{psubsection}
+    \subsection*{\arabic{psection}.\alph{psubsection})}
+}
+
+\newcommand{\psubsubsection}{
+    \stepcounter{psubsubsection}
+    \subsubsection*{\arabic{psection}.\alph{psubsection}.\arabic{psubsubsection})}
+}
+
+\newcommand{\pskipsection}[1][1]{\foreach \n in {1,...,#1}{\stepcounter{psection}}}
+\newcommand{\pskipsubsection}[1][1]{\foreach \n in {1,...,#1}{\stepcounter{psubsection}}}
+\newcommand{\pskipsubsubsection}[1][1]{\foreach \n in {1,...,#1}{\stepcounter{psubsubsection}}}
+
+\newcommand{\pmultisub}[1][2]{
+    \subsection*{\arabic{psection}.\stepcounter{psubsection}\alph{psubsection}\foreach \n in {2,...,#1}{\stepcounter{psubsection}+\alph{psubsection}})
+    }
+}
+
+% Footnoting
+\newcounter{lastfootnote}
+\newcommand{\pFootnoteBeginBlock}{\setcounter{lastfootnote}{\thefootnote}}
+\newcommand{\pFootnoteEndBlock}{\setcounter{footnote}{\arabic{lastfootnote}}}
+\newcommand{\pFootmark}{\footnotemark}
+\newcommand{\pFoottext}[1]{\stepcounter{footnote}\footnotetext{#1}}
+
+% Actual customisation
+\pheading{\@pShortAuthor}{\@pShortSubject}
+\subject{\@pLongSubject}
+\pSetTitleNumber
+\subtitle{\@pSubtitle}
+
+% Retard shit
+\newcommand{\mylipsum}{
+    \foreach \n in {1,...,3}{\psection Dies ist der automatisch generierte Test-Text Nummer \n . \newline
+Hora aderat briligi. Nunc et Slythia Tova \newline
+Plurima gyrabant gymbolitare vabo; \newline
+Et Borogovorum mimzebant undique formae, \newline
+Momiferique omnes exgrabure Rathi. \newline
+
+"Cave, Gaberbocchum moneo tibi, nate cavendum \newline
+(Unguibus ille rapit. Dentibus ille necat.) \newline
+Et fuge Jubbubum, quo non infestior ales, \newline
+Et Bandersnatcham, quae fremit usque, cave." \newline
+
+\psubsection
+Ille autem gladium vorpalem cepit, et hostem \newline
+Manxonium long sedulitate petit; \newline
+Tum sub tumtummi requiescens arboris umbr \newline
+Stabat tranquillus, multa animo meditans. \newline
+
+\pmultisub[3]
+Dum requiescebat meditans uffishia, monstrum \newline
+Praesens ecce! oculis cui fera flamma micat, \newline
+Ipse Gaberbocchus dumeta per horrida sifflans \newline
+Ibat, et horrendum burbuliabat iens! \newline
+
+\psubsection
+Ter, quater, atque iterum cito vorpalissimus ensis \newline
+Snicsnaccans penitus viscera dissecuit. \newline
+Exanimum corpus linquens caput abstulit heros \newline
+Quocum galumphat multa, domumque redit. \newline
+
+\psubsubsection
+"Tune Gaberbocchum potuisti, nate, necare? \newline
+Bemiscens puer! ad brachia nostra veni. \newline
+Oh! frabiusce dies! iterumque caloque calque \newline
+Laetus eo" ut chortlet chortla superba senex. \newline
+
+\psubsubsection
+Hora aderat briligi. Nunc et Slythia Tova \newline
+Plurima gyrabant gymbolitare vabo; \newline
+Et Borogovorum mimzebant undique formae, \newline
+Momiferique omnes exgrabure Rathi. \newline
+    }
+
+    \vspace{1cm}
+    Das ist absoluter Zufall, dass der Text bis auf die \thepage. Seite geht!! Wirklich!! Das hat nichts damit zu tun, dass ich das Layout testen will!
+}
+
+
+\endinput
