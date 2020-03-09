@@ -14,10 +14,16 @@ import numpy as np
 from src.common.fitting import *
 from src.common.plot_with_residuum import *
 
-TDS_Names = ["data/M21/Time/" + s for s in ["TDS_1.log", "TDS_2.log", "TDS_3.log",
-    "TDS_4.log", "TDS_Cal.log"]]
+from itertools import *
 
-for path in TDS_Names:
+names = ["TDS_1.log", "TDS_2.log", "TDS_3.log",
+    "TDS_4.log", "TDS_Cal.log"]
+TDS_Names = ["data/M21/Time/" + s for s in names]
+
+opts = list()
+covs = list()
+chi_sq = list()
+for path, name in zip(TDS_Names, names):
     data = open(path, "r").read()
     def finish_split(x_str):
         return (float(x_str[0].strip()), float(x_str[1].strip()))
@@ -26,11 +32,24 @@ for path in TDS_Names:
     times = np.array([txy[0] for txy in tuple_x_y])
     counts = np.array([txy[1] for txy in tuple_x_y])
     popt, pcov = do_normal_regression(times, counts, np.sqrt(np.array(counts)))
+
     data = plt.subplot2grid((3,1), (0, 0), rowspan=2) 
     res = plt.subplot2grid((3,1), (2, 0), rowspan=1) 
     plot_with_residuum(times, None, counts, np.sqrt(counts), normal(times, *popt),
         "Coincidence " + path , "zeitlicher Abstand", "Ereignisse", data, res );
-    plt.show()
+    plt.savefig("protocols/M21/Plots/Time/" + name + ".png")
     plt.clf()
+
+    opts.append(popt)
+    covs.append(pcov)
+    chi_sq.append(np.sum((normal(times, *popt) - counts)**2 / np.sqrt(counts) )/(len(counts) - 3))
+
+print("opts")
+print(opts)
+print("covs")
+print(covs)
+print("chi_sq")
+print(chi_sq)
+
 plt.legend()
 plt.show()
