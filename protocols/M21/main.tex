@@ -227,18 +227,52 @@
 
 			Um die Detektorsensitivität zu bestimmen, kann man die theoretische Aktivität der Probe mit der tatsächlich gemessenen vergleichen.
 			Dabei ist allerdings zu beachten dass durch die begrenzte Detektorfläche nur ein gewisser Anteil der tatsächlich abgestrahlten Positronen auch gemessen werden kann.
-			Unter der Annahme dass die Positronen gleichmäßig unter allen Raumwinkeln abgestreut werden, muss nun als Korrekturfaktor der Anteil der Detektorfläche an der Fläche der Kugel mit dem Radius R, wobei dieser der Abstand zwischen Detektor und Probe ist, berechnet werden.
+			Unter der Annahme dass die Positronen gleichmäßig unter allen Raumwinkeln abgestreut werden, muss nun als Korrekturfaktor der Anteil des Raumwinkels der Detektorfläche an der Vollkugel berechnet werden. Dann folgt mit $d$ als Abstand der Probe vom Detektor und b als halbe Seitenlänge dieses:
 
 			\begin{align*}
-				A_{\text{Detektor}} = \int_0^a \int_0^a 1 \dd{x} \dd{y} \\
-				\frac{A_{\text{Detektor}}}{A_{\text{Kugel}}} = \\
+				\Omega &= \int_0^2\pi \int_0^\theta \sin(\theta) \dd{\phi} \dd{\theta}\\
+							 &= 4 \atan{ \frac{b^2}{2d \sqrt{4d^2 + 2b^2}}} \\
+				\\
+				\frac{2 \cdot \Omega_{\text{Detektor}}}{\Omega_{\text{Kugel}}} &=  \frac{8 \cdot \atan{\frac{b^2}{2d\sqrt{4d^2 + 2b^2}}}}{4 \pi}
 			\end{align*}
+
+			Im Versuch wurden dabei $b$ und $d$ zu
+
+			\begin{align*}
+					d &= \SI{000}{\centi \metre} \\
+					b &= \SI{000}{\centi \metre}
+			\end{align*}
+			vermessen. Damit ergibt sich für die Geometrische Effizienz:
+
+			\begin{align*}
+				G &=
+			\end{align*}
+
+			Außer der geometrischen Effizienz ist allerdings noch die des Szintillatormaterials, sowie der SiPM zu berücksichtigen. Wenn das Detektormaterial zu dünn ist, haben die $\gamma$-Photonen nicht genügend Strecke um ihre Energie zu verlieren. Man kann annehmen dass die Energieabgabe im Material einem exponentiellen Abfall
+
+			\begin{align*}
+				\frac{I}{I_0} =  \cdot e^{-\frac{x}{\mu}}
+			\end{align*}
+
+			mit $\mu$ als Habwertsdicke folgt. Damit kann man nun die gesamte Energieabgabe im Kristall berechnen.
+
+			Da außerdem die radioaktive Probe zerfällt, verringert sich ihre Aktivität mit der Zeit. Um die Sensitivität zu berechnen, muss nun allerdings die Aktivität der Probe bekannt sein. Sie folt auch einem Exponentiellen Abfall:
+
+			\begin{align*}
+				A = A_0 \cdot 2^{- \frac{t}{t_0}}
+			\end{align*}
+
+			mit $t_0$ als Halbwertszeit der Probe.
 
 		\subsection{Fazit}
 
 
 
 	\section{Energiemessung}
+
+	\subsection{Aufbau und Durchführung}
+		Mittels der Hyperion Steuerungssoftware wurde die Messung gestartet, und auf die Energieansicht gewechselt. Als Messdauer wurde gewartet, bis ein Peak mindestens 100 Datenpunkte erricht hatte.
+
 
 	\subsection{Auswertung}
 
@@ -321,7 +355,7 @@
 
 	\newpage
 
-	
+
 	\section{}
 
 
