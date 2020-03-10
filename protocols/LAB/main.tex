@@ -13,10 +13,10 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Autoreninfo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\author{Philipp Rosendahl Mat.-Nr: 378029\thanks{philipp.rosendahl@rwth-aachen.de}
+\author{Philipp Rosendahl Mat.-Nr: 378092\thanks{philipp.rosendahl@rwth-aachen.de}
 		\and Lennart Wilde, Mat.-Nr: 381588\thanks{lennart.wilde@rwth-aachen.de}}
 
-\pSetShortAuthor{378029 \& 381588}
+\pSetShortAuthor{378092 \& 381588}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITEL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,5 +48,188 @@
 \pagenumbering{arabic}
 
 \section{Einleitung}
-  Lab
+  LabView ist eine grafische Programmiersprache, mit der Wissenschaftler Front- und Backends für Virtuelle Messinstrumente programmieren können.
+	In den einzelnen Versuchen wurden für die Messungen selbst erstellte oder zur Verfügung gestellte LabView Programme verwendet. In den einzelnen Experimenten wurden verschiedene einfache Elektronische Schaltungen oder Bauteile vermessen, oder ihre Funktion analysiert.
+
+	\section{Experimente}
+		\subsection{Charakterisierung eines Widerstandes}
+
+			\subsubsection{Aufbau und Durchführung}
+				Mithilfe eines Rastersteckbrettes wurde die skizzerte Schaltung aufgebaut. Dabei wird der durch den Messwiderstand fließende Strom durchn den Spannungsabfall an einem Rferenzwiderstand bestimmt. Dieser Referenzwiderstand wird vorher mit einem Multimeter auf seinen Widerstandswert geprüft, und in die Auswertung mit einbezogen.
+
+				\begin{figure}[H]
+					\centering
+					\fbox{
+					\includegraphics[width = 0.5 \textwidth]{Pictures/Platzhalter.jpg}
+					}
+					\caption{Schaltplan Steckbrett}
+				\end{figure}
+
+				Dann wurde auf dem PC mit der LabView Software ``Widerstandsmessung'' die Messung gestartet und anschließend die aufgenommenen Daten gespeichert.
+
+				Diese Prozedur wurde dann mit 3 weiteren Widerständen wiederholt, wobei zu diesen jeweils ein passender Referenzwiderstand gewählt wurde.
+				Es ist außerdem darauf zu achten dass die Gesamtstromaufnahme der Schaltungen nie mehr als $\SI{10}{\milli \ampere}$ beträgt, da ansonsten die Spannungsversorgung der LabView Karte zusammenbricht.
+
+			\subsubsection{Auswertung}
+
+				Die Aufgenommenen Daten können aus dem Anhang \ref{Daten::Widerstand} entnommen werden.
+
+				Die Exportierten Daten stellen die die am zu vermessenden Widerstand abfallende Spannung, abhängig vom durch ihn fließenden Strom dar. Dabei ist zu beachten dass der Strom nicht direkt gemessen, sondern indirekt über den Spannungsabfallan einem Referenzwiderstand gemessen wurde. An diesen Datenpunkten kann nun eine lineare Regression durchgeführt werden, um anhand ihrer Steigung den Widerstand des Bauteil zu Charakterisieren. Dabei stellt die Modellfunktion eine Abhängigkeit der Werte in der Form:
+				\begin{align*}
+					U(I) = R \cdot I + b
+				\end{align*}
+				dar. Dabei kann man neben der $\chi^2$-Verteilung auch den Parameter b verwenden um die Qualität des Fits und der Daten zu beurteilen. Dieser sollte sehr klein sein, da er einen intrinsischen, konstanten Spannungsabfall beschreibt, wie er z.B. in einer Diode, nicht aber in einem Widerstand auftreten sollte.
+
+				Führt man die lineare Regression durch, so erhält man folgendes Ergebnis:
+
+				\begin{figure}[H]
+					\centering
+					\fbox{
+						\includegraphics[width = 0.7 \textwidth]{Pictures/Platzhalter} % {Plots/LinReg_Widerstand}
+					}
+					\caption{Lineare Regression für die Messdaten}
+			\end{figure}
+
+				\input{Data/LinReg_Resistance.tex}
+				Als Referenzwiderstand wurde hier der Widerstand $R_R = \SI{000}{\ohm}$ verwendet, wobei dieser durch den an ihm auftretenden Spannungsabfall die Messung leicht verfälscht.
+
+				Diese Auswertung wurde mit den 3 anderen vermessenen Widerständen mit dem gleichen Prinzip, jedoch anderen Referenzwiderständen durchgeführt.
+
+				Dabei wurden folgende Ergebnisse ermittelt:
+
+					\input{Tables/Resistors.tex}
+
+				Man kann sehen dass \textbf{LabView für eine solche Messung vollkommen ungeeignet ist.}
+
+			\subsubsection{Fazit}
+
+				\textbf{TODO}
+
+		\subsection{Kondensator}
+			\subsubsection{Ziel}
+				In diesem Versuchsabschnitt soll mittels des Auf- und Entladevorgangs eines Kondensators über einen bekannten Widerstand die Zeitkonstante $\tau$ bestimmt werden.
+
+			\subsubsection{Aufbau und Durchführung}
+
+				Die Schaltung wird wie in der Skizze gezeigt auf dem Steckbrett aufgebaut. Dabei wurde für den Kondensator $C_1$ eine Kapazität von $C_1 = \SI{000}{\micro \farad}$ und für den Widerstand ein Wert von $\SI{000}{\ohm}$ gewählt, um eine große Zeitkonstante zu erhalten. Im Anschluss muss das Programm für die automatische Aufnahme der Lade- und Entladekurven in LabView progammiert werden.(siehe Anhang \ref{Programme::Kondensator}) Mit dem fertigen Programm werden im Anschluss die Messdaten aufgezeichnet. Dabei wurden folgende Einstellungen verwendet:
+
+				\begin{itemize}
+					\item Samplerate:
+					\item Gesamtsamples:
+					\item Ladespannung:
+				\end{itemize}
+
+			\subsubsection{Auswertung}
+
+				An die aufgenommenen Messdaten (siehe \ref{Daten::Kondensator}) kann nun für die Entladekurve eine Funktion der Form
+				\begin{align*}
+					U(t) = U_0 \cdot e^{-\frac{\tau}{t}}
+				\end{align*}
+				,und die Ladekurve eine Funktion der Form
+				\begin{align*}
+					U(t) = U_0 \cdot \qty(1-e^{-\frac{\tau}{t}})
+				\end{align*}
+				angepasst werden. Dabei stellt $U_0$ die zuvor im Programm eingestellte Ladespannung, sowie $\tau$ die zu bestimmende Zeitkonstante dar.
+
+				Die jeweiligen Fehler auf die einzelnen Datenpunkte setzen sich durch den Fehler auf die Spannungsmessung, welche durch die Spannungsauflösung der Messkarte gegeben ist, sowie der Zeitauflösung, durch die Abtastrate des Programms dar. In unseren Fall belaufen sich diese Aufbau::Kammer
+
+				\begin{align}
+					\label{Kondensator::Messfehler}
+					\Delta U &= \frac{\SI{10}{\volt}}{\sqrt{12} \cdot 2^{N}} = \SI{000}{\milli \volt}
+					\Delta t &= \frac{1}{\SI{000}{\per \second}} =  \SI{000}{\milli \second} %%Abtastrate einfügen
+				\end{align}
+
+				Damit erhält man nun folgende Fits und Parameter:
+
+				\begin{figure}
+					\centering
+					\begin{minipage}{0.4 \textwidth}
+						\includegraphics[width = \textwidth]{Pictures/Platzhalter.jpg}
+						\caption{Anpassung Entladekurve}
+					\end{minipage}
+					\begin{minipage}{0.4 \textwidth}
+							\includegraphics[width = \textwidth]{Pictures/Platzhalter.jpg}
+							\caption{Anpassung Ladekurve}
+					\end{minipage}
+				\end{figure}
+
+				\begin{table}
+					\centering
+					\begin{minipage}{0.4 \textwidth}
+						\input{Data/CapDischarge}
+						\caption{parameter Entladekurve}
+					\end{minipage}
+					\begin{minipage}{0.4 \textwidth}
+						\input{Data/CapCharge}
+						\caption{Parameter Ladekurve}
+					\end{minipage}
+				\end{table}
+
+			\subsubsection{Fazit}
+				Wenn man diese gemessenen Werte mit den erwarteten für diese Wahl von Widerstand und Kondensator vergleicht, sieht man in \ref{Kondensator::Vergleich}, dass unsere Werte in einer $???? \sigma$-Umgebung liegen. \textbf{Da ich das Protokoll hier vorschreibe habe ich allerdings noch keine Ahnung was genau das heißt.}
+
+\section{Anhang}
+	\subsection{Rohdaten}
+		\subsubsection{Charakterisierung Widerstand}
+		\label{Daten::Widerstand}
+
+			\begin{figure}[H]
+				\centering
+				\begin{minipage}{0.4 \textwidth}
+					\fbox{
+						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
+					}
+				\caption{Fit Widerstand 1 ($\SI{000}{\ohm}$)}
+				\end{minipage}
+				\begin{minipage}{0.4 \textwidth}
+					\fbox{
+						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
+					}
+				\caption{Fit Widerstand 2 ($\SI{000}{\ohm}$)}
+				\end{minipage}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\begin{minipage}{0.4 \textwidth}
+					\fbox{
+						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
+					}
+				\caption{Fit Widerstand 3 ($\SI{000}{\ohm}$)}
+				\end{minipage}
+				\begin{minipage}{0.4 \textwidth}
+					\fbox{
+						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
+					}
+				\caption{Fit Widerstand 4 ($\SI{000}{\ohm}$)}
+				\end{minipage}
+		\end{figure}
+
+		\subsubsection{Vermessung Zeitkonstante}
+		\label{Daten::Kondensator}
+			\begin{figure}[H]
+				\centering
+				\begin{minipage}{0.4 \textwidth}
+					\fbox{
+						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
+					}
+				\caption{Fit Entladekurve}
+				\end{minipage}
+				\begin{minipage}{0.4 \textwidth}
+					\fbox{
+						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
+					}
+				\caption{Fit Ladekurve}
+				\end{minipage}
+			\end{figure}
+
+	\subsection{Programme}
+		\subsubsection{Widerstandsvermesssung}
+
+		\subsubsection{Zeitkonstante}
+			\label{Programme::Kondensator
+			}
+		\subsubsection{Schmitt Trigger}
+
+		\subsubsection{Das andere halt}
 \end{document}
