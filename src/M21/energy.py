@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 import numpy as np
 
+from src.common.fitting import *
 
 #
 # from src.common.plot_with_residuum import *
@@ -20,9 +21,9 @@ def plot_with_residuum(x, x_err, y, y_err, mod, name, x_label, y_label, ax_plot,
     ax_plot.plot(x, mod);
 
     y_prop_err = np.zeros(len(y_err))
-    if  x_err != None:
-        y_prop_err = [ (mod[i + 1] - mod[i])/(x[i+1]-x[i]) * xerr[i] for i in range(len(x_err) - 1) ]
-        y_prop_err.append((mod[-1] - mod[-2])/(x[-1] - x[-2]) * xerr[-1])
+    if  x_err is not None:
+        y_prop_err = [ (mod[i + 1] - mod[i])/(x[i+1]-x[i]) * x_err[i] for i in range(len(x_err) - 1) ]
+        y_prop_err.append((mod[-1] - mod[-2])/(x[-1] - x[-2]) * x_err[-1])
     y_prop_err = np.sqrt(np.array(y_prop_err)**2 + y_err**2)
     ax_res.errorbar(x, y-mod, yerr=y_prop_err, color="r", linewidth = 0,
         markersize=2, marker=".", elinewidth=1, capsize=2)
@@ -64,13 +65,10 @@ def calc_err_and_red_noice(counts):
         (hier_counts/cnt_rate**2 * cnt_rate_err) ** 2)
 
     n_counts = counts - time_rausch / time_hier * m_rausch_cnt
-    ##
-    ## FALSCH
-    ##
     counts_stat_err = np.sqrt(np.sqrt(counts) ** 2 +
-        (time_hier_err / time_rausch * m_rausch_cnt) **2 +
-        (time_hier / time_rausch**2 * m_rausch_cnt * time_rausch_err) ** 2 +
-        (time_hier / time_rausch * np.sqrt(m_rausch_cnt)))
+        (time_rausch_err / time_hier * m_rausch_cnt) **2 +
+        (time_rausch / time_hier**2 * m_rausch_cnt * time_hier_err) ** 2 +
+        (time_hier / time_rausch * np.sqrt(m_rausch_cnt))**2 )
     return n_counts, counts_stat_err, time_rausch/time_hier * m_rausch_cnt
 
 def normal(x,my, sigma, a):
@@ -81,6 +79,7 @@ def determineLineraty(energy, counts, count_unc_stat ,decr):
     low = 0
     high = len(energy) - 1
     while True:
+        plt.figure(figsize=(3,3), dpi=300)
         plt.plot(energy, counts)
         plt.axvline(energy[low])
         plt.axvline(energy[high])
@@ -100,50 +99,48 @@ def determineLineraty(energy, counts, count_unc_stat ,decr):
             break
         plt.clf()
         plt.close('all')
-    plt.scatter(energy[low:high], counts[low:high])
-    print("fitting")
+    plt.close('all')
     #
     # guessing params
     #
     max_idx, max_val = max(enumerate(counts[low::high]), key=lambda x: x[1])
-    popt, pcov = curve_fit(normal, energy[low:high], counts[low:high],
-        p0=[energy[low + max_idx], 10.0,max_val],
-        sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
-    print(popt)
-    plt.plot(energy, normal(np.array(energy), *popt))
-    plt.show()
+    plt.figure(figsize=(6,8), dpi=1200)
+    data = plt.subplot2grid((3,1), (0,0), rowspan=2)
+    res = plt.subplot2grid((3,1), (2,0), rowspan=1)
+    popt, pcov, chi_sq = do_normal_regression(energy[low:high], counts[low:high], count_unc_stat[low:high],
+        xErr=(energy[1]-energy[0])/np.sqrt(12) * np.ones(len(energy[low:high])))
+        #sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
+    plot_with_residuum(energy[low:high], (energy[1]-energy[0])/np.sqrt(12) * np.ones(len(energy[low:high])),
+        counts[low:high], count_unc_stat[low:high], normal(energy[low:high], *popt),
+        decr + " unkorrigiertes Spektrum", "Energy kEV","Ereignisse", data, res )
+    plt.savefig("protocols/M21/Plots/EnergyUnkorrigiert" + decr + ".png")
+    plt.clf()
+    plt.close('all')
+    return popt, pcov, low, high, chi_sq
 
-    print(decr)
-    print("Median:  " + str(popt[0] )+ "\t" + str(np.sqrt(np.diag(pcov)[0])))
-    print("Uncert:  " + str(popt[1] )+ "\t" + str(np.sqrt(np.diag(pcov)[1])))
-    print("Hight :  " + str(popt[2] )+ "\t" + str(np.sqrt(np.diag(pcov)[2])))
-
-    return popt, pcov, low, high
-
-def do_regression(energy, counts, count_unc_stat,low, high):
-    max_idx, max_val = max(enumerate(counts[low::high]), key=lambda x: x[1])
-    popt, pcov = curve_fit(normal, energy[low:high], counts[low:high],
-        p0=[energy[low + max_idx], 10.0,max_val],
-        sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
-    return popt, pcov
+def do_regression(energy, counts, energy_unc, count_unc_stat,low, high):
+#    max_idx, max_val = max(enumerate(counts[low::high]), key=lambda x: x[1])
+#    popt, pcov = curve_fit(normal, energy[low:high], counts[low:high],
+#        p0=[energy[low + max_idx], 10.0,max_val],
+#        sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
+#    return popt, pcov
+    return do_normal_regression(energy[low:high], counts[low:high], count_unc_stat[low:high],
+           xErr= energy_unc[low:high]) 
 
 (energy, counts) = read_hist("data/M21/Energy/singles.log")
 nCounts, counts_stat_err, hier_rausch = calc_err_and_red_noice(counts)
 
 a=2
+print("X Fehler werden bei der Energie korrektur ignoriert")
 tup5=determineLineraty(energy,counts,counts_stat_err,"511 Peak")
 tup12 = determineLineraty(energy, counts, counts_stat_err, "1255 Peak")
 corrected_energy = (1275 - 511)/(tup12[0][0] - tup5[0][0]) * energy
 energy_errors_sys = energy * (1275-511)/(tup12[0][0] - tup5[0][0])**2 * (np.diag(tup5[1])[0]
     + np.diag(tup12[1])[0])
+energy_error_stat = (corrected_energy[1] - corrected_energy[0])/np.sqrt(12) * np.ones(len(corrected_energy))
 
 
-#(ax1, ax2) = (plt.subplot(221), plt.subplot(222))
-#plot_with_residuum(energy[low:high], None, nCounts[low:high], counts_stat_err[low:high],
-#    normal(energy[low:high], *tup5[0]), "test", "test x", "test y", ax1, ax2)
-#plt.show()
-
-plt.figure(figsize=(8, 9))
+plt.figure(figsize=(8, 9), dpi=1200)
 # get subplots
 shape = (7, 2)
 ax_spectrum = plt.subplot2grid(shape, (0,0), colspan=2, rowspan=4)
@@ -174,35 +171,49 @@ ax_spectrum.set_title("Energiespektrum")
 ax_spectrum.legend()
 ax_spectrum.grid(True)
 
-opt5, cov5 = do_regression(corrected_energy, nCounts, counts_stat_err, tup5[2], tup5[3])
-plot_with_residuum(corrected_energy[tup5[2]:tup5[3]], None,
+opt5, cov5, chiSq5 = do_regression(corrected_energy, energy_error_stat, nCounts, counts_stat_err, tup5[2], tup5[3])
+plot_with_residuum(corrected_energy[tup5[2]:tup5[3]], energy_error_stat[tup5[2]:tup5[3]],
         nCounts[tup5[2]:tup5[3]], counts_stat_err[tup5[2]:tup5[3]],
         normal(corrected_energy[tup5[2]:tup5[3]], *opt5), "511 kEV Peak",
         "Energie kEV", "gezählte Ereignisse", ax_511_peak, ax_511_res)
+cov5=np.diag(cov5)
 
-
-opt12, cov12 = do_regression(corrected_energy, nCounts, counts_stat_err, tup12[2], tup12[3])
-plot_with_residuum(corrected_energy[tup12[2]:tup12[3]], None,
+opt12, cov12, chiSq12 = do_regression(corrected_energy, energy_error_stat, nCounts, counts_stat_err, tup12[2], tup12[3])
+plot_with_residuum(corrected_energy[tup12[2]:tup12[3]], energy_error_stat[tup12[2]:tup12[3]],
         nCounts[tup12[2]:tup12[3]], counts_stat_err[tup12[2]:tup12[3]],
         normal(corrected_energy[tup12[2]:tup12[3]], *opt12), "1275 kEV Peak",
         "Energie kEV", "gezählte Ereignisse", ax_1275_peak, ax_1275_res)
 plt.tight_layout()
+cov12=np.diag(cov12)
 
-print("511 kEV plot parameter")
-print(opt5)
-print(np.diag(cov5))
-chiSq5 = np.sum(((nCounts[tup5[2]:tup5[3]] - normal(corrected_energy[tup5[2]:tup5[3]], *opt5)) ** 2 /
-        counts_stat_err[tup5[2]:tup5[3]]**2))/(tup5[3] - tup5[2] - 3)
-print(chiSq5)
-print("\n\n")
 
-print("1275 kEV plot parameter")
-print(opt12)
-print(np.diag(cov12))
-chiSq12 = np.sum(((nCounts[tup12[2]:tup12[3]] - normal(corrected_energy[tup12[2]:tup12[3]], *opt12)) ** 2 /
-        counts_stat_err[tup12[2]:tup12[3]]**2))/(tup12[3] - tup12[2] - 3)
-print(chiSq12)
-print("\n\n")
+fit_info_form_str= "Fitparameter \t\t{}\n" + "Mittelwert\t\t:{:9.4e} \pm {:9.4e} keV\n" + "Standardabbweichung\t:{:9.4e} \pm {:9.4e} keV^2\n" + "Peakhöhe\t\t:{:9.4e} \pm {:9.4e} \n" + "\chi^2\t\t\t:{:9.4e}"
 
-plt.savefig("data/M21/energy_resultion.eps")
+print(fit_info_form_str.format("Korrekturpeak 511", tup5[0][0], tup5[1][0][0],
+    tup5[0][1], tup5[1][1][1], tup5[0][2], tup5[1][2][2], tup5[-1] ))
+print(fit_info_form_str.format("Korrekturpeak 1275", tup12[0][0], tup12[1][0][0],
+    tup12[0][1], tup12[1][1][1], tup12[0][2], tup12[1][2][2], tup12[-1] ))
+print(fit_info_form_str.format("Peak 511", opt5[0], cov5[0],
+    opt5[1], cov5[1], opt5[2], opt5[2], chiSq5 ))
+print(fit_info_form_str.format("Peak 1275", opt12[0], cov12[0],
+    opt12[1], cov12[1], opt12[2], opt12[2], chiSq12 ))
+
+#print("511 kEV plot parameter")
+#print(opt5)
+#print(np.diag(cov5))
+#chiSq5 = np.sum(((nCounts[tup5[2]:tup5[3]] - normal(corrected_energy[tup5[2]:tup5[3]], *opt5)) ** 2 /
+#        counts_stat_err[tup5[2]:tup5[3]]**2))/(tup5[3] - tup5[2] - 3)
+#print(chiSq5)
+#print("\n\n")
+#
+#print("1275 kEV plot parameter")
+#print(opt12)
+#print(np.diag(cov12))
+#chiSq12 = np.sum(((nCounts[tup12[2]:tup12[3]] - normal(corrected_energy[tup12[2]:tup12[3]], *opt12)) ** 2 /
+#        counts_stat_err[tup12[2]:tup12[3]]**2))/(tup12[3] - tup12[2] - 3)
+#print(chiSq12)
+#print("\n\n")
+
+plt.savefig("protocols/M21/Plots/energy_resultion.png")
 plt.clf()
+plt.close('all')

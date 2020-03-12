@@ -31,7 +31,6 @@ for name in filenames:
     with open(name) as file:
         reader = csv.reader(file, delimiter=" ", skipinitialspace=True)
         for row in reader:
-            print(row)
             x = int(int(row[0]) / 2)
             y = int(row[1])
             x_list[x, y] = float(row[2])
@@ -85,4 +84,3 @@ plt.ylabel(r"Dark Count Rate in $\frac{1}{s}$", fontsize = 16)
 plt.legend(fontsize = 16)
 
 plt.savefig("DCR_vs_N.png", bbox_inches="tight")
-plt.show()
