@@ -18,13 +18,17 @@ def do_normal_regression_x(energy, counts, count_unc_stat):
 #    deltas = np.array(deltas)
     sigma = np.sqrt(np.sum((energy**2 * counts))/np.sum(counts) - my**2)
     popt, pcov = curve_fit(normal, energy, counts,
-        p0=[my, sigma ,max_val],
+        p0=[my, sigma , 1.2 * max_val],
         sigma=np.array(np.array(count_unc_stat)/np.array(counts)), maxfev=10_000)
+    print(sigma, popt[1])
     return popt, pcov
 
 def do_normal_regression(x, y, yErr, xErr=None):
-    popt, none = do_normal_regression_x(x, y, yErr)
-    return regression(normal, x, y, yErr, xErr=xErr, beta0=popt)
+    #popt, none = do_normal_regression_x(x, y, yErr)
+    max_idx, max_val = max(enumerate(y), key=lambda x: x[1])
+    my = np.sum(y * x) / np.sum(y)
+    sigma = np.sqrt(np.sum((x**2 * y))/np.sum(y) - my**2)
+    return regression(normal, x, y, yErr, xErr=xErr, beta0=[my, sigma, max_val])
 
 
 #def do_normal_regression(x, y, yErr, xErr=None):

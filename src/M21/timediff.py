@@ -47,8 +47,8 @@ for i, (path, name) in enumerate(zip(TDS_Names, names)):
     mu = popt[0]
     sigma = popt[1]
 
-    data = plt.subplot2grid((3,1), (0, 0), rowspan=2) 
-    res = plt.subplot2grid((3,1), (2, 0), rowspan=1) 
+    data = plt.subplot2grid((3,1), (0, 0), rowspan=2)
+    res = plt.subplot2grid((3,1), (2, 0), rowspan=1)
     plot_with_residuum(times, time_err, counts, np.sqrt(counts), normal(times, *popt),
         "Koinzidenz " + name_labels[i]  , "zeitlicher Abstand ps", "Ereignisse", data, res );
     plt.savefig("protocols/M21/Plots/Time/" + name + ".png")
@@ -66,8 +66,8 @@ for i, (path, name) in enumerate(zip(TDS_Names, names)):
     time_err = np.array([txy[2] for txy in tuple_x_y])
     counts = np.array([txy[1] for txy in tuple_x_y])
     popt, pcov, chisq = do_normal_regression(times, counts, np.sqrt(np.array(counts)), xErr=None)
-    data = plt.subplot2grid((3,1), (0, 0), rowspan=2) 
-    res = plt.subplot2grid((3,1), (2, 0), rowspan=1) 
+    data = plt.subplot2grid((3,1), (0, 0), rowspan=2)
+    res = plt.subplot2grid((3,1), (2, 0), rowspan=1)
     plot_with_residuum(times, time_err, counts, np.sqrt(counts), normal(times, *popt),
         "Koinzidenz " + name_labels[i] + " - 2 $\sigma$ Intervall", "zeitlicher Abstand ps", "Ereignisse", data, res );
     plt.savefig("protocols/M21/Plots/Time/Sel" + name + ".png")

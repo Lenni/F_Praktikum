@@ -125,7 +125,7 @@ def do_regression(energy, counts, energy_unc, count_unc_stat,low, high):
 #        sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
 #    return popt, pcov
     return do_normal_regression(energy[low:high], counts[low:high], count_unc_stat[low:high],
-           xErr= energy_unc[low:high]) 
+           xErr= energy_unc[low:high])
 
 (energy, counts) = read_hist("data/M21/Energy/singles.log")
 nCounts, counts_stat_err, hier_rausch = calc_err_and_red_noice(counts)
@@ -134,9 +134,8 @@ a=2
 print("X Fehler werden bei der Energie korrektur ignoriert")
 tup5=determineLineraty(energy,counts,counts_stat_err,"511 Peak")
 tup12 = determineLineraty(energy, counts, counts_stat_err, "1255 Peak")
-corrected_energy = (1275 - 511)/(tup12[0][0] - tup5[0][0]) * energy
-energy_errors_sys = energy * (1275-511)/(tup12[0][0] - tup5[0][0])**2 * (np.diag(tup5[1])[0]
-    + np.diag(tup12[1])[0])
+corrected_energy = 511/tup5[0][0] * energy
+energy_errors_sys = energy * (511)/(tup5[0][0])**2 * (np.diag(tup5[1])[0])
 energy_error_stat = (corrected_energy[1] - corrected_energy[0])/np.sqrt(12) * np.ones(len(corrected_energy))
 
 

@@ -1,0 +1,53 @@
+511 Peak
+l+164
+h-501
+w
+1255 Peak
+h-120
+l+495
+w
+Kein Energie fehler angezeigt, da diese systematisch sind
+Fitparameter 		Korrekturpeak 511
+Mittelwert		:4.6580e+02 \pm 6.2824e-02 keV
+Standardabbweichung	:4.3391e+01 \pm 3.6631e-01 keV^2
+Peakhöhe		:1.7616e+04 \pm 3.1142e+03
+\chi^2			:7.5365e-01
+Fitparameter 		Korrekturpeak 1275
+Mittelwert		:1.1512e+03 \pm 7.7594e+00 keV
+Standardabbweichung	:1.2728e+02 \pm 2.5552e+01 keV^2
+Peakhöhe		:6.0619e+02 \pm 1.6369e+01
+\chi^2			:1.6018e+00
+Fitparameter 		Peak 511
+Mittelwert		:5.1020e+02 \pm 1.6043e+22 keV
+Standardabbweichung	:2.2488e+05 \pm 9.5202e+29 keV^2
+Peakhöhe		:6.3337e-01 \pm 6.3337e-01
+\chi^2			:1.9173e-22
+Fitparameter 		Peak 1275
+Mittelwert		:1.2961e+03 \pm 5.3791e+20 keV
+Standardabbweichung	:5.3440e+05 \pm 0.0000e+00 keV^2
+Peakhöhe		:6.3337e-01 \pm 6.3337e-01
+\chi^2			:1.3039e-20
+/Users/philipp/Workspace/F_Praktikum/src/M21/dcm.py:86: UserWarning: Creating legend with loc="best" can be slow with large amounts of data.
+  plt.savefig("DCR_vs_N.png", bbox_inches="tight")
+Weg Kalibrierung
+Kein Systematischer Fehler auf Länge, weil nicht bekannt
+Wegkalibrierung: (-0.0004234285706625622 \pm 7.939075115201984e-13 cm ) * x + (35.36999998658297 \pm 0.00034735071927996357 cm) chi_sq: 1.8514285714287024
+check for folder
+mittelwert: -8.296194e+01 \pm 4.936773e+00 ps 	 abweichung: 1.683363e+02 \pm 5.811992e+00 ps 	 fwhd: 3.964017e+02 \pm 1.368620e+01 ps 	 \chi^2: 1.167955e+00
+mittelwert: -3.262856e+02 \pm 6.727056e+00 ps 	 abweichung: 1.793489e+02 \pm 8.457845e+00 ps 	 fwhd: 4.223343e+02 \pm 1.991670e+01 ps 	 \chi^2: 1.323601e+00
+mittelwert: 4.097219e+01 \pm 5.283173e+00 ps 	 abweichung: 1.751395e+02 \pm 6.278161e+00 ps 	 fwhd: 4.124221e+02 \pm 1.478394e+01 ps 	 \chi^2: 1.695224e+00
+mittelwert: 1.837787e+02 \pm 2.258636e+00 ps 	 abweichung: 1.748944e+02 \pm 2.966251e+00 ps 	 fwhd: 4.118448e+02 \pm 6.984986e+00 ps 	 \chi^2: 1.176302e+00
+mittelwert: -2.780644e+02 \pm 1.761026e+00 ps 	 abweichung: 1.730675e+02 \pm 2.134774e+00 ps 	 fwhd: 4.075428e+02 \pm 5.027008e+00 ps 	 \chi^2: 1.659122e+00
+Vergleiche Positionen
+Motorpos	 DeltaMittelWertLin cm 	 Err	 DeltaMittelWert cm 	 Err	 Abw cm 	 Sigma
+23871.00	00000.94		00000.04	-0002.49		00011.89	 00003.43	 00000.29
+16274.00	00004.15		00000.04	-0009.79		00012.67	 00013.94	 00001.10
+28661.00	-0001.09		00000.04	00001.23		00012.37	 -0002.32	 -0000.19
+34139.00	-0003.41		00000.04	00005.51		00012.36	 -0008.92	 -0000.72
+18000.00	00003.42		00000.04	-0008.34		00012.23	 00011.77	 00000.96
+Generelle Anmerkungen zur Fehler Rechnnung: Ereignisse haben den Fehler Wurzel N
+Energie und Zeitfehler: Bereich durch Wurzel 12
+Fehler auf Fitparameter durch Varianz von Chi-Quadrat
+
+Bei der Energiespektrumskorrektur: Gaußsche Fehlerfortpflanzung
+Fehlerfortpflanzung auf 'Streckungsfaktor' (1275-511)(gemessener Hochpeak - gemesser Tiefpeak)
