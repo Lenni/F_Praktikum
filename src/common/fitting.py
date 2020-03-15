@@ -20,15 +20,18 @@ def do_normal_regression_x(energy, counts, count_unc_stat):
     popt, pcov = curve_fit(normal, energy, counts,
         p0=[my, sigma , 1.2 * max_val],
         sigma=np.array(np.array(count_unc_stat)/np.array(counts)), maxfev=10_000)
-    print(sigma, popt[1])
     return popt, pcov
 
-def do_normal_regression(x, y, yErr, xErr=None):
-    #popt, none = do_normal_regression_x(x, y, yErr)
-    max_idx, max_val = max(enumerate(y), key=lambda x: x[1])
-    my = np.sum(y * x) / np.sum(y)
-    sigma = np.sqrt(np.sum((x**2 * y))/np.sum(y) - my**2)
-    return regression(normal, x, y, yErr, xErr=xErr, beta0=[my, sigma, max_val])
+def do_normal_regression(x, y, yErr, xErr=None, beta0=None):
+    if beta0 is None:
+        #popt, none = do_normal_regression_x(x, y, yErr)
+        max_idx, max_val = max(enumerate(y), key=lambda x: x[1])
+        my = np.sum(y * x) / np.sum(y)
+        sigma = np.sqrt(np.sum((x**2 * y))/np.sum(y) - my**2)
+        beta0 = [my, sigma, max_val]
+    else:
+        pass
+    return regression(normal, x, y, yErr, xErr=xErr, beta0=beta0)
 
 
 #def do_normal_regression(x, y, yErr, xErr=None):
@@ -58,3 +61,9 @@ def regression(model, x, y, yErr, xErr=None, beta0=None):
     propagated_x_err = np.zeros(len(x))
     propagated_x_err = np.array(propagated_x_err)
     return beta, outp.cov_beta, np.sum((np.array(y) - model(np.array(x), *outp.beta))**2/((propagated_x_err ** 2 + yErr ** 2)*(len(x) - len(beta0))))
+
+def propagate_error (model, beta ,x, xErr):
+    propagated_x_err = [ (model(x[i + 1], *beta) - model(x[i], *beta))/
+        ((x[i+1] - x[i])*xErr[i]) for i in range(len(x) -1 )]
+    propagated_x_err.append((model(x[-1], *beta) - model(x[-2], *beta))/(x[-1] - x[-2]) * xErr[-1])
+    return propagated_x_err

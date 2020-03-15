@@ -6,6 +6,7 @@ from scipy.optimize import curve_fit
 import numpy as np
 
 from src.common.fitting import *
+from itertools import *
 
 #
 # from src.common.plot_with_residuum import *
@@ -74,31 +75,35 @@ def calc_err_and_red_noice(counts):
 def normal(x,my, sigma, a):
     return a * np.exp(-1.0 * (x-my)**2 / (2 * sigma ** 2))
 
-def determineLineraty(energy, counts, count_unc_stat ,decr):
+def determineLineraty(energy, counts, count_unc_stat ,decr, tupl = None):
     print(decr)
     low = 0
     high = len(energy) - 1
-    while True:
-        plt.figure(figsize=(3,3), dpi=300)
-        plt.plot(energy, counts)
-        plt.axvline(energy[low])
-        plt.axvline(energy[high])
-        plt.show()
-        inp = input()
-        if inp[0] == "l":
-            if inp[1] == "+":
-                low = low + int(inp[2:])
-            if inp[1] == "-":
-                low = low - int(inp[2:])
-        elif inp[0] == "h":
-            if inp[1] == "+":
-                high = high + int(inp[2:])
-            if inp[1] == "-":
-                high = high - int(inp[2:])
-        else:
-            break
-        plt.clf()
-        plt.close('all')
+    if tuple is None:
+        while True:
+            plt.figure(figsize=(3,3), dpi=300)
+            plt.plot(energy, counts)
+            plt.axvline(energy[low])
+            plt.axvline(energy[high])
+            plt.show()
+            inp = input()
+            if inp[0] == "l":
+                if inp[1] == "+":
+                    low = low + int(inp[2:])
+                if inp[1] == "-":
+                    low = low - int(inp[2:])
+            elif inp[0] == "h":
+                if inp[1] == "+":
+                    high = high + int(inp[2:])
+                if inp[1] == "-":
+                    high = high - int(inp[2:])
+            else:
+                break
+            plt.close('all')
+    else:
+        low = tupl[0]
+        high = tupl[1]
+    plt.clf()
     plt.close('all')
     #
     # guessing params
@@ -118,23 +123,24 @@ def determineLineraty(energy, counts, count_unc_stat ,decr):
     plt.close('all')
     return popt, pcov, low, high, chi_sq
 
-def do_regression(energy, counts, energy_unc, count_unc_stat,low, high):
+def do_regression(energy, energy_unc, counts, count_unc_stat,low, high, beta0=None):
 #    max_idx, max_val = max(enumerate(counts[low::high]), key=lambda x: x[1])
 #    popt, pcov = curve_fit(normal, energy[low:high], counts[low:high],
 #        p0=[energy[low + max_idx], 10.0,max_val],
 #        sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
 #    return popt, pcov
     return do_normal_regression(energy[low:high], counts[low:high], count_unc_stat[low:high],
-           xErr= energy_unc[low:high])
+           xErr= energy_unc[low:high], beta0=beta0)
 
 (energy, counts) = read_hist("data/M21/Energy/singles.log")
 nCounts, counts_stat_err, hier_rausch = calc_err_and_red_noice(counts)
 
 a=2
 print("X Fehler werden bei der Energie korrektur ignoriert")
-tup5=determineLineraty(energy,counts,counts_stat_err,"511 Peak")
-tup12 = determineLineraty(energy, counts, counts_stat_err, "1255 Peak")
-corrected_energy = 511/tup5[0][0] * energy
+tup5=determineLineraty(energy,counts,counts_stat_err,"511 Peak", (164, len(energy)-501))
+tup12 = determineLineraty(energy, counts, counts_stat_err, "1255 Peak",(495,len(energy)-120))
+correction_factor = (1275-511)/(tup12[0][0] - tup5[0][0])
+corrected_energy = correction_factor * energy
 energy_errors_sys = energy * (511)/(tup5[0][0])**2 * (np.diag(tup5[1])[0])
 energy_error_stat = (corrected_energy[1] - corrected_energy[0])/np.sqrt(12) * np.ones(len(corrected_energy))
 
@@ -170,11 +176,16 @@ ax_spectrum.set_title("Energiespektrum")
 ax_spectrum.legend()
 ax_spectrum.grid(True)
 
+#
+# 2nd guess over standard derivation
+#
+#
 opt5, cov5, chiSq5 = do_regression(corrected_energy, energy_error_stat, nCounts, counts_stat_err, tup5[2], tup5[3])
 plot_with_residuum(corrected_energy[tup5[2]:tup5[3]], energy_error_stat[tup5[2]:tup5[3]],
         nCounts[tup5[2]:tup5[3]], counts_stat_err[tup5[2]:tup5[3]],
         normal(corrected_energy[tup5[2]:tup5[3]], *opt5), "511 kEV Peak",
         "Energie kEV", "gezählte Ereignisse", ax_511_peak, ax_511_res)
+plt.tight_layout()
 cov5=np.diag(cov5)
 
 opt12, cov12, chiSq12 = do_regression(corrected_energy, energy_error_stat, nCounts, counts_stat_err, tup12[2], tup12[3])
