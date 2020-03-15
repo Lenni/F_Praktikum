@@ -51,3 +51,50 @@ Fehler auf Fitparameter durch Varianz von Chi-Quadrat
 
 Bei der Energiespektrumskorrektur: Gaußsche Fehlerfortpflanzung
 Fehlerfortpflanzung auf 'Streckungsfaktor' (1275-511)(gemessener Hochpeak - gemesser Tiefpeak)
+X Fehler werden bei der Energie korrektur ignoriert
+511 Peak
+1255 Peak
+Kein Energie fehler angezeigt, da diese systematisch sind
+Fitparameter 		Korrekturpeak 511
+Mittelwert		:4.6600e+02 \pm 6.1131e-02 keV
+Standardabbweichung	:4.4004e+01 \pm 3.4832e-01 keV^2
+Peakhöhe		:1.7593e+04 \pm 3.0344e+03 
+\chi^2			:1.1197e+00
+Fitparameter 		Korrekturpeak 1275
+Mittelwert		:1.1516e+03 \pm 7.0666e+00 keV
+Standardabbweichung	:1.2492e+02 \pm 2.1641e+01 keV^2
+Peakhöhe		:6.0719e+02 \pm 1.6183e+01 
+\chi^2			:1.6338e+00
+Fitparameter 		Peak 511
+Mittelwert		:5.1123e+02 \pm 7.2299e-02 keV
+Standardabbweichung	:4.4842e+01 \pm 3.5404e-01 keV^2
+Peakhöhe		:1.5757e+04 \pm 1.5757e+04 
+\chi^2			:1.0256e+00
+Fitparameter 		Peak 1275
+Mittelwert		:1.2693e+03 \pm 5.7282e+00 keV
+Standardabbweichung	:1.3055e+02 \pm 2.0238e+01 keV^2
+Peakhöhe		:5.9910e+02 \pm 5.9910e+02 
+\chi^2			:1.5771e+00
+Weg Kalibrierung
+Kein Systematischer Fehler auf Länge, weil nicht bekannt
+Wegkalibrierung: (-0.0004234285706625622 \pm 8.910148772720905e-07 cm ) * x + (35.36999998658297 \pm 0.01863734743143357 cm) chi_sq: 1.8514285714287024
+check for folder
+['data/M21/Time/TDS_1.log', 'data/M21/Time/TDS_2.log', 'data/M21/Time/TDS_3.log', 'data/M21/Time/TDS_4.log', 'data/M21/Time/TDS_Cal.log']
+mittelwert: -8.296194e+01 \pm 2.221885e+00 ps 	 abweichung: 1.683363e+02 \pm 2.410807e+00 ps 	 fwhd: 1.982008e+02 \pm 2.838509e+00 ps 	 \chi^2: 1.167955e+00
+mittelwert: -3.262856e+02 \pm 2.593657e+00 ps 	 abweichung: 1.793489e+02 \pm 2.908237e+00 ps 	 fwhd: 2.111672e+02 \pm 3.424188e+00 ps 	 \chi^2: 1.323601e+00
+mittelwert: 4.097219e+01 \pm 2.298515e+00 ps 	 abweichung: 1.751395e+02 \pm 2.505626e+00 ps 	 fwhd: 2.062111e+02 \pm 2.950149e+00 ps 	 \chi^2: 1.695224e+00
+mittelwert: 1.837787e+02 \pm 1.502876e+00 ps 	 abweichung: 1.748944e+02 \pm 1.722281e+00 ps 	 fwhd: 2.059224e+02 \pm 2.027830e+00 ps 	 \chi^2: 1.176302e+00
+mittelwert: -2.780644e+02 \pm 1.327036e+00 ps 	 abweichung: 1.730675e+02 \pm 1.461086e+00 ps 	 fwhd: 2.037714e+02 \pm 1.720298e+00 ps 	 \chi^2: 1.659122e+00
+Vergleiche Positionen
+Motorpos	 DeltaMittelWertLin cm 	Err		DeltaMittelWert cm 	Err		Abw cm 		Sigma
+16274.00	00004.15		00000.02	00005.05		00002.97	 -0000.90	 -0000.30
+18000.00	00003.42		00000.02	00004.33		00003.17	 -0000.91	 -0000.29
+23871.00	00000.94		00000.03	00001.29		00003.09	 -0000.35	 -0000.11
+28661.00	-0001.09		00000.03	-0000.59		00003.09	 -0000.50	 -0000.16
+34139.00	-0003.41		00000.04	-0002.75		00003.06	 -0000.66	 -0000.22
+Generelle Anmerkungen zur Fehler Rechnnung: Ereignisse haben den Fehler Wurzel N
+Energie und Zeitfehler: Bereich durch Wurzel 12
+Fehler auf Fitparameter durch Varianz von Chi-Quadrat
+
+Bei der Energiespektrumskorrektur: Gaußsche Fehlerfortpflanzung
+Fehlerfortpflanzung auf 'Streckungsfaktor' (1275-511)(gemessener Hochpeak - gemesser Tiefpeak) 
