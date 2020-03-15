@@ -98,8 +98,10 @@ for (t, c, n) in zip(timess, countss, name_labels):
     bins = list()
     i=0
     many = 5
-    while i * many < len(timess):
-        bins.append()
+    while i * many < len(t):
+        bins.append(times[i*many])
+        i = i + 1
+    bins.append(t[-1])
     plt.hist(np.array(mc), t, label=n, histtype='step')
 plt.legend()
 plt.xlabel("Zeitdifferenzen ps")

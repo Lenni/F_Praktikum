@@ -3,8 +3,8 @@ import os
 import sys
 sys.path.append(os.environ['PWD'])
 
-#from energy import *
-#from dcm import *
+from energy import *
+from dcm import *
 from weg_cal import *
 from timediff import *
 
