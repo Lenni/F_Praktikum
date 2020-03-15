@@ -117,7 +117,7 @@ def determineLineraty(energy, counts, count_unc_stat ,decr, tupl = None):
         #sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
     plot_with_residuum(energy[low:high], (energy[1]-energy[0])/np.sqrt(12) * np.ones(len(energy[low:high])),
         counts[low:high], count_unc_stat[low:high], normal(energy[low:high], *popt),
-        decr + " unkorrigiertes Spektrum", "Energy kEV","Ereignisse", data, res )
+        decr + " unkorrigiertes Spektrum", "Energy keV","Ereignisse", data, res )
     plt.savefig("protocols/M21/Plots/EnergyUnkorrigiert" + decr + ".png")
     plt.clf()
     plt.close('all')
@@ -138,7 +138,7 @@ nCounts, counts_stat_err, hier_rausch = calc_err_and_red_noice(counts)
 a=2
 print("X Fehler werden bei der Energie korrektur ignoriert")
 tup5=determineLineraty(energy,counts,counts_stat_err,"511 Peak", (164, len(energy)-501))
-tup12 = determineLineraty(energy, counts, counts_stat_err, "1255 Peak",(495,len(energy)-120))
+tup12 = determineLineraty(energy, counts, counts_stat_err, "1275 Peak",(495,len(energy)-120))
 correction_factor = 511.0/tup5[0][0]
 corrected_energy = correction_factor * energy
 energy_errors_sys = energy * (511)/(tup5[0][0])**2 * (np.diag(tup5[1])[0])
@@ -166,11 +166,11 @@ data_plot = ax_spectrum.errorbar(corrected_energy, nCounts, yerr=np.sqrt(counts_
 
 data_plot.set_label("Na-22 Ereignisse")
 low_sel = ax_spectrum.axvspan(corrected_energy[tup5[2]], corrected_energy[tup5[3]], alpha=0.2)
-low_sel.set_label("511 kEV Peak")
+low_sel.set_label("511 keV Peak")
 high_sel = ax_spectrum.axvspan(corrected_energy[tup12[2]], corrected_energy[tup12[3]],
         alpha=0.2, color ="r")
-high_sel.set_label("1275 kEV Peak")
-ax_spectrum.set_xlabel("Energie kEV")
+high_sel.set_label("1275 keV Peak")
+ax_spectrum.set_xlabel("Energie keV")
 ax_spectrum.set_ylabel("Ereignisse")
 ax_spectrum.set_title("Energiespektrum")
 ax_spectrum.legend()
@@ -183,21 +183,21 @@ ax_spectrum.grid(True)
 opt5, cov5, chiSq5 = do_regression(corrected_energy, energy_error_stat, nCounts, counts_stat_err, tup5[2], tup5[3])
 plot_with_residuum(corrected_energy[tup5[2]:tup5[3]], energy_error_stat[tup5[2]:tup5[3]],
         nCounts[tup5[2]:tup5[3]], counts_stat_err[tup5[2]:tup5[3]],
-        normal(corrected_energy[tup5[2]:tup5[3]], *opt5), "511 kEV Peak",
-        "Energie kEV", "gezählte Ereignisse", ax_511_peak, ax_511_res)
+        normal(corrected_energy[tup5[2]:tup5[3]], *opt5), "511 keV Peak",
+        "Energie keV", "gezählte Ereignisse", ax_511_peak, ax_511_res)
 plt.tight_layout()
 cov5=np.diag(cov5)
 
 opt12, cov12, chiSq12 = do_regression(corrected_energy, energy_error_stat, nCounts, counts_stat_err, tup12[2], tup12[3])
 plot_with_residuum(corrected_energy[tup12[2]:tup12[3]], energy_error_stat[tup12[2]:tup12[3]],
         nCounts[tup12[2]:tup12[3]], counts_stat_err[tup12[2]:tup12[3]],
-        normal(corrected_energy[tup12[2]:tup12[3]], *opt12), "1275 kEV Peak",
-        "Energie kEV", "gezählte Ereignisse", ax_1275_peak, ax_1275_res)
+        normal(corrected_energy[tup12[2]:tup12[3]], *opt12), "1275 keV Peak",
+        "Energie keV", "gezählte Ereignisse", ax_1275_peak, ax_1275_res)
 plt.tight_layout()
 cov12=np.diag(cov12)
 
 
-fit_info_form_str= "Fitparameter \t\t{}\n" + "Mittelwert\t\t:{:9.4e} \pm {:9.4e} keV\n" + "Standardabbweichung\t:{:9.4e} \pm {:9.4e} keV^2\n" + "Peakhöhe\t\t:{:9.4e} \pm {:9.4e} \n" + "\chi^2\t\t\t:{:9.4e}"
+fit_info_form_str= "Fitparameter \t\t{}\n" + "Mittelwert\t\t:{:9.4e} \pm {:9.4e} keV\n" + "Standardabbweichung\t:{:9.4e} \pm {:9.4e} keV\n" + "Peakhöhe\t\t:{:9.4e} \pm {:9.4e} \n" + "\chi^2\t\t\t:{:9.4e}"
 
 print(fit_info_form_str.format("Korrekturpeak 511", tup5[0][0], tup5[1][0][0],
     tup5[0][1], tup5[1][1][1], tup5[0][2], tup5[1][2][2], tup5[-1] ))
@@ -208,6 +208,6 @@ print(fit_info_form_str.format("Peak 511", opt5[0], cov5[0],
 print(fit_info_form_str.format("Peak 1275", opt12[0], cov12[0],
     opt12[1], cov12[1], opt12[2], opt12[2], chiSq12 ))
 
-plt.savefig("protocols/M21/Plots/energy_resultion.png")
+plt.savefig("protocols/M21/Plots/energy_resoltion.png")
 plt.clf()
 plt.close('all')
