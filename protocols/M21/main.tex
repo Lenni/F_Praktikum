@@ -5,6 +5,7 @@
 \usepackage{wrapfig}
 \usepackage{amsmath}
 \usepackage{hyperref}
+
 %Für Literaturverzeichnis
 
 \usepackage{biblatex}
@@ -127,11 +128,11 @@
 
 			\begin{figure}[H]
 				\centering
-					\includegraphics[width=\textwidth]{Pictures/Platzhalter.jpg}
+					\includegraphics[width=\textwidth]{Plots/WegKalib.png}
 				\caption{Gradenanpassung an gemessene Daten}
 			\end{figure}
 
-				Damit folgt ein Umrechnungsfaktor von $m = (??? \pm ???) \frac{\si{\centi \metre}}{\text{Puls}}$ bei einem Offset von $b = (??? \pm ???) \si{\centi \metre}$.
+				Damit folgt ein Umrechnungsfaktor von $m = \qty(-0.0004234 \pm \mathcal{O}(10^{-13})) \frac{\si{\centi \metre}}{\text{Puls}}$ bei einem Offset von $b = (\SI{35.370}{\centi \metre} \pm \SI{0.0003}{\centi \metre})$.
 
 
 	\section{Dark Count Map}
@@ -230,22 +231,24 @@
 			Unter der Annahme dass die Positronen gleichmäßig unter allen Raumwinkeln abgestreut werden, muss nun als Korrekturfaktor der Anteil des Raumwinkels der Detektorfläche an der Vollkugel berechnet werden. Dann folgt mit $d$ als Abstand der Probe vom Detektor und b als halbe Seitenlänge dieses:
 
 			\begin{align*}
-				\Omega &= \int_0^2\pi \int_0^\theta \sin(\theta) \dd{\phi} \dd{\theta}\\
-							 &= 4 \atan{ \frac{b^2}{2d \sqrt{4d^2 + 2b^2}}} \\
+				\Omega &= \int_0^2 \pi \int_0^\vartheta \sin(\theta) \dd{\phi} \dd{\theta}\\
+							 &= 4 \arctan{ \frac{b^2}{2d \sqrt{4d^2 + 2b^2}}} \\
 				\\
-				\frac{2 \cdot \Omega_{\text{Detektor}}}{\Omega_{\text{Kugel}}} &=  \frac{8 \cdot \atan{\frac{b^2}{2d\sqrt{4d^2 + 2b^2}}}}{4 \pi}
+				\frac{2 \cdot \Omega_{\text{Detektor}}}{\Omega_{\text{Kugel}}} &=  \frac{8 \cdot \arctan{\qty(\frac{a\cdot b}{2d\sqrt{4d^2 + a^2 + b^2}})}}{4 \pi}
 			\end{align*}
 
-			Im Versuch wurden dabei $b$ und $d$ zu
+			Im Versuch wurden dabei $a$, $b$ und $d$ zu
 
 			\begin{align*}
-					d &= \SI{000}{\centi \metre} \\
-					b &= \SI{000}{\centi \metre}
+					a &= \SI{32.6}{\milli \metre} \pm \SI{0.1}{\milli \metre} \\
+					d &= \SI{65.7}{\milli \metre} \pm \SI{0.1}{\milli \metre}\\
+					b &= \SI{26}{\centi \metre}\pm \SI{1}{\centi \metre}
 			\end{align*}
+
 			vermessen. Damit ergibt sich für die Geometrische Effizienz:
 
 			\begin{align*}
-				G &=
+				G &= 0.005 = 0.5 \%
 			\end{align*}
 
 			Außer der geometrischen Effizienz ist allerdings noch die des Szintillatormaterials, sowie der SiPM zu berücksichtigen. Wenn das Detektormaterial zu dünn ist, haben die $\gamma$-Photonen nicht genügend Strecke um ihre Energie zu verlieren. Man kann annehmen dass die Energieabgabe im Material einem exponentiellen Abfall
@@ -256,13 +259,36 @@
 
 			mit $\mu$ als Habwertsdicke folgt. Damit kann man nun die gesamte Energieabgabe im Kristall berechnen.
 
-			Da außerdem die radioaktive Probe zerfällt, verringert sich ihre Aktivität mit der Zeit. Um die Sensitivität zu berechnen, muss nun allerdings die Aktivität der Probe bekannt sein. Sie folt auch einem Exponentiellen Abfall:
+			Für den hier verwendeten LYSO-Kristall ist die Halbwertsdicke $\mu = \SI{11}{\milli \metre}$
+
+			Damit folgt mit der Dicke des Detektors von $\SI{12}{\milli \metre} \pm \SI{0.1}{\milli \metre}$:
+
+			\begin{align*}
+				\frac{I}{I_0} = e^{\frac{\SI{12}{\milli \metre}}{\SI{11}{\milli \metre}}} \approx 0.33 \%
+			\end{align*}
+
+
+			Da außerdem die radioaktive Probe zerfällt, verringert sich ihre Aktivität mit der Zeit. Um die Sensitivität zu berechnen, muss nun allerdings die Aktivität der Probe bekannt sein. Sie folgt auch einem Exponentiellen Abfall:
 
 			\begin{align*}
 				A = A_0 \cdot 2^{- \frac{t}{t_0}}
 			\end{align*}
 
-			mit $t_0$ als Halbwertszeit der Probe
+			mit $t_0 = 2.6 a$ als Halbwertszeit der Probe. Die im Versuch verwendete Probe hatte am 1.4.2013 eine Aktivität von $\SI{1.11}{\mega \becquerel}$. Damit ergibt sich eine Aktivität von
+
+			\begin{align*}
+				A = A_0 \cdot 2^{- \frac{6.83}{2.6}} = \SI{0.18}{\mega \becquerel}
+			\end{align*}
+
+			am Versuchstag.
+
+			Dies kann schlussendlich mit der vom Detektor gemessenen Aktivität der Probe verglichen werden.
+
+			Diese wird durch die Koinzidenzrate bei $\SI{511}{\kilo \electronvolt}$ beschrieben, und beläuft sich auf:
+
+			\begin{align*}
+				A_{gemessen} =
+			\end{align*}
 
 		\subsection{Fazit}
 
@@ -278,19 +304,36 @@
 
 		Die Daten wurden aus der mit Hyperion exportierten CSV Datei mit einem Python Skript \footnote{\url{https://github.com/Lenni/F_Praktikum}} weiter verarbeitet. Dabei wurde das Rauschen der Sensoren wurde auf die Messzeit normiert und von den Messdaten subtrahiert. Mithilfe der bekannten Peaks bei $511 \si{\kilo \electronvolt}$ und $1275 \si{\kilo \electronvolt}$ wurde die Energieskala kalibriert. Um die Mittelpunkte und Fehler auf die Spitze der Peaks zu finden wurde eine Gaußverteilung an den jeweiligen Peak gefittet, wobei dann die Standardabweichung den Fehler auf den Messwert und der Mittelwert der Verteilung den Messwert selbst darstellt.
 
-		Die dabei in den Fit eingehenden Fehler setzen sich aus dem Zählfehler der Detektoren $(\sigma)$ und  der \textbf{????} zusammen.
+		Die dabei in den Fit eingehenden Fehler setzen sich aus dem Binning der Detektoren zusammen.
 
-		Man erhält nun folgendes Diagramm mit Residuenplots für die obrn erwähnten Fits:
+		Man erhält nun folgendes Diagramm mit Residuenplots für die oben erwähnten Fits:
+
+		\begin{figure}[H]
+				\centering
+
+				\includegraphics[width = 0.5 \textwidth]{Plots/EnergyUnkorrigiert511 Peak.png}
+
+
+					\caption{Unkorrigierter 511 keV Peak}
+		\end{figure}
+
+		Um die Energieskala des Detektors zu Kalibrieren kann der Mittelwert des $\SI{511}{\kilo \electronvolt}$ bestimmt werden, und durch Division des erwarteten- durch den bestimmten Wert ein Korrekturfaktor berechnet werden. Alle Energien können nun mit diesem multipliziert werden um das kalibrierte Enegiespektrum zu erhalten.
+		Die Qualität dieser Korrektur kann man nun auch durch den Mittelwert des $\SI{1275}{\kilo \electronvolt}$ Peaks begutachten, da dieser nun auch möglichst nah (innerhalb der Fehler) an seinem erwarteten Wert sein sollte.
+
 
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width = 0.7 \textwidth]{Plots/energy_resultion.eps}
+			\includegraphics[width = \textwidth]{Plots/energy_resultion.png}
 			\caption{Energieauswertung}
 		\end{figure}
 
 		Dabei sind die transparent markierten Bereiche die angenommenen Fehler auf die Peaks.
 
-	\newpage
+		Man kann erkennen dass der Mittelwert des $\SI{1275}{\kilo \electronvolt}$-Peaks sehr gut innerhalb des rötlichen Bereiches liegt, womit die Korrektur als hinreichend gut angenommen wird. Allerdings ist zu beachten, dass aufgrund der vergleichsweise geringen Dicke der Detektoren nur eine geringe Menge der tatsächlichankommenden Photonen korrekt gemessen wird. Dies resultiert in einem großen Fehler auf diesen Peak. Da nun alle Energiewerte mit einem konstanten Faktor multipliziert wurden, ergibt sich daraus ein etwas größerer Fehler auf alle Energien.
+
+\subsection{Fazit}
+
+		Man kann an den Messungen erkennen, dass der verwendete Detektor eine Energieauflösung von $\Delta E = \SI{000}{\kilo \electronvolt}$ besitzt. Diese könnte durch eine andere Detektor-Szintillator Koppelung noch erhöht werden, allerdings resultiert daraus eine geringere Ortsauflösung.
 
 	\section{Timing Resolution}
 
@@ -305,10 +348,22 @@
 				\begin{figure}[H]
 					\centering
 
-						\includegraphics[width=\textwidth]{Pictures/Platzhalter.jpg}
+						\includegraphics[width=\textwidth]{Plots/Time/TDS_Cal.png}
 
 					\caption{Fit Zeitauflösung}
 				\end{figure}
+
+				Man sieht hier eine deutliche Systematik in den Residuen, die dadurch behoben werden kann, dass man sich bei den Fits auf einen bereich um die Peaks beschränkt und weit außen liegende Bereiche ignoriert.
+
+				Damit folgt dann der Fit der modifizierten Daten:
+
+				\begin{figure}[H]
+					\centering
+						\includegraphics{Plots/Time/SelTDS_Cal.png}
+					\caption{Fit der angepassten Daten}
+				\end{figure}
+
+				Wie man sehen kann ist die Systematik verschwunden und die angepasst Gerade ist auch visuell näher an dem Verlauf der Daten.
 
 				Für die Gaußverteilung
 				\begin{align*}
@@ -330,13 +385,15 @@
 
 				 Nun kann mit diesen gewonnenen Informationen die Position der Probe bei den verschiedenen Messungen ermittelt werden:
 
-				 \begin{figure*}[H]
+				 \begin{figure}[H]
 				 		\centering
 
-							\includegraphics[width=\textwidth]{Pictures/Platzhalter.jpg}
+							\includegraphics[width=\textwidth]{Plots/Time/TDS_1.png}
 
 						\caption{Zeitdifferenzen}
-				 \end{figure*}
+				 \end{figure}
+
+				 Auch hier müssen wie oben schon beschrieben auftretende Systematiken duch die Beschränkung des Datenbereiches entfernt werden.
 
 				 Dabei wurden folgende Daten ermittelt:
 
@@ -345,9 +402,9 @@
 				 Diese Daten lassen auf folgende Positionen der Probe schließen:
 
 				 \begin{align*}
-				 	\text{Meesung 1:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
-					\text{Meesung 2:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
-					\text{Meesung 3:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
+				 	\text{Messung 1:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
+					\text{Messung 2:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
+					\text{Messung 3:}& \SI{000}{\centi \metre} \pm \SI{000}{\centi \metre} \\
 				 \end{align*}
 
 				 Wenn man diese mit den tatsächlichen Positionen vergleicht, sieht man \textbf{dass wir absolut daneben lagen!}
