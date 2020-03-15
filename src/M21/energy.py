@@ -139,7 +139,7 @@ a=2
 print("X Fehler werden bei der Energie korrektur ignoriert")
 tup5=determineLineraty(energy,counts,counts_stat_err,"511 Peak", (164, len(energy)-501))
 tup12 = determineLineraty(energy, counts, counts_stat_err, "1255 Peak",(495,len(energy)-120))
-correction_factor = (1275-511)/(tup12[0][0] - tup5[0][0])
+correction_factor = 511.0/tup5[0][0]
 corrected_energy = correction_factor * energy
 energy_errors_sys = energy * (511)/(tup5[0][0])**2 * (np.diag(tup5[1])[0])
 energy_error_stat = (corrected_energy[1] - corrected_energy[0])/np.sqrt(12) * np.ones(len(corrected_energy))
@@ -207,22 +207,6 @@ print(fit_info_form_str.format("Peak 511", opt5[0], cov5[0],
     opt5[1], cov5[1], opt5[2], opt5[2], chiSq5 ))
 print(fit_info_form_str.format("Peak 1275", opt12[0], cov12[0],
     opt12[1], cov12[1], opt12[2], opt12[2], chiSq12 ))
-
-#print("511 kEV plot parameter")
-#print(opt5)
-#print(np.diag(cov5))
-#chiSq5 = np.sum(((nCounts[tup5[2]:tup5[3]] - normal(corrected_energy[tup5[2]:tup5[3]], *opt5)) ** 2 /
-#        counts_stat_err[tup5[2]:tup5[3]]**2))/(tup5[3] - tup5[2] - 3)
-#print(chiSq5)
-#print("\n\n")
-#
-#print("1275 kEV plot parameter")
-#print(opt12)
-#print(np.diag(cov12))
-#chiSq12 = np.sum(((nCounts[tup12[2]:tup12[3]] - normal(corrected_energy[tup12[2]:tup12[3]], *opt12)) ** 2 /
-#        counts_stat_err[tup12[2]:tup12[3]]**2))/(tup12[3] - tup12[2] - 3)
-#print(chiSq12)
-#print("\n\n")
 
 plt.savefig("protocols/M21/Plots/energy_resultion.png")
 plt.clf()

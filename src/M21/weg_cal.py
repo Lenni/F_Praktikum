@@ -47,10 +47,10 @@ plt.savefig("protocols/M21/Plots/WegKalib.png")
 plt.clf()
 
 weg_m = opt[0]
-weg_m_err = cov[0][0]
+weg_m_err = np.sqrt(cov[0][0])
 
 weg_c = opt[1]
-weg_c_err = cov[1][1]
+weg_c_err = np.sqrt(cov[1][1])
 
 print("Wegkalibrierung: ({} \pm {} cm ) * x + ({} \pm {} cm) chi_sq: {}".format(
         weg_m, weg_m_err, weg_c, weg_c_err, chi_2))

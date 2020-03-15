@@ -29,11 +29,14 @@ name_labels.append("Positionenkalibrierung")
 names = ["TDS_1.log", "TDS_2.log", "TDS_3.log",
     "TDS_4.log", "TDS_Cal.log"]
 TDS_Names = ["data/M21/Time/" + s for s in names]
-
+print(TDS_Names)
+td_mittelwert=list()
 opts = list()
 covs = list()
 chi_sq = list()
-for i, (path, name) in enumerate(zip(TDS_Names, names)):
+timess=list()
+countss=list()
+for i, (path, name) in enumerate(zip(TDS_Names, map(lambda x: x.replace(". ", "_"), name_labels))):
     data = open(path, "r").read()
     def finish_split(x_str):
         return (float(x_str[0].strip()), float(x_str[1].strip()))
@@ -65,6 +68,8 @@ for i, (path, name) in enumerate(zip(TDS_Names, names)):
     times = np.array([txy[0] for txy in tuple_x_y])
     time_err = np.array([txy[2] for txy in tuple_x_y])
     counts = np.array([txy[1] for txy in tuple_x_y])
+    timess.append(times)
+    countss.append(counts)
     popt, pcov, chisq = do_normal_regression(times, counts, np.sqrt(np.array(counts)), xErr=None)
     data = plt.subplot2grid((3,1), (0, 0), rowspan=2)
     res = plt.subplot2grid((3,1), (2, 0), rowspan=1)
@@ -74,8 +79,34 @@ for i, (path, name) in enumerate(zip(TDS_Names, names)):
     plt.clf()
     plt.close('all')
     opts.append(popt)
-    covs.append(np.diag(pcov))
+    covs.append(np.sqrt(np.diag(pcov)))
     chi_sq.append(chisq) #np.sum((normal(times, *popt) - counts)**2 / np.sqrt(counts) )/(len(counts) - 3))
+    td_mittelwert.append(mu)
+td_mittelwert=np.array(td_mittelwert)
+
+#
+# erstelle plot aller histogramme
+#
+#
+plt.figure(figsize=(12,9), dpi=1200)
+for (t, c, n) in zip(timess, countss, name_labels):
+    mc = list()
+    for (a, b) in  zip(t,c):
+        for i in range(int(b)):
+            mc.append(a)
+
+    bins = list()
+    i=0
+    many = 5
+    while i * many < len(timess):
+        bins.append()
+    plt.hist(np.array(mc), t, label=n, histtype='step')
+plt.legend()
+plt.xlabel("Zeitdifferenzen ps")
+plt.ylabel("Ereignisse")
+plt.title("Alle Zeitkoinzidenzmessungen")
+plt.savefig("protocols/M21/Plots/timeDiffAll.png")
+plt.clf()
 
 
 #
@@ -85,11 +116,10 @@ for i, (path, name) in enumerate(zip(TDS_Names, names)):
 #
 fwhm = list()
 for i in range(len(opts)):
-    f = 2 * np.sqrt(2*np.log(2)) * opts[i][1]
-    fe = 2 * np.sqrt(2*np.log(2)) * covs[i][1]
+    f = np.sqrt(2*np.log(2)) * opts[i][1]
+    fe = np.sqrt(2*np.log(2)) * covs[i][1]
     print("mittelwert: {:10e} \pm {:10e} ps \t abweichung: {:10e} \pm {:10e} ps \t fwhd: {:10e} \pm {:10e} ps \t \chi^2: {:10e}".format(
             opts[i][0], covs[i][0], opts[i][1], covs[i][1], f, fe, chi_sq[i]))
     fwhm.append(f)
 
-td_mittelwert = np.array([o[0] for o in opts])
 td_error = np.array(fwhm)
