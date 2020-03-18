@@ -23,3 +23,12 @@ def plot_with_residuum(x, x_err, y, y_err, mod, name, x_label, y_label, ax_plot,
     ax_plot.set_title(name)
     ax_res.grid(True)
     ax_plot.grid(True)
+
+def simple_figure(x, x_err, y, y_err, mod, name, x_label, y_label, filename):
+    plt.clf()
+    plt.figure(figsize=(8,6), dpi=1200)
+    ax_plot = plt.subplot2grid((3,1), (0,0), rowspan=2)
+    ax_res = plt.subplot2grid((3,1), (2,0), rowspan=1)
+    plot_with_residuum(x, x_err, y, y_err, mod, name, x_label, y_label, ax_plot, ax_res)
+    plt.savefig(filename)
+    plt.clf()

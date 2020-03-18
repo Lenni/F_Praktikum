@@ -204,7 +204,7 @@ print(fit_info_form_str.format("Korrekturpeak 511", tup5[0][0], np.sqrt(tup5[1][
 print(fit_info_form_str.format("Korrekturpeak 1275", tup12[0][0], np.sqrt(tup12[1][0][0]),
     tup12[0][1], np.sqrt(tup12[1][1][1]), tup12[0][2], np.sqrt(tup12[1][2][2]), tup12[-1] ))
 print(fit_info_form_str.format("Peak 511", opt5[0], np.sqrt(cov5[0]),
-    opt5[1], np.sqrt(cov5[1]), opt5[2], np.sqrt(cov[2]), chiSq5 ))
+    opt5[1], np.sqrt(cov5[1]), opt5[2], np.sqrt(cov5[2]), chiSq5 ))
 print(fit_info_form_str.format("Peak 1275", opt12[0], cov12[0],
     opt12[1], np.sqrt(cov12[1]), opt12[2], np.sqrt(opt12[2]), chiSq12 ))
 
