@@ -65,6 +65,6 @@ def do_eval(dataFile, name, start_at ,many, func):
     simple_figure(times, None, voltages, voltage_err, function(times, *opt), name,
         "Zeit /s", "Kondensatorspannung /V", "protocols/LAB/Plots/Capacitor/Capacitor{}.png".format(name))
     print("\n\n\n")
-do_eval(discharge_file, "Entladung",1.2, 3,lambda x, tau, a: a * np.exp(-1.0 * x /tau))
+do_eval(discharge_file, "Entladung",1.5, 2,lambda x, tau, a: a * np.exp(-1.0 * x /tau))
     # take_pairs(locals().values()) a*np.exp(-1.0 * x /tau) + a2*np.exp(-1.0 * x /tau2) + a3*np.exp(-1.0 * x /tau3) + a4*np.exp(-1.0 * x /tau4) + a5*np.exp(-1.0 * x /tau5))
-do_eval(charge_file, "Aufladung", 1.7 , 3, lambda x, tau, a: a * (1-np.exp(-1.0* x /tau)))
+do_eval(charge_file, "Aufladung", 1.7 , 2, lambda x, tau, a: a * (1-np.exp(-1.0* x /tau)))
