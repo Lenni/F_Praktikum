@@ -24,13 +24,13 @@ discharge_file = open("data/LAB/Capacitor/cap_discharge.txt")
 if not os.path.exists("protocols/LAB/Plots/Capacitor"):
     os.makedirs("protocols/LAB/Plots/Capacitor")
 
-def do_eval(dataFile, name, many, func):
+def do_eval(dataFile, name, start_at ,many, func):
     data= list(map(lambda row: list(map(lambda f: float(f.strip()), row.split("\t")[0:-2])),
         dataFile.read().split("\n")))
     last_idx = int(len(data[0]) *0.66)
     voltages = np.array(data[0][0:last_idx])
     times = np.array(data[1][0:last_idx])
-    voltage_err = 10**-9 *np.ones(len(voltages))
+    voltage_err = 0.00025 *np.ones(len(voltages))
     mutable_voltages = np.copy(voltages)
     function = lambda x, *args: sum(map(lambda p: func(x, *p), take_pairs(args)))
     opt, cov, chi_sq = regression(function, times, voltages, voltage_err, beta0=[0.3, 10.0])
@@ -48,11 +48,12 @@ def do_eval(dataFile, name, many, func):
     # Fehler neu intepretiren und daten filtern
     #
     vol_err = np.sum(np.abs(function(times, *opt) - voltages))/len(times)
-    filtered = list(filter(lambda x: np.abs(function(x[0], *opt) - x[1]) < 5 * vol_err, zip(times, voltages, voltage_err)))
+    filtered = list(filter(lambda x: np.abs(function(x[0], *opt) - x[1]) < 50000 * vol_err and x[0] >= start_at, zip(times, voltages, voltage_err)))
     times = np.array([f[0] for f in filtered])
     voltages = np.array([f[1] for f in filtered])
-    voltage_err = vol_err * np.ones(len(times)) / np.sqrt(3)
-    opt, cov, chi_sq = regression(function, times, voltages, vol_err * np.ones(len(times)), beta0 = np.array(parameter_sets))
+    voltage_err =np.array([f[2] for f in filtered])
+# np.sum(np.abs(function(times, *opt) - voltages))/np.sqrt(12)/len(times)
+    opt, cov, chi_sq = regression(function, times, voltages, voltage_err, beta0 = np.array(parameter_sets))
     i = 0
     while 2 * (i) + 1< len(opt):
         print("Parameterset {}".format(i))
@@ -64,6 +65,6 @@ def do_eval(dataFile, name, many, func):
     simple_figure(times, None, voltages, voltage_err, function(times, *opt), name,
         "Zeit /s", "Kondensatorspannung /V", "protocols/LAB/Plots/Capacitor/Capacitor{}.png".format(name))
     print("\n\n\n")
-do_eval(discharge_file, "Entladung",4,lambda x, tau, a: a * np.exp(-1.0 * x /tau))
+do_eval(discharge_file, "Entladung",1.2, 3,lambda x, tau, a: a * np.exp(-1.0 * x /tau))
     # take_pairs(locals().values()) a*np.exp(-1.0 * x /tau) + a2*np.exp(-1.0 * x /tau2) + a3*np.exp(-1.0 * x /tau3) + a4*np.exp(-1.0 * x /tau4) + a5*np.exp(-1.0 * x /tau5))
-do_eval(charge_file, "Aufladung", 2, lambda x, tau, a: a * (1-np.exp(-1.0* x /tau)))
+do_eval(charge_file, "Aufladung", 1.7 , 3, lambda x, tau, a: a * (1-np.exp(-1.0* x /tau)))
