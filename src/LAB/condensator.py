@@ -68,3 +68,7 @@ def do_eval(dataFile, name, start_at ,many, func):
 do_eval(discharge_file, "Entladung",1.5, 2,lambda x, tau, a: a * np.exp(-1.0 * x /tau))
     # take_pairs(locals().values()) a*np.exp(-1.0 * x /tau) + a2*np.exp(-1.0 * x /tau2) + a3*np.exp(-1.0 * x /tau3) + a4*np.exp(-1.0 * x /tau4) + a5*np.exp(-1.0 * x /tau5))
 do_eval(charge_file, "Aufladung", 1.7 , 2, lambda x, tau, a: a * (1-np.exp(-1.0* x /tau)))
+
+print("nun werde ich noch einen Plot erstellen, der zeigt, wie kaputt die Daten sind")
+print("im Residuengraph werden die weiteren Kapazitäten sichtbar")
+do_eval(discharge_file, "Systematiken", 0.0, 5, lambda x, tau, a: a*np.exp(-1.0 * x /tau))
