@@ -32,7 +32,7 @@ def do_eval(dataFile, name, many, func):
     times = np.array(data[1][0:last_idx])
     voltage_err = 10**-9 *np.ones(len(voltages))
     mutable_voltages = np.copy(voltages)
-    function = lambda x, *args: sum(map(lambda p: func(times, *p), take_pairs(args)))
+    function = lambda x, *args: sum(map(lambda p: func(x, *p), take_pairs(args)))
     opt, cov, chi_sq = regression(function, times, voltages, voltage_err, beta0=[0.3, 10.0])
     parameter_sets = list(opt)
     for i in range(many-1):
@@ -43,6 +43,16 @@ def do_eval(dataFile, name, many, func):
         parameter_sets.extend(opt)
 
     opt, cov, chi_sq = regression(function, times, voltages, voltage_err, beta0 = np.array(parameter_sets))
+
+    #
+    # Fehler neu intepretiren und daten filtern
+    #
+    vol_err = np.sum(np.abs(function(times, *opt) - voltages))/len(times)
+    filtered = list(filter(lambda x: np.abs(function(x[0], *opt) - x[1]) < 5 * vol_err, zip(times, voltages, voltage_err)))
+    times = np.array([f[0] for f in filtered])
+    voltages = np.array([f[1] for f in filtered])
+    voltage_err = vol_err * np.ones(len(times)) / np.sqrt(3)
+    opt, cov, chi_sq = regression(function, times, voltages, vol_err * np.ones(len(times)), beta0 = np.array(parameter_sets))
     i = 0
     while 2 * (i) + 1< len(opt):
         print("Parameterset {}".format(i))
@@ -54,6 +64,6 @@ def do_eval(dataFile, name, many, func):
     simple_figure(times, None, voltages, voltage_err, function(times, *opt), name,
         "Zeit /s", "Kondensatorspannung /V", "protocols/LAB/Plots/Capacitor/Capacitor{}.png".format(name))
     print("\n\n\n")
-do_eval(discharge_file, "Entladung",3,lambda x, tau, a: a * np.exp(-1.0 * x /tau))
+do_eval(discharge_file, "Entladung",4,lambda x, tau, a: a * np.exp(-1.0 * x /tau))
     # take_pairs(locals().values()) a*np.exp(-1.0 * x /tau) + a2*np.exp(-1.0 * x /tau2) + a3*np.exp(-1.0 * x /tau3) + a4*np.exp(-1.0 * x /tau4) + a5*np.exp(-1.0 * x /tau5))
 do_eval(charge_file, "Aufladung", 2, lambda x, tau, a: a * (1-np.exp(-1.0* x /tau)))
