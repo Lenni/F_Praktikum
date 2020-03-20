@@ -36,7 +36,6 @@ plt.legend()
 plt.title("Rohdaten")
 plt.xlabel("Zeit /s")
 plt.ylabel("Spannung /V")
-plt.savefig("protocols/LAB/Plots/rectifier/Rohdaten.png")
 print(""" Um die Maximale Spannung herauszufinden werden einnzelne Sinusperioden an beide Signale angefittet
 der statisische und systematische Fehler ist standardabweichung bzw. Mittelwert der nullbereiche""")
 
@@ -57,27 +56,30 @@ print("sys. Fehler\t:{:.3e}".format(vol_sys_err))
 #
 #
 #
-print("Rate Frequenz über Nullwerte der ausgangspannung")
-threshd = 0.003
-threshu = 0.02
-intervals = list()
-non_zero_cond = True
-number = None
-for (u, t) in iter(zip(u2, time)):
-    if non_zero_cond:
-        if u < threshd:
-            print(u)
-            number = t
-            non_zero_cond = False
-    else:
-        if u > threshu:
-            print(u)
-            intervals.append((number, t))
-            non_zero_cond = True
-print(intervals)
-freq = np.pi / (sum(map(lambda x: x[1] - x[0], intervals)) / len(intervals))
-print(freq)
-
+iterator = zip(u1, time)
+maxis = list()
+maxis_err = list()
+threshold = 1.9
+while True:
+    peak = np.array(list(filter(lambda x: x[0] > threshold, takewhile(lambda x: x[0]>0.0, iterator))))
+    list(takewhile(lambda x: x[0] <= 0.5 * threshold, iterator))
+    if len(peak) == 0:
+        break
+    t = np.array([p[1] for p in peak])
+    my = np.sum(t)/len(t)
+    sigma = np.sqrt(np.sum((t - my)**2) / (len(t) - 1))
+    print(my, sigma)
+    maxis.append(my)
+    maxis_err.append(sigma)
+    plt.axvline(my)
+plt.savefig("protocols/LAB/Plots/rectifier/Rohdaten.png")
+linf = lambda x, m, c: m*x +c
+xs = np.array(list(range(len(maxis)))) + 1
+maxis = np.array(maxis)
+maxis_err = np.array(maxis)
+opt, cov, chi_sq = regression(linf, xs, maxis, maxis_err)
+simple_figure(xs, None, maxis, maxis_err, linf(xs, *opt), "Frequentbestimmung", "n-tes Maximum","Lage des Maximums /s", "protocols/LAB/Plots/rectifier/FreqBest.png")
+freq = 2 * np.pi / opt[0]
 def sine_func(x, amp, phase):
     return np.sin(x*freq  + phase) * amp
 
@@ -90,9 +92,8 @@ def sine_func(x, amp, phase):
 sopt, scov, schi_sq = regression(sine_func, time, u1, vol_stat_err, beta0=[2.0, 1.0])
 print("""Eingangsspannungssinus
 Amplitude\t: {:.3e} \pm {:.3e} Volt
-Frequenz\t: {:.3e} \pm {:.3e} Hz
 Phase\t\t: {:.3e} \pm {:.3e} eins
-\chi^2/ndf\t: {:.3e} \n\n""".format(sopt[0], np.sqrt(scov[0][0]), sopt[1], np.sqrt(scov[1][1]), sopt[2], np.sqrt(scov[2][2]), schi_sq))
+\chi^2/ndf\t: {:.3e} \n\n""".format(sopt[0], np.sqrt(scov[0][0]), sopt[1], np.sqrt(scov[1][1]), schi_sq))
 
 simple_figure(time, None, u1, vol_stat_err, sine_func(time, *sopt), "Eingangspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/Rectifier/eingang.png")
 
@@ -107,9 +108,8 @@ fil_time = np.array(list(map(lambda x: x[0], filtered_u2_time)))
 ropt, rcov, rchi_sq = regression(sine_func, fil_time, fil_u2, vol_stat_err[0] * np.ones(len(fil_time)),  beta0=[2.0/1.2, 1.0])
 print("""Eingangsspannungssinus
 Amplitude\t: {:.3e} \pm {:.3e} Volt
-Frequenz\t: {:.3e} \pm {:.3e} Hz
 Phase\t\t: {:.3e} \pm {:.3e} eins
-\chi^2/ndf\t: {:.3e} \n\n""".format(ropt[0], np.sqrt(rcov[0][0]), ropt[1], np.sqrt(rcov[1][1]), ropt[2], np.sqrt(rcov[2][2]), rchi_sq))
+\chi^2/ndf\t: {:.3e} \n\n""".format(ropt[0], np.sqrt(rcov[0][0]), ropt[1], np.sqrt(rcov[1][1]), rchi_sq))
 
 simple_figure(fil_time, None, fil_u2, vol_stat_err[0] *np.ones(len(fil_time)), sine_func(fil_time, *ropt), "Ausgangsspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/Rectifier/ausgang.png")
 
