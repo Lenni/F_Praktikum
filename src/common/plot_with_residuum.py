@@ -7,7 +7,7 @@ import numpy as np
 def plot_with_residuum(x, x_err, y, y_err, mod, name, x_label, y_label, ax_plot, ax_res ):
     ax_plot.plot(x, mod, linewidth=1);
     ax_plot.errorbar(x, y, xerr=x_err, yerr=y_err, color="r", linewidth = 0,
-        markersize=1, marker=".", elinewidth=1, capsize=0)
+        markersize=0.5, marker=".", elinewidth=1, capsize=0)
 
     y_prop_err = np.zeros(len(y_err))
     if  x_err is not None:
