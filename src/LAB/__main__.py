@@ -8,6 +8,7 @@ print("Zeitfehler wird vernachlässigt, weil deutlich kleiner als Spannungsstreu
 #
 
 import matplotlib.pyplot as plt
+plt.rc("text", usetex=True)
 
 import src.LAB.resistor
 plt.close('all')

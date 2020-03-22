@@ -31,6 +31,18 @@ def do_eval(dataFile, name, start_at ,many, func):
     voltages = np.array(data[0][0:last_idx])
     times = np.array(data[1][0:last_idx])
     voltage_err = 0.00025 *np.ones(len(voltages))
+    #
+    # Plotte Rohdaten
+    #
+    plt.figure(figsize=(8,6), dpi=1200)
+    plt.errorbar(times, voltages, xerr=voltage_err, linewidth=0,capsize=1, elinewidth=1)
+    plt.grid(True)
+    plt.title("Rohdaten {}".format(name))
+    plt.xlabel("Zeit /s")
+    plt.ylabel("Spannung /V")
+    plt.savefig("protocols/LAB/Plots/Capacitor/Rohdaten{}.png".format(name))
+
+
     mutable_voltages = np.copy(voltages)
     function = lambda x, *args: sum(map(lambda p: func(x, *p), take_pairs(args)))
     opt, cov, chi_sq = regression(function, times, voltages, voltage_err, beta0=[0.3, 10.0])

@@ -9,7 +9,7 @@ from src.common.plot_with_residuum import *
 import csv
 import os
 
-voltage_err_stat = 1*10**-8 / np.sqrt(3)
+voltage_err_stat = 5*10**-8
 voltage_err_sys = 0.00003
 
 print("Widerstände")
@@ -37,13 +37,12 @@ for mr, tr, tr_unc in zip(mess_r, test_r, test_r_err):
     test_r_voltage = list()
     mess_r_voltage = list()
     for row in data:
-        test_r_voltage.append(float(row[0 if mr != 470 else 0]))
-        mess_r_voltage.append(float(row[2] if mr != 470 else 2))
+        test_r_voltage.append(float(row[0]))
+        mess_r_voltage.append(float(row[2]))
     test_r_voltage = np.array(test_r_voltage)
     mess_r_voltage = np.array(mess_r_voltage) * 10
-    current = mess_r_voltage / tr
-    current_stat_err = np.sqrt((voltage_err_stat/tr)**2 +
-        (mess_r_voltage /tr**2 * tr_unc) **2)*np.ones(len(test_r_voltage))
+    current = mess_r_voltage / tr * 1000
+    current_stat_err = np.sqrt((voltage_err_stat/tr)**2)*np.ones(len(test_r_voltage))
 
     opt, cov, chi_sq = regression(lin_func, current, test_r_voltage, voltage_err_stat * np.ones(len(test_r_voltage)),current_stat_err)
     #
@@ -60,8 +59,8 @@ for mr, tr, tr_unc in zip(mess_r, test_r, test_r_err):
     sys_err = np.min(cmax[0] - cmin[0])/2
 
     simple_figure(current, current_stat_err, test_r_voltage, voltage_err_stat * np.ones(len(test_r_voltage)),
-        lin_func(current, *opt), "{} \Omega Widerstand".format(mr),
-        "Stromstärke A", "Spannung am Wiederstand / V", "protocols/LAB/Plots/Widerstände/Widerstand{}.png".format(mr))
+        lin_func(current, *opt), "{} $\Omega$ Widerstand".format(mr),
+        "Stromstärke mA", "Spannung am Wiederstand / V", "protocols/LAB/Plots/Widerstände/Widerstand{}.png".format(mr))
 
-    print(pretty_output.format(mr, opt[1], opt[0], np.sqrt(cov[0][0]),  sys_err, chi_sq,
-        (opt[0] -  mr) /np.sqrt(cov[0][0] + sys_err**2)))
+    print(pretty_output.format(mr, opt[1], 1000 * opt[0], 1000*np.sqrt(cov[0][0]),  1000*sys_err, chi_sq,
+        (1000*opt[0] -  mr) /np.sqrt(1000**2*cov[0][0] + (1000*sys_err)**2)))

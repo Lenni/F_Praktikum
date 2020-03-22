@@ -74,5 +74,5 @@ Achsenabschnitt\t: {:.3e} \pm {:.3e} Ampere
 chi_sq\t\t: {:.3e}
 Glättungsfaktor\t: {:.3e} \pm {:.3e} \n\n""".format(r, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]), chi_sq, glaett, glaett_err))
     simple_figure(xs, xs_err, ys, ys_err, lin_func(xs, *opt), "Differentieller Widerstand bei {} $\Omega$".format(r),
-        "Spannung /V", "Strom /A", path + "/diff_res_{}.png".format(r))
+        "Spannung /V", "Strom /mA", path + "/diff_res_{}.png".format(r))
 
