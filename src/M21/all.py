@@ -3,6 +3,7 @@ import os
 import sys
 sys.path.append(os.environ['PWD'])
 
+from rausch import *
 from sensitivity import *
 from energy import *
 from dcm import *
