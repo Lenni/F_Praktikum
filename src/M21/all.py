@@ -1,17 +1,12 @@
 
-import os
-import sys
-sys.path.append(os.environ['PWD'])
-
-from rausch import *
-from sensitivity import *
-from energy import *
-from dcm import *
-from weg_cal import *
-from timediff import *
+from src.M21.sensitivity import *
+from src.M21.energy import *
+from src.M21.dcm import *
+from src.M21.weg_cal import *
+from src.M21.timediff import *
 
 #
-# Vergleiche time distance und längen kalib 
+# Vergleiche time distance und längen kalib
 #
 #
 
@@ -40,13 +35,6 @@ for i in range(len(motor_pos)):
     print("{:08.2f}\t{:08.2f}\t\t{:08.2f}\t{:08.2f}\t\t{:08.2f}\t {:08.2f}\t {:08.2f}".format(
         motor_pos[i], motor_pos_lin[i], motor_pos_lin_err[i], delta_l[i], deltal_err[i],
         abw_mttw[i], sigma[i]))
-
-plt.clf()
-plt.plot(motor_pos, motor_pos_lin, label="lin-model")
-plt.plot(motor_pos, delta_l, label="Coinzidenzen")
-plt.legend()
-plt.show()
-
 
 print("Generelle Anmerkungen zur Fehler Rechnnung: Ereignisse haben den Fehler Wurzel N")
 print("Energie und Zeitfehler: Bereich durch Wurzel 12")

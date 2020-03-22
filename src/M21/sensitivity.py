@@ -30,7 +30,7 @@ def linf(x, m, c):
 
 
 opt, cov, chi_sq = regression(linf, x_data, y_data, y_err, xErr=x_err)
-simple_figure(x_data, x_err, y_data, y_err, linf(x_data, *opt), "Sensititibität", "Zeit / s", "Ereignisse", "protocols/M21/Plots/sensitivity.png")
+simple_figure(x_data, x_err, y_data, y_err, linf(x_data, *opt), "Sensitivität", "Zeit / s", "Ereignisse", "protocols/M21/Plots/sensitivity.png")
 
 print()
 print()
