@@ -182,7 +182,7 @@
 
 		\subsection{Fazit}
 
-		Man sieht das N SPADs für einen Großteil des Rauschens sorgen, der durch die Abschaltung dieser eliminiert werden kann. Für die weiteren Messungen ist dies leider nicht sonderlich relevant, da für die Sensoren vorkonfigurierte Prarameter verwendet wurden, in die wir leider keine Einsicht hatten.
+		Man sieht dass $20 \%$ der SPADs für $80 \%$ des Rauschens sorgen, das durch die Abschaltung dieser eliminiert werden kann. Für die weiteren Messungen ist dies leider nicht sonderlich relevant, da für die Sensoren vorkonfigurierte Prarameter verwendet wurden, in die wir leider keine Einsicht hatten.
 
 	\section{Rauschmessung}
 
@@ -200,15 +200,10 @@
 		Die in der gespeicherten Datei enthaltenen Daten werden durch ein Python Programm aufbereitet und ausgewertet.
 		Es folgen Plots für die Energie-Histogramme von Singles und Koinzidenzen.
 
-		\begin{figure}[H]
-				\begin{minipage}{0.49 \textwidth}
-					\includegraphics[width=\textwidth]{Pictures/Platzhalter.jpg}
-					\caption{Histogramm Singles}
-				\end{minipage}
-				\begin{minipage}{0.49 \textwidth}
-					\includegraphics[width=\textwidth]{Pictures/Platzhalter.jpg}
-						\caption{Histogramm Koinzidenzen}
-				\end{minipage}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.9 \textwidth]{Plots/rausch}
+				\caption{Histogramm Singles}
 		\end{figure}
 
 		Man kann hier deutlich sehen dass kaum Koinzidenzen gemessen werden, was darauf schließen lässt dass die Photonen nicht aus einem Ereignis stammen.
@@ -241,30 +236,31 @@
 
 			\begin{align*}
 					a &= \SI{32.6}{\milli \metre} \pm \SI{0.1}{\milli \metre} \\
-					d &= \SI{65.7}{\milli \metre} \pm \SI{0.1}{\milli \metre}\\
-					b &= \SI{26}{\centi \metre}\pm \SI{1}{\centi \metre}
+					d &= \SI{65.7}{\milli \metre} \pm \SI{1}{\milli \metre}\\
+					b &= \SI{26}{\centi \metre}\pm \SI{0.1}{\centi \metre}
 			\end{align*}
 
 			vermessen. Damit ergibt sich für die Geometrische Effizienz:
 
 			\begin{align*}
-				G &= 0.005 = 0.5 \%
+				G &= 0.005 \pm 0.001 = 0.5 \% \pm 0.01 \%
 			\end{align*}
 
+			Der Fehler wurde dabei mithilfe der Gaußschen Fehlerfortpflanzung berechnet.
 			Außer der geometrischen Effizienz ist allerdings noch die des Szintillatormaterials, sowie der SiPM zu berücksichtigen. Wenn das Detektormaterial zu dünn ist, haben die $\gamma$-Photonen nicht genügend Strecke um ihre Energie zu verlieren. Man kann annehmen dass die Energieabgabe im Material einem exponentiellen Abfall
 
 			\begin{align*}
-				\frac{I}{I_0} =  \cdot e^{-\frac{x}{\mu}}
+				\frac{I}{I_0} = 1 - \cdot e^{-\frac{x}{\mu}}
 			\end{align*}
 
 			mit $\mu$ als Habwertsdicke folgt. Damit kann man nun die gesamte Energieabgabe im Kristall berechnen.
 
 			Für den hier verwendeten LYSO-Kristall ist die Halbwertsdicke $\mu = \SI{11}{\milli \metre}$
 
-			Damit folgt mit der Dicke des Detektors von $\SI{12}{\milli \metre} \pm \SI{0.1}{\milli \metre}$:
+			Damit folgt mit der Dicke des Detektors von $\SI{12}{\milli \metre} \pm \SI{1}{\milli \metre}$:
 
 			\begin{align*}
-				\frac{I}{I_0} = e^{\frac{\SI{12}{\milli \metre}}{\SI{11}{\milli \metre}}} \approx 0.33 \%
+				\frac{I}{I_0} = 1 - e^{-\frac{\SI{12}{\milli \metre}}{\SI{11}{\milli \metre}}} \approx 66 \% \pm 3 \%
 			\end{align*}
 
 
@@ -291,17 +287,33 @@
 								 &= \SI{0.042}{\mega \becquerel}
 			\end{align*}
 
-			Dies kann schlussendlich mit der vom Detektor gemessenen Aktivität der Probe verglichen werden.
+			Dies kann schlussendlich mit der vom Detektor gemessenen Aktivität der Probe verglichen werden, welche aus einer linearen Regression der Koinzidenzzahl gewonnen wird:
+
+			\begin{figure}[H]
+				\begin{minipage}{0.6 \textwidth}
+					\includegraphics[width = \textwidth]{Plots/sensitivity}
+					\caption{Gemessene Koinzidenzen}
+				\end{minipage}
+				\begin{minipage}{0.2 \textwidth}
+					\centering
+					\begin{align*}
+						m &= \SI{151}{\becquerel} \pm \SI{0.08}{\becquerel} \\
+						b &= \SI{-850000}{\becquerel \second} \pm \SI{500}{\becquerel \second}\\
+						\frac{\chi^2}{NDF} &= 0.85
+					\end{align*}
+				\end{minipage}
+			\end{figure}
 
 			Diese wird durch die Koinzidenzrate bei $\SI{511}{\kilo \electronvolt}$ beschrieben, und beläuft sich auf:
 
 			\begin{align*}
-				A_{gemessen} =
+				A_{gemessen} &= m = \SI{151}{\becquerel} \pm \SI{0.08}{\becquerel} \\
+				A_{berechnet} &= A \cdot \frac{I}{I_0} \cdot G = \SI{297}{\becquerel} \pm \SI{12}{\becquerel}
 			\end{align*}
 
 		\subsection{Fazit}
 
-
+			Dies lässt auf eine Effizienz des Szintillators von $ \approx 50 \%$ schließen, was realistisch erscheint. Allerdings ist zu beachten dass eventuell weitere Effekte nicht berücksichtigt wurden.
 
 	\section{Energiemessung}
 
@@ -376,8 +388,6 @@
 		Man kann an den Messungen erkennen, dass der verwendete Detektor eine Energieauflösung von $\Delta E = \SI{44}{\kilo \electronvolt}$ besitzt. Diese könnte durch eine andere Detektor-Szintillator Koppelung noch erhöht werden, allerdings resultiert daraus eine geringere Ortsauflösung.
 
 		\section{Timing Resolution}
-
-			\subsection{Ziel}
 
 			\subsection{Aufbau und Durchführung}
 				Das Experiment wird wie oben schon beschrieben aufgebaut und die Probe in den Probenhalter gestellt. Nun wird dieser mit der Motorensteuerung an eine zufällige Position zwischen den SPUs gefahren und die Messung gestartet. Die Position des Motors wird außerdem aus der Steuerung abgelesen und notiert, um einen Vergleich der Vorraussage mit der tatsächlichen Position zu ermoglichen. Im Time Difference Spectrum der Software kann nun in einem Histogramm die Zeitdifferenz zwischen 2 als koinzident gewerteten Photonen gezeigt werden. Da die von einem der Detektoren weiter als vom anderen entfernt sind, werden die von einem auch früher detektiert. Aus der Zeitdifferenz zwischen den Signalen kann nun ein vermuteter Ursprungspunkt zwischen den beiden SPUs berechnet werden. Diese Prozedur wird nun 3 weitere Male wiederholt, wobei die Probe jedes Mal an eine andere, zufällige Position verschoben wird.
@@ -457,15 +467,13 @@
 						\text{Messung 4:}& \SI{5.4}{\centi \metre} \pm \SI{6.2}{\centi \metre} \\
 					 \end{align*}
 
-					 Wenn man diese mit den tatsächlichen Positionen vergleicht, sieht man \textbf{dass wir absolut daneben lagen!}
-
-					 Damit sollten wir laut unseren Ergebnissen einen Fehler in der Größenordnung des Wertes erhalten. Da aber z.B. die Unterschiede der 1. und 3. Messung, obwohl sie beide weit im Fehlerintervall zueinander liegen, klar erkennbar waren, kann man davon ausgehen, dass die Zeitauflösung des Systems genauer als von uns ermittelt ist.
+					 Damit sollten wir laut unseren Ergebnissen einen Fehler in der Größenordnung des Wertes erhalten. Da aber z.B. die Unterschiede der 1. und 3. Messung, obwohl sie beide weit im Fehlerintervall zueinander liegen, klar erkennbar waren, kann man davon ausgehen, dass die Zeitauflösung des Systems genauer als von uns ermittelt ist. Unter diesem Gesichtspunkt ergibt es daher keinen Sinn diese mit den tatsächlichen Positionen der Probe zu vergleichen, da der Fehler nicht sinnvoll erscheint.
 
 		\newpage
 
 
 		\section{Anhang}
-
+		\label{Anhang}
 			\subsection{Dark Count Maps}
 
 			\begin{figure}[H]
@@ -507,5 +515,11 @@
 				\includegraphics[width = \textwidth]{Plots/DCM/DCM_SPU2_Sensor2_log.eps}
 				\caption{DCM SPU 2, Sensor 2, Logarithmisch}
 			\end{figure}
+
+			\newpage
+
+\section{Best of Auswertung}
+
+
 
 \end{document}
