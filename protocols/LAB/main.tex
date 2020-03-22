@@ -141,14 +141,14 @@
 
 				Damit erhält man nun folgende Fits und Parameter:
 
-				\begin{figure}
+				\begin{figure}[H]
 					\centering
 					\begin{minipage}{0.4 \textwidth}
-						\includegraphics[width = \textwidth]{Pictures/Platzhalter.jpg}
+						\includegraphics[width = 0.9\textwidth]{Pictures/Platzhalter.jpg}
 						\caption{Anpassung Entladekurve}
 					\end{minipage}
 					\begin{minipage}{0.4 \textwidth}
-							\includegraphics[width = \textwidth]{Pictures/Platzhalter.jpg}
+							\includegraphics[width = 0.9\textwidth]{Pictures/Platzhalter.jpg}
 							\caption{Anpassung Ladekurve}
 					\end{minipage}
 				\end{figure}
@@ -167,6 +167,90 @@
 
 			\subsubsection{Fazit}
 				Wenn man diese gemessenen Werte mit den erwarteten für diese Wahl von Widerstand und Kondensator vergleicht, sieht man in \ref{Kondensator::Vergleich}, dass unsere Werte in einer $???? \sigma$-Umgebung liegen. \textbf{Da ich das Protokoll hier vorschreibe habe ich allerdings noch keine Ahnung was genau das heißt.}
+
+	\subsection{Spannungsstabilisierung mit der Z-Diode}
+
+		\subsubsection{Aufbau und Durchführung}
+
+			Die Schaltung wird wie in Grafik \ref{Aufbau::Z} aufgebau und mit der LabView karte verkabelt. Dann wird zur Messdatenaufnahme das entsprechende LabView VI\footnote{siehe Anhang \ref{Programme::Z}} ausgeführt. Dabei wird einmal der durch den Stromkreis fließende Strom und die an der Zener-Diode abfallende Spannung aufgezeichnet. Die Messungen werden mit 3 unterschiedlichen Vorwiederständen $R_V \in \{ \SI{47}{\ohm}, \SI{100}{\ohm}, \SI{1000}{\ohm} \}$
+
+			\begin{figure}[H]
+				\centering
+
+				\includegraphics[width = 0.8 \textwidth]{Pictures/Platzhalter}
+				\label{Aufbau::Z}
+				\caption{Aufbau Spannungsstabilisierung}
+			\end{figure}
+
+			\subsubsection{Auswertung}
+				Die Zener-Diode kann aufgrund ihrer niedrigen Durchbruchspannung dazu verwendet werden um Spannungsquellen bein schwankender Stromaufnahme oder Versorgungsspannung diese zu stabilisieren. Dabei wird aus einem Vorwiderstand und der Diode in Sperrrichrtung ein Spannungsteiler aufgebaut, bei dem die über der Z-Diode abfallende Spannung die stabilisierte Versorgungsspannung darstellt. Da die Durchbruchspannung allerdings trotzdem noch von dme fließenden Strom durch die Diode abhängt ergibt sich bei einer Änderung der Eingangsspannung auch eine Änderung der Ausgangsspannung. Diese wird durch den sog. relativen Glättfaktor spezifiziert, der in diesem Versuch für die Diode bestimmt werden soll.
+
+				Der Faktor wird bestimmt, indem an einen gewählten Arbeitspunkt eine Tangente angepasst wird, deren Steigung im Idealfall der gesuchte Faktor und Achsenabschnitt die Durchbruchspannung der Z-Diode ist.
+				Diese Auswertung wird für alle 3 Vorwiederstände wiederholt und läuft immer gleich ab, weswegen hier nur eine beispielhafte Auswertung gezeigt wird.
+
+				\begin{figure}[H]
+					\begin{minipage}{0.49 \textwidth}
+						\includegraphics[width = 0.9 \textwidth]{Pictures/Platzhalter}
+					\end{minipage}
+					\begin{minipage}{0.49 \textwidth}
+						\begin{align*}
+							m &= 0 \pm 5.7 \\
+							b &= \SI{130.5}{ \volt } \pm \SI{0.35}{\volt} \\
+							\frac{\chi^2}{NDF} &= 1.6
+						\end{align*}
+					\end{minipage}
+				\end{figure}
+
+			\subsubsection{Fazit}
+
+	\subsection{Gleichrichter}
+
+		\subsubsection{Aufbau und Durchführung}
+			Die Schaltung wird wie in der Skizze gezeigt aufgebaut und die Messung mit dem LabView VI Speicheroszilloskop durchgeführt. Als Wechselspannungsquelle wird der zur Verfügung stehende Signalgenerator verwendet. Die Signalparameter können aus der Versuchsanleitung entnommen werden.
+
+		\subsection{Auswertung}
+
+			Die eingehende Sinusspannungwird durch den Gleichrichter in eine gepulste Gleichspannung umgewandelt, wie man in Abbildung \ref{Gleichrichter::Daten} sehen kann.
+
+			\begin{figure}
+				\centering
+
+				\includegraphics[width = 0.8 \textwidth]{Pictures/Platzhalter}
+
+				\caption{Aufgenommene Daten}
+				\label{Gleichrichter::Daten}
+			\end{figure}
+
+			Die Amplitude der Sinusspannung wird durch das Anfitten einer Sinusfunktion der Form:
+
+			\begin{align*}
+				U(t) = U_0 \cdot \sin(\omega t + \varphi)
+			\end{align*}
+
+			bestimmt. Der Gleichspannungswert kann durch das Ablesen der Spitzenwerte der gleichgerichteten Spannungswerte ermittelt werden.
+
+
+			\begin{figure}[H]
+				\begin{minipage}{0.49 \textwidth}
+					\includegraphics[width = 0.9 \textwidth]{Pictures/Platzhalter}
+				\end{minipage}
+				\begin{minipage}{0.49 \textwidth}
+					\begin{align*}
+						m &= \SI{1269.3}{} \pm \SI{5.7}{} \\
+						b &= \SI{130.5}{ \volt } \pm \SI{0.35}{\volt} \\
+						\frac{\chi^2}{NDF} &= 1.6
+					\end{align*}
+				\end{minipage}
+			\end{figure}
+
+
+	\subsection{Transistor}
+		\subsubsection{Aufbau und Durchführung}
+			Die Schaltung wird wie in der Skizze gezeigt aufgebaut und die Messung mit dem LabView VI Speicheroszilloskop durchgeführt.
+
+		\subsubsection{Auswertung}
+
+
 
 \section{Anhang}
 	\subsection{Rohdaten}
