@@ -6,12 +6,31 @@ print("Zeitfehler wird vernachlässigt, weil deutlich kleiner als Spannungsstreu
 #
 #
 #
-#import src.LAB.resistor
 
-#import src.LAB.zener
+import matplotlib.pyplot as plt
 
-#import src.LAB.condensator
+import src.LAB.resistor
+plt.close('all')
 
-#import src.LAB.rectifier
+import src.LAB.zener
+plt.close('all')
+
+import src.LAB.condensator
+plt.close('all')
+
+
+import src.LAB.rectifier
+plt.close('all')
+
 
 import src.LAB.transistor
+plt.close('all')
+
+
+import src.LAB.amp
+plt.close('all')
+
+
+import src.LAB.schmitt
+plt.close('all')
+

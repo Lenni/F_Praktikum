@@ -71,4 +71,5 @@ do_eval(charge_file, "Aufladung", 1.7 , 2, lambda x, tau, a: a * (1-np.exp(-1.0*
 
 print("nun werde ich noch einen Plot erstellen, der zeigt, wie kaputt die Daten sind")
 print("im Residuengraph werden die weiteren Kapazitäten sichtbar")
+discharge_file = open("data/LAB/Capacitor/cap_discharge.txt")
 do_eval(discharge_file, "Systematiken", 0.0, 5, lambda x, tau, a: a*np.exp(-1.0 * x /tau))
