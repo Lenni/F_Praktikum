@@ -99,7 +99,7 @@ Phase\t\t: {:.3e} \pm {:.3e} eins
 c\t\t: {:.3e} \pm {:.3e} / V
 \chi^2/ndf\t: {:.3e} \n\n""".format(sopt[0], np.sqrt(scov[0][0]), sopt[1], np.sqrt(scov[1][1]), sopt[2], np.sqrt(scov[2][2]), schi_sq))
 
-simple_figure(time, None, u1, vol_stat_err, sine_func(time, *sopt), "Eingangspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/Rectifier/eingang.png")
+simple_figure(time, None, u1, vol_stat_err, sine_func(time, *sopt), "Eingangspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/rectifier/eingang.png")
 
 
 

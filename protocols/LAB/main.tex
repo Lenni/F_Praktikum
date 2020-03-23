@@ -59,9 +59,9 @@
 
 				\begin{figure}[H]
 					\centering
-					\fbox{
-					\includegraphics[width = 0.5 \textwidth]{Pictures/Platzhalter.jpg}
-					}
+
+					\includegraphics[width = 0.8 \textwidth]{Pictures/resistance}
+
 					\caption{Schaltplan Steckbrett}
 				\end{figure}
 
@@ -84,14 +84,22 @@
 
 				\begin{figure}[H]
 					\centering
-					\fbox{
-						\includegraphics[width = 0.7 \textwidth]{Pictures/Platzhalter} % {Plots/LinReg_Widerstand}
-					}
-					\caption{Lineare Regression für die Messdaten}
+					\begin{minipage}{0.69 \textwidth}
+						\fbox{
+							\includegraphics[width = \textwidth]{Plots/Widerstände/Widerstand1000}
+						}
+						\caption{Lineare Regression für die Messdaten}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							R &= \SI{000}{\ohm} \pm \SI{000}{\ohm}\\
+							b &= \SI{000}{\volt} \pm \SI{000}{\volt}\\
+							\frac{\chi^2}{NDF} &= 000
+						\end{align*}
+					\end{minipage}
 			\end{figure}
 
-				\input{Data/LinReg_Resistance.tex}
-				Als Referenzwiderstand wurde hier der Widerstand $R_R = \SI{000}{\ohm}$ verwendet, wobei dieser durch den an ihm auftretenden Spannungsabfall die Messung leicht verfälscht.
+				Als Referenzwiderstand wurde hier der Widerstand $R_R = \SI{99.3}{\ohm}$ verwendet, wobei dieser durch den an ihm auftretenden Spannungsabfall die Messung leicht verfälscht.
 
 				Diese Auswertung wurde mit den 3 anderen vermessenen Widerständen mit dem gleichen Prinzip, jedoch anderen Referenzwiderständen durchgeführt.
 
@@ -101,9 +109,6 @@
 
 				Man kann sehen dass \textbf{LabView für eine solche Messung vollkommen ungeeignet ist.}
 
-			\subsubsection{Fazit}
-
-				\textbf{TODO}
 
 		\subsection{Kondensator}
 			\subsubsection{Ziel}
@@ -111,12 +116,20 @@
 
 			\subsubsection{Aufbau und Durchführung}
 
-				Die Schaltung wird wie in der Skizze gezeigt auf dem Steckbrett aufgebaut. Dabei wurde für den Kondensator $C_1$ eine Kapazität von $C_1 = \SI{000}{\micro \farad}$ und für den Widerstand ein Wert von $\SI{000}{\ohm}$ gewählt, um eine große Zeitkonstante zu erhalten. Im Anschluss muss das Programm für die automatische Aufnahme der Lade- und Entladekurven in LabView progammiert werden.(siehe Anhang \ref{Programme::Kondensator}) Mit dem fertigen Programm werden im Anschluss die Messdaten aufgezeichnet. Dabei wurden folgende Einstellungen verwendet:
+			\begin{figure}[H]
+				\centering
+
+				\includegraphics[width = 0.8 \textwidth]{Pictures/capacitance}
+
+				\caption{Schaltplan Steckbrett}
+			\end{figure}
+
+				Die Schaltung wird wie in der Skizze gezeigt auf dem Steckbrett aufgebaut. Dabei wurde für den Kondensator $C_1$ eine Kapazität von $C_1 = \SI{470}{\micro \farad}$ und für den Widerstand ein Wert von $\SI{22}{\kilo \ohm}$ gewählt, um eine große Zeitkonstante zu erhalten. Im Anschluss muss das Programm für die automatische Aufnahme der Lade- und Entladekurven in LabView progammiert werden.(siehe Anhang \ref{Programme::Kondensator}) Mit dem fertigen Programm werden im Anschluss die Messdaten aufgezeichnet. Dabei wurden folgende Einstellungen verwendet:
 
 				\begin{itemize}
 					\item Samplerate:
 					\item Gesamtsamples:
-					\item Ladespannung:
+					\item Ladespannung: 10 V
 				\end{itemize}
 
 			\subsubsection{Auswertung}
@@ -143,27 +156,36 @@
 
 				\begin{figure}[H]
 					\centering
-					\begin{minipage}{0.4 \textwidth}
-						\includegraphics[width = 0.9\textwidth]{Pictures/Platzhalter.jpg}
-						\caption{Anpassung Entladekurve}
-					\end{minipage}
-					\begin{minipage}{0.4 \textwidth}
-							\includegraphics[width = 0.9\textwidth]{Pictures/Platzhalter.jpg}
-							\caption{Anpassung Ladekurve}
-					\end{minipage}
+					\includegraphics[width = 0.8 \textwidth]{Plots/Capacitor/CapacitorEntladung.png}
+					\caption{Anpassung Entladekurve}
+				\end{figure}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width = 0.8 \textwidth]{Plots/Capacitor/CapacitorAufladung.png}
+					\caption{Anpassung Ladekurve}
 				\end{figure}
 
-				\begin{table}
+				\begin{table}[H]
 					\centering
 					\begin{minipage}{0.4 \textwidth}
-						\input{Data/CapDischarge}
-						\caption{parameter Entladekurve}
+						\begin{align*}
+							U_0 &= \SI{0000}{\volt} \\
+							\tau &= \SI{000}{\second} \\
+							\frac{\chi^2}{NDF} &= 000
+						\end{align*}
+						\caption{Parameter Entladekurve}
 					\end{minipage}
 					\begin{minipage}{0.4 \textwidth}
-						\input{Data/CapCharge}
+						 \begin{align*}
+							 	U_0 &= \SI{0000}{\volt} \\
+							 	\tau &= \SI{000}{\second}\\
+								\frac{\chi^2}{NDF} &= 000
+						 \end{align*}
 						\caption{Parameter Ladekurve}
 					\end{minipage}
 				\end{table}
+
+				Die großen $\chi^2$-Werte kommen durch parasitäre Kapazitäten der Messkarte, sowie kapazitive Einkoppelungen von Signalen in Messkabel zustande.  Diese wurden schon durch die Auswahl des Bereiches der Auszuwertenden Daten minimiert, könenn aber nicht ganz vermieden werden. (vgl. \ref{Daten::Kondensator})
 
 			\subsubsection{Fazit}
 				Wenn man diese gemessenen Werte mit den erwarteten für diese Wahl von Widerstand und Kondensator vergleicht, sieht man in \ref{Kondensator::Vergleich}, dass unsere Werte in einer $???? \sigma$-Umgebung liegen. \textbf{Da ich das Protokoll hier vorschreibe habe ich allerdings noch keine Ahnung was genau das heißt.}
@@ -177,7 +199,7 @@
 			\begin{figure}[H]
 				\centering
 
-				\includegraphics[width = 0.8 \textwidth]{Pictures/Platzhalter}
+				\includegraphics[width = 0.8 \textwidth]{Pictures/zener}
 				\label{Aufbau::Z}
 				\caption{Aufbau Spannungsstabilisierung}
 			\end{figure}
@@ -189,10 +211,11 @@
 				Diese Auswertung wird für alle 3 Vorwiederstände wiederholt und läuft immer gleich ab, weswegen hier nur eine beispielhafte Auswertung gezeigt wird.
 
 				\begin{figure}[H]
-					\begin{minipage}{0.49 \textwidth}
-						\includegraphics[width = 0.9 \textwidth]{Pictures/Platzhalter}
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/zener/spannungenZener_4700}
+						\caption{Zenerspannungen bei $R = \SI{4.7}{\kilo \ohm} $}
 					\end{minipage}
-					\begin{minipage}{0.49 \textwidth}
+					\begin{minipage}{0.29 \textwidth}
 						\begin{align*}
 							m &= 0 \pm 5.7 \\
 							b &= \SI{130.5}{ \volt } \pm \SI{0.35}{\volt} \\
@@ -201,21 +224,38 @@
 					\end{minipage}
 				\end{figure}
 
+				Damit erhält man für die verschiedenen Vorwiederstände folgende Glättfaktoren:
+
+				\begin{align*}
+					G_{100} &= 0 \pm 0 \\
+					G_{4700} &= 0 \pm 0 \\
+					G_{10000} &= 0 \pm 0 \\
+				\end{align*}
+
 			\subsubsection{Fazit}
 
 	\subsection{Gleichrichter}
 
 		\subsubsection{Aufbau und Durchführung}
+
+		\begin{figure}[H]
+			\centering
+
+			\includegraphics[width = 0.8 \textwidth]{Pictures/rectifier}
+
+			\caption{Schaltplan Steckbrett}
+		\end{figure}
+
 			Die Schaltung wird wie in der Skizze gezeigt aufgebaut und die Messung mit dem LabView VI Speicheroszilloskop durchgeführt. Als Wechselspannungsquelle wird der zur Verfügung stehende Signalgenerator verwendet. Die Signalparameter können aus der Versuchsanleitung entnommen werden.
 
 		\subsection{Auswertung}
 
-			Die eingehende Sinusspannungwird durch den Gleichrichter in eine gepulste Gleichspannung umgewandelt, wie man in Abbildung \ref{Gleichrichter::Daten} sehen kann.
+			Die eingehende Sinusspannung wird durch den Gleichrichter in eine gepulste Gleichspannung umgewandelt, wie man in Abbildung \ref{Gleichrichter::Daten} sehen kann.
 
-			\begin{figure}
+			\begin{figure}[H]
 				\centering
 
-				\includegraphics[width = 0.8 \textwidth]{Pictures/Platzhalter}
+				\includegraphics[width = 0.8 \textwidth]{Plots/rectifier/ausgang}
 
 				\caption{Aufgenommene Daten}
 				\label{Gleichrichter::Daten}
@@ -229,12 +269,13 @@
 
 			bestimmt. Der Gleichspannungswert kann durch das Ablesen der Spitzenwerte der gleichgerichteten Spannungswerte ermittelt werden.
 
+			Um die Amplitude genau bestimmen zu können, kann man die Frequenz der Spannung schon durch zählen der Peaks und Lineare Regression bestimmen, um der Fitfunktion eine einfachere Anpassung der Amplitude zu ermöglichen:
 
 			\begin{figure}[H]
-				\begin{minipage}{0.49 \textwidth}
-					\includegraphics[width = 0.9 \textwidth]{Pictures/Platzhalter}
+				\begin{minipage}{0.69 \textwidth}
+					\includegraphics[width =  \textwidth]{Plots/rectifier/FreqBest}
 				\end{minipage}
-				\begin{minipage}{0.49 \textwidth}
+				\begin{minipage}{0.29 \textwidth}
 					\begin{align*}
 						m &= \SI{1269.3}{} \pm \SI{5.7}{} \\
 						b &= \SI{130.5}{ \volt } \pm \SI{0.35}{\volt} \\
@@ -243,12 +284,84 @@
 				\end{minipage}
 			\end{figure}
 
+			\begin{figure}[H]
+                \centering
+                \includegraphics[width = 0.8 \textwidth]{Plots/rectifier/Rohdaten}
+
+                \caption{Gleichgerichtete Spannung}
+			\end{figure}
+
+			Damit kann man sehen dass die maximale Spannung der gleichgerichteten Spannung durch den Spannungsabfall ander Diode gesenkt wird, da die Amplitude der Sinusspannung allerdings höher als ihr Effektivwert ist, ist die gleichgerichtete Spannung trotzdem höher als die Wechselspannung.
+
 
 	\subsection{Transistor}
 		\subsubsection{Aufbau und Durchführung}
-			Die Schaltung wird wie in der Skizze gezeigt aufgebaut und die Messung mit dem LabView VI Speicheroszilloskop durchgeführt.
+			Die Schaltungen werden wie in den Skizzen gezeigt aufgebaut und die Messung mit dem LabView VI Speicheroszilloskop durchgeführt.
+      Es sollten 4 Kennlinien eines Transistors gemessen werden. Für jede dieser Kennlinien wurder daher eine eigene Schaltung verwendet.
 
 		\subsubsection{Auswertung}
+
+        Es wurden die \textbf{Eingangskennlinie}, \textbf{Ausgangskennlinie}, sowie die \textbf{Stromsteuerkennlinie}vermessen.
+
+        \paragraph{Eingangskennlinie}
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width = 0.9 \textwidth]{Plots/Transistor/Einganskennline}
+                \caption{Eingangskennlinie}
+            \end{figure}
+
+            Es wird die Abhängigkeit des Basisstroms $I_B$ von der Basis-Emitterspannung $U_{BE}$ angegeben. Man kann gut sehen, dass sich in dem Transistor eine intrinsische Diode befindet, da der Basisstrom unterhalb eines Spannungspunktes beinahe $0$ beträgt. Hinter diesem Punkt allerdings, steigt der Strom exponentiell mit der Erhöhung von $U_{BE}$ an.
+
+
+        \paragraph{Ausgangskennlinie}
+
+					Die Ausgangskennline gibt den fließenden Kollektorstrom bei einem festen Basisstrom abhängig von der Kollektor-Emitterspannung an.
+
+            \begin{figure}[H]
+                \centering
+
+                \includegraphics[width = 0.9 \textwidth]{Plots/Transistor/Ausgangskennlinen}
+
+                \caption{Ausgangskennlinie}
+            \end{figure}
+
+            Da eine Ausgangskennlinie nur für einen ganz bestimmten Basisstrom gilt, wurden 3 verschiedene Kurven für verschiedene Basisströme ($I_B \in \{ \SI{000}{\milli \ampere}, \SI{000}{\milli \ampere}, \SI{000}{\milli \ampere} \}$) aufgenommen und in einem Diagramm dargestellt. Man kann gut sehen, dass für höhere Basisströme der Transistor erst bei höheren Spannungen den Sättigungszustand erreicht.
+
+
+    \paragraph{Stromsteuerkennlinie}
+
+        Aus der Stromsteuerkennlinie lässt sich der Gleichstromverstärkungsfaktor $\beta$ aus der Steigung dieser berechnen. Dieser gibt an, um welchen Faktor der Basisstrom am Kollektor verstärkt wird.
+        Für die durchführung dieser Messung muss der Strom an der Basis des Transistors begrenzt werden, dies wird durch einen entsprechenden Vorwiederstand erreicht, der allerdings bekannt ein muss, um aus der Basis-Emitterspannung den Bas zu berechnen. Diese Berechnung wird schon in dem entsprechenden LabView Programm vorgenommen.
+
+        Um ihn zu berechnen, wird an die gemessenen Daten eine Lineare Regression durchgeführt. Bei dem angenommenen Modell
+
+        \begin{align*}
+            I_C = \beta \cdot I_B + b
+        \end{align*}
+
+        ergibt sich folgende Gerade:
+
+        \begin{figure}[H]
+            \begin{minipage}{0.69 \textwidth}
+                \includegraphics[width = 0.8 \textwidth]{Plots/Transistor/gsvf}
+            \end{minipage}
+            \begin{minipage}{0.29 \textwidth}
+                \begin{align*}
+                    \beta &= \SI{1269.3}{} \pm \SI{5.7}{} \\
+                    b &= \SI{130.5}{\milli \ampere} \pm \SI{0.35}{\milli \ampere} \\
+                    \frac{\chi^2}{NDF} &= 1.6
+                \end{align*}
+            \end{minipage}
+        \end{figure}
+
+				Damit verstärkt der Transistor einen in die Basis fließenden Gleichstrom um den Faktor $ \beta = 69$.
+
+    \subsection{Verstärker}
+
+
+
+    \subsection{Schmitt-Trigger}
 
 
 
@@ -259,61 +372,99 @@
 
 			\begin{figure}[H]
 				\centering
-				\begin{minipage}{0.4 \textwidth}
-					\fbox{
-						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
-					}
-				\caption{Fit Widerstand 1 ($\SI{000}{\ohm}$)}
+				\begin{minipage}{0.49 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Widerstände/Widerstand470}
+				\caption{Fit Widerstand 1 ($\SI{470}{\ohm}$)}
 				\end{minipage}
-				\begin{minipage}{0.4 \textwidth}
-					\fbox{
-						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
-					}
-				\caption{Fit Widerstand 2 ($\SI{000}{\ohm}$)}
+				\begin{minipage}{0.49 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Widerstände/Widerstand1000}
+				\caption{Fit Widerstand 2 ($\SI{1000}{\ohm}$)}
 				\end{minipage}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\begin{minipage}{0.4 \textwidth}
-					\fbox{
-						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
-					}
-				\caption{Fit Widerstand 3 ($\SI{000}{\ohm}$)}
-				\end{minipage}
-				\begin{minipage}{0.4 \textwidth}
-					\fbox{
-						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
-					}
-				\caption{Fit Widerstand 4 ($\SI{000}{\ohm}$)}
-				\end{minipage}
+				\includegraphics[width = \textwidth]{Plots/Widerstände/Widerstand4700}
+				\caption{Fit Widerstand 3 ($\SI{4700}{\ohm}$)}
 		\end{figure}
 
 		\subsubsection{Vermessung Zeitkonstante}
 		\label{Daten::Kondensator}
 			\begin{figure}[H]
 				\centering
-				\begin{minipage}{0.4 \textwidth}
-					\fbox{
-						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
-					}
+				\begin{minipage}{0.49 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Capacitor/CapacitorEntladung}
 				\caption{Fit Entladekurve}
 				\end{minipage}
-				\begin{minipage}{0.4 \textwidth}
-					\fbox{
-						\includegraphics[width = \textwidth]{Pictures/Platzhalter}
-					}
+				\begin{minipage}{0.49 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Capacitor/CapacitorAufladung}
 				\caption{Fit Ladekurve}
 				\end{minipage}
 			\end{figure}
 
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = \textwidth]{Plots/Capacitor/CapacitorSystematiken}
+				\caption{Systematiken der Messung}
+			\end{figure}
+
+\newpage
 	\subsection{Programme}
-		\subsubsection{Widerstandsvermesssung}
+		\subsubsection{Zener-Diode}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Zener}
+			\caption{Frontend Zener-Diode}
+		\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Zener}
+				\caption{Backend Zener-Diode}
+			\end{figure}
 
 		\subsubsection{Zeitkonstante}
-			\label{Programme::Kondensator
-			}
-		\subsubsection{Schmitt Trigger}
+			\label{Programme::Kondensator}
 
-		\subsubsection{Das andere halt}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Capacitor}
+				\caption{Frontend Wiederstandmessung}
+			\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Capacitor}
+					\caption{Backend Wiederstandmessung}
+				\end{figure}
+
+		\subsubsection{Schmitt Trigger}
+			\label{Programme::Schmitt}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Schmitt}
+				\caption{Frontend Schmitt-Trigger}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Schmitt}
+				\caption{Backend Schmitt-Trigger}
+			\end{figure}
+
+		\subsubsection{Transistor}
+			\label{Programme::Schmitt}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Transistor}
+				\caption{Frontend Transistor}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Transistor}
+				\caption{Backend Transistor}
+			\end{figure}
+
 \end{document}
