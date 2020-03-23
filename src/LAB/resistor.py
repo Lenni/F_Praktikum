@@ -43,22 +43,21 @@ for mr, tr, tr_unc in zip(mess_r, test_r, test_r_err):
     mess_r_voltage = np.array(mess_r_voltage) * 10
     current = mess_r_voltage / tr * 1000
     current_stat_err = np.sqrt((voltage_err_stat/tr)**2)*np.ones(len(test_r_voltage))
+    voltage_stat_err = 2*10**-8 * np.ones(len(test_r_voltage))
+    current_sys_err = ((mess_r_voltage /tr**2 * tr_unc) **2)*np.ones(len(test_r_voltage))
 
     opt, cov, chi_sq = regression(lin_func, current, test_r_voltage, voltage_err_stat * np.ones(len(test_r_voltage)),current_stat_err)
     #
     # bestimme  den statistischen Fehler als Streung ums model, gewichtet mit den rel. Stromfehlern
     #
-    voltage_err_stat = np.sqrt(np.sum((lin_func(current, *opt) - test_r_voltage)**2))/ len(test_r_voltage)
-    current_stat_err = np.sqrt((voltage_err_stat/tr)**2 +
-        (mess_r_voltage /tr**2 * tr_unc) **2)*np.ones(len(test_r_voltage))
     print("lege den statistischen Spannungsfehler auf {:.3e} fest".format(voltage_err_stat))
 
-    opt, cov, chi_sq = regression(lin_func, current, test_r_voltage, voltage_err_stat * np.ones(len(test_r_voltage)),current_stat_err)
-    cmax, noneval, noneval = regression(lin_func, current + opt[1]/tr, test_r_voltage + opt[1], voltage_err_stat * np.ones(len(test_r_voltage)),current_stat_err)
-    cmin, noneval, noneval = regression(lin_func, current - opt[1]/tr, test_r_voltage - opt[1], voltage_err_stat * np.ones(len(test_r_voltage)),current_stat_err)
+    opt, cov, chi_sq = regression(lin_func, current, test_r_voltage, voltage_stat_err,current_stat_err)
+    cmax, noneval, noneval = regression(lin_func, current + current_sys_err, test_r_voltage + opt[1], voltage_stat_err, current_stat_err)
+    cmin, noneval, noneval = regression(lin_func, current - current_sys_err, test_r_voltage - opt[1], voltage_stat_err, current_stat_err)
     sys_err = np.min(cmax[0] - cmin[0])/2
 
-    simple_figure(current, current_stat_err, test_r_voltage, voltage_err_stat * np.ones(len(test_r_voltage)),
+    simple_figure(current, current_stat_err, test_r_voltage, voltage_stat_err,
         lin_func(current, *opt), "{} $\Omega$ Widerstand".format(mr),
         "Stromstärke mA", "Spannung am Wiederstand / V", "protocols/LAB/Plots/Widerstände/Widerstand{}.png".format(mr))
 
