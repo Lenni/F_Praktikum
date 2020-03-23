@@ -54,7 +54,7 @@
 
 	Das zugrunde liegende Prinzip basiert auf der besonders hohen Biologischen Aktivität von Tumorgewebe. Wir einem Patienten nun ein mit einem Radioaktiven Isotop markierter Zucker (sog. Tracer) verabreicht, sammelt sich dieser in dem Tumor an. Wenn dieser nun zerfällt emittiert er Positronen die sich mit den Elektronen im umliegenden Gewebe auslöchen und zwei Gamma Photonen in entgegengestezte Richtung aussenden. Diese sollen durch die Detektoren aufgefangen und ausgewertet werden um Informationen über Flugzeit und Energie der Strahlung zu erhalten. Für die Konstruktion dieser Detektoren gibt es mehrere Ansätze, allerdings wurde in diesem Experiment ein Silicon-Photomultiplier (SiPM) zusammen mit einem LYSO Szintillator verwendet.\\
 
-	Ein auftreffendes Gamma-Photon regt den Szintillierenden Kristall nun an optische Photonen auszusenden, die auf den SiPM treffen. Dort werden sie in ein elektrisches Signal umgewandelt, welches durch einen ASIC ausgelesen und verarbeitet werden kann, um aus der Anzahl der Photonen die Energie des detektierten Photons sowie die Flugzeit udn Position zu rekonstruieren. In einem medizinischen PET-Scanner kann mit diesen Informationen nun die Lage der Tumoren im Patienten errechnet werden. In diesem Versuch ist allerdings eher die Vermessung des verwendeten Detektors im Fokus, weswegen nur zwei sich gegenüberstehende Detektoren verwendet werden.
+	Ein auftreffendes Gamma-Photon regt den szintillierenden Kristall nun an optische Photonen auszusenden, die auf den SiPM treffen. Dort werden sie in ein elektrisches Signal umgewandelt, welches durch einen ASIC ausgelesen und verarbeitet werden kann, um aus der Anzahl der Photonen die Energie des detektierten Photons sowie die Flugzeit udn Position zu rekonstruieren. In einem medizinischen PET-Scanner kann mit diesen Informationen nun die Lage der Tumoren im Patienten errechnet werden. In diesem Versuch ist allerdings eher die Vermessung des verwendeten Detektors im Fokus, weswegen nur zwei sich gegenüberstehende Detektoren verwendet werden.
 
 	\newpage
 
@@ -68,7 +68,6 @@
 			\item Backbone
 			\item Aluminiumgstell mit Schrittmotoren für Probenhalter
 			\item Probenhalter für Radioaktive Probe
-			\item
 		\end{itemize}
 		\item Netzteile für Detektoren und Backbone
 		\item Data Aquisition and Processing Server (DAPS)
@@ -131,6 +130,10 @@
 					\includegraphics[width=\textwidth]{Plots/WegKalib.png}
 				\caption{Gradenanpassung an gemessene Daten}
 			\end{figure}
+
+			\begin{align*}
+				\frac{\chi^2}{NDF} = 1.85
+			\end{align*}
 
 			Damit folgt ein Umrechnungsfaktor von $m = \qty(-0.0004234 \pm \mathcal{O}(10^{-13})) \frac{\si{\centi \metre}}{\text{Puls}}$ bei einem Offset von $b = (\SI{35.370}{\centi \metre} \pm \SI{0.0003}{\centi \metre})$.
 
@@ -519,9 +522,5 @@
 			\end{figure}
 
 			\newpage
-
-\section{Best of Auswertung}
-
-
 
 \end{document}
