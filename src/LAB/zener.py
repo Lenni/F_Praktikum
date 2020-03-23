@@ -41,7 +41,7 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
     plt.xticks(np.arange(uin[0], uin[-1], (uin[-1] - uin[0])/ticks_many))
     plt.yticks(np.arange(uout[0], uout[-1], (uout[-1] - uout[0])/ticks_many))
     plt.xlabel("Eingangspannung /V")
-    plt.ylabel("Ausgangsspannung /mA")
+    plt.ylabel("Ausgangsspannung /V")
     plt.grid(True)
     plt.axvspan(low_a, high_a, label="Arbeitsbereich", alpha=0.4)
     plt.title("Z-Dioden mit Widerstand {} $\Omega$, Kennlinie".format(r))
