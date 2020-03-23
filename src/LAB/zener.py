@@ -29,7 +29,7 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
 
     for row in csv.reader(open("data/LAB/Zener/zener_{}.txt".format(r)), delimiter="\t"):
         uin.append(float(row[1].strip()))
-        uout.append(float(row[0].strip())/r * 1000)
+        uout.append(float(row[0].strip()))
         ir.append(float(row[2].strip()))
 
     uin = np.array(uin)
@@ -41,7 +41,7 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
     plt.xticks(np.arange(uin[0], uin[-1], (uin[-1] - uin[0])/ticks_many))
     plt.yticks(np.arange(uout[0], uout[-1], (uout[-1] - uout[0])/ticks_many))
     plt.xlabel("Eingangspannung /V")
-    plt.ylabel("Strom /mA")
+    plt.ylabel("Ausgangsspannung /mA")
     plt.grid(True)
     plt.axvspan(low_a, high_a, label="Arbeitsbereich", alpha=0.4)
     plt.title("Z-Dioden mit Widerstand {} $\Omega$, Kennlinie".format(r))
@@ -56,7 +56,7 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
     ys_err = list()
     for (x, y) in filter(lambda x: x[0] >= low_a and x[0] <= high_a, zip(uin, uout)):
         xs.append(x)
-        ys.append(y)
+        ys.append(y / r * 1000)
         xs_err.append(0.001 / np.sqrt(12))
         ys_err.append(np.sqrt((0.001 / np.sqrt(12) / r)**2 + (y/r**2 * 0.1/np.sqrt(12))**2))
     xs = np.array(xs)
