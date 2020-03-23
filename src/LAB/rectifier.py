@@ -55,7 +55,7 @@ print("stat. Fehler\t:{:.3e}".format(vol_stat_err[0]))
 print("sys. Fehler\t:{:.3e}".format(vol_sys_err))
 
 #
-# Rate Frequent
+# Rate Frequenz
 #
 #
 #
@@ -80,7 +80,7 @@ xs = np.array(list(range(len(maxis)))) + 1
 maxis = np.array(maxis)
 maxis_err = np.array(maxis)
 opt, cov, chi_sq = regression(linf, xs, maxis, maxis_err)
-simple_figure(xs, None, maxis, maxis_err, linf(xs, *opt), "Frequentbestimmung", "n-tes Maximum","Lage des Maximums /s", "protocols/LAB/Plots/rectifier/FreqBest.png")
+simple_figure(xs, None, maxis, maxis_err, linf(xs, *opt), "Frequenzbestimmung", "n-tes Maximum","Lage des Maximums /s", "protocols/LAB/Plots/rectifier/FreqBest.png")
 freq = 2 * np.pi / opt[0]
 def sine_func(x, amp, phase, c):
     return np.sin(x*freq  + phase) * amp + c
@@ -99,7 +99,7 @@ Phase\t\t: {:.3e} \pm {:.3e} eins
 c\t\t: {:.3e} \pm {:.3e} / V
 \chi^2/ndf\t: {:.3e} \n\n""".format(sopt[0], np.sqrt(scov[0][0]), sopt[1], np.sqrt(scov[1][1]), sopt[2], np.sqrt(scov[2][2]), schi_sq))
 
-simple_figure(time, None, u1, vol_stat_err, sine_func(time, *sopt), "Eingangspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/rectifier/eingang.png")
+simple_figure(time, None, u1, vol_stat_err, sine_func(time, *sopt), "Eingangspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/Rectifier/eingang.png")
 
 
 

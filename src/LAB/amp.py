@@ -24,7 +24,7 @@ for i in [1, 2]:
     data_set.append((time, u1, u2))
 
 
-descr = ["Ohne C3", "Mit C3"]
+descr = ["ohne C3", "mit C3"]
 #
 # Spannungs-Zeit Kurven
 #
@@ -34,7 +34,7 @@ for ds,l in zip(data_set, descr):
     plt.plot(ds[0], ds[2], label="Ausgangsspannung")
     plt.grid(True)
     plt.legend()
-    plt.title("Spannung zur Zeit {}".format(l))
+    plt.title("Spannung gegen Zeit {}".format(l))
     plt.xlabel("Zeit /s")
     plt.ylabel("Spannung /V")
     plt.savefig("{}/SpannungGegZeit{}.png".format(ppath, l))
