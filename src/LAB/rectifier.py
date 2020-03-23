@@ -99,7 +99,7 @@ Phase\t\t: {:.3e} \pm {:.3e} eins
 c\t\t: {:.3e} \pm {:.3e} / V
 \chi^2/ndf\t: {:.3e} \n\n""".format(sopt[0], np.sqrt(scov[0][0]), sopt[1], np.sqrt(scov[1][1]), sopt[2], np.sqrt(scov[2][2]), schi_sq))
 
-simple_figure(time, None, u1, vol_stat_err, sine_func(time, *sopt), "Eingangspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/Rectifier/eingang.png")
+simple_figure(time, None, u1, vol_stat_err, sine_func(time, *sopt), "Eingangspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/rectifier/eingang.png")
 
 
 
@@ -116,7 +116,7 @@ Phase\t\t: {:.3e} \pm {:.3e} eins
 c\t\t: {:.3e} \pm {:.3e} / V
 \chi^2/ndf\t: {:.3e} \n\n""".format(ropt[0], np.sqrt(rcov[0][0]), ropt[1], np.sqrt(rcov[1][1]), ropt[2], np.sqrt(rcov[2][2]), rchi_sq))
 
-simple_figure(fil_time, None, fil_u2, vol_stat_err[0] *np.ones(len(fil_time)), sine_func(fil_time, *ropt), "Ausgangsspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/Rectifier/ausgang.png")
+simple_figure(fil_time, None, fil_u2, vol_stat_err[0] *np.ones(len(fil_time)), sine_func(fil_time, *ropt), "Ausgangsspannung Regression", "Zeit /s", "Spannung /V", "protocols/LAB/Plots/rectifier/ausgang.png")
 
 print("Bereichnete Effektivspannung: {:.3e} \pm {:.3e}".format(sopt[0]/np.sqrt(2), np.sqrt(scov[0][0])/np.sqrt(2)))
 print("Abweichung: {:.3e} \sigma".format(np.abs(ropt[0] - sopt[0])/np.sqrt(np.sqrt(scov[0][0])/2 + rcov[0][0])))
