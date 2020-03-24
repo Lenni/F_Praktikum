@@ -126,8 +126,9 @@ channel_err = np.array(shield_data[3])
 
 print(shield_data)
 
-kalibDis, kalibDisErr, chi_sq = regression(linf, distance, channel, channel_err, xErr = distance_err)
-simple_figure(distance, distance_er, channel, channel_err, linf(distance, *kalibDis), "Distance Calibration, 7.69 MeV",
+mod_func = lambda x, c: c * x**2
+kalibDis, kalibDisErr, chi_sq = regression(mod_func, distance, channel, channel_err, xErr = distance_err)
+simple_figure(distance, distance_err, channel, channel_err, mod_func(distance, *kalibDis), "Distance Calibration, 7.69 MeV",
     "Distance /cm", "Channel", "{}/dis_calib.png".format(ppath))
 print(chi_sq)
 
