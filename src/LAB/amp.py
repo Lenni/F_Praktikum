@@ -39,6 +39,7 @@ for ds,l in zip(data_set, descr):
     plt.ylabel("Spannung /V")
     plt.savefig("{}/SpannungGegZeit{}.png".format(ppath, l))
     plt.clf()
+    print("Peak to Peak {}: {:.2} und {:.2}".format(ds, max(ds[1]), max(ds[2])))
 #
 # Spannung-Spannung Kurve
 #
