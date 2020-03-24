@@ -79,6 +79,7 @@
 					U(I) = R \cdot I + b
 				\end{align*}
 				dar. Dabei kann man neben der $\chi^2$-Verteilung auch den Parameter b verwenden um die Qualität des Fits und der Daten zu beurteilen. Dieser sollte sehr klein sein, da er einen intrinsischen, konstanten Spannungsabfall beschreibt, wie er z.B. in einer Diode, nicht aber in einem Widerstand auftreten sollte.
+				Der Wert dey y-Achsen Abschnittes wurde dann verwendet um den systematischen Fehler auf die Messwerte zu bestimmen, weswegen er in den finalen Ergebnissen verschwindet.
 
 				Führt man die lineare Regression durch, so erhält man folgendes Ergebnis:
 
@@ -92,9 +93,8 @@
 					\end{minipage}
 					\begin{minipage}{0.29 \textwidth}
 						\begin{align*}
-							R &= \SI{000}{\ohm} \pm \SI{000}{\ohm}\\
-							b &= \SI{000}{\volt} \pm \SI{000}{\volt}\\
-							\frac{\chi^2}{NDF} &= 000
+							R &= \SI{993}{\ohm} \pm \SI{1.2}{\micro \ohm} \pm \SI{0.7}{\micro \ohm}\\
+							\frac{\chi^2}{NDF} &= 2
 						\end{align*}
 					\end{minipage}
 			\end{figure}
@@ -107,7 +107,7 @@
 
 					\input{Tables/Resistors.tex}
 
-				Man kann sehen dass \textbf{LabView für eine solche Messung vollkommen ungeeignet ist.}
+				Man kann sehen dass der erste Widerstand offensichtlich aus der Reihe fällt, so dass davon ausgegangen werden muss, dass aus versehen ein Widerstand mit $\SI{220}{\ohm}$ vermessen wurde.
 
 
 		\subsection{Kondensator}
@@ -124,7 +124,7 @@
 				\caption{Schaltplan Steckbrett}
 			\end{figure}
 
-				Die Schaltung wird wie in der Skizze gezeigt auf dem Steckbrett aufgebaut. Dabei wurde für den Kondensator $C_1$ eine Kapazität von $C_1 = \SI{470}{\micro \farad}$ und für den Widerstand ein Wert von $\SI{22}{\kilo \ohm}$ gewählt, um eine große Zeitkonstante zu erhalten. Im Anschluss muss das Programm für die automatische Aufnahme der Lade- und Entladekurven in LabView progammiert werden.(siehe Anhang \ref{Programme::Kondensator}) Mit dem fertigen Programm werden im Anschluss die Messdaten aufgezeichnet. Dabei wurden folgende Einstellungen verwendet:
+				Die Schaltung wird wie in der Skizze gezeigt auf dem Steckbrett aufgebaut. Dabei wurde für den Kondensator $C_1$ eine Kapazität von $C_1 = \SI{47}{\micro \farad}$ und für den Widerstand ein Wert von $\SI{560}{\ohm}$ gewählt, um eine große Zeitkonstante zu erhalten. Im Anschluss muss das Programm für die automatische Aufnahme der Lade- und Entladekurven in LabView progammiert werden.(siehe Anhang \ref{Programme::Kondensator}) Mit dem fertigen Programm werden im Anschluss die Messdaten aufgezeichnet. Dabei wurden folgende Einstellungen verwendet:
 
 				\begin{itemize}
 					\item Samplerate:
@@ -136,20 +136,20 @@
 
 				An die aufgenommenen Messdaten (siehe \ref{Daten::Kondensator}) kann nun für die Entladekurve eine Funktion der Form
 				\begin{align*}
-					U(t) = U_0 \cdot e^{-\frac{\tau}{t}}
+					U(t) = U_0 \cdot e^{-\frac{t}{\tau}}
 				\end{align*}
 				,und die Ladekurve eine Funktion der Form
 				\begin{align*}
-					U(t) = U_0 \cdot \qty(1-e^{-\frac{\tau}{t}})
+					U(t) = U_0 \cdot \qty(1-e^{-\frac{t}{\tau}})
 				\end{align*}
 				angepasst werden. Dabei stellt $U_0$ die zuvor im Programm eingestellte Ladespannung, sowie $\tau$ die zu bestimmende Zeitkonstante dar.
 
-				Die jeweiligen Fehler auf die einzelnen Datenpunkte setzen sich durch den Fehler auf die Spannungsmessung, welche durch die Spannungsauflösung der Messkarte gegeben ist, sowie der Zeitauflösung, durch die Abtastrate des Programms dar. In unseren Fall belaufen sich diese Aufbau::Kammer
+				Die jeweiligen Fehler auf die einzelnen Datenpunkte setzen sich durch den Fehler auf die Spannungsmessung, welche durch die Spannungsauflösung der Messkarte gegeben ist, sowie der Zeitauflösung, durch die Abtastrate des Programms dar. In unseren Fall belaufen sich diese auf:
 
 				\begin{align}
 					\label{Kondensator::Messfehler}
-					\Delta U &= \frac{\SI{10}{\volt}}{\sqrt{12} \cdot 2^{N}} = \SI{000}{\milli \volt}
-					\Delta t &= \frac{1}{\SI{000}{\per \second}} =  \SI{000}{\milli \second} %%Abtastrate einfügen
+					\Delta U &= \frac{\SI{10}{\volt}}{\sqrt{12} \cdot 2^{12}} = \SI{0.7}{\milli \volt}
+					\Delta t &= \frac{1}{\SI{2000}{\per \second}} =  \SI{0.5}{\milli \second} %%Abtastrate einfügen
 				\end{align}
 
 				Damit erhält man nun folgende Fits und Parameter:
@@ -169,26 +169,27 @@
 					\centering
 					\begin{minipage}{0.4 \textwidth}
 						\begin{align*}
-							U_0 &= \SI{0000}{\volt} \\
-							\tau &= \SI{000}{\second} \\
-							\frac{\chi^2}{NDF} &= 000
+							U_0 &= \SI{5.1}{\volt} \pm \SI{8.1}{\volt} \\
+							\tau &= \SI{0.37}{\second} \pm \SI{0.15}{\second} \\
+							\frac{\chi^2}{NDF} &= 1.1
 						\end{align*}
 						\caption{Parameter Entladekurve}
 					\end{minipage}
 					\begin{minipage}{0.4 \textwidth}
 						 \begin{align*}
-							 	U_0 &= \SI{0000}{\volt} \\
-							 	\tau &= \SI{000}{\second}\\
-								\frac{\chi^2}{NDF} &= 000
+							 	U_0 &= \SI{9.7}{\volt} \pm \SI{0.8}{\volt}\\
+							 	\tau &= \SI{0.28}{\second} \pm \SI{0.07}{\second}\\
+								\frac{\chi^2}{NDF} &= 1.0
 						 \end{align*}
 						\caption{Parameter Ladekurve}
 					\end{minipage}
 				\end{table}
 
-				Die großen $\chi^2$-Werte kommen durch parasitäre Kapazitäten der Messkarte, sowie kapazitive Einkoppelungen von Signalen in Messkabel zustande.  Diese wurden schon durch die Auswahl des Bereiches der Auszuwertenden Daten minimiert, könenn aber nicht ganz vermieden werden. (vgl. \ref{Daten::Kondensator})
+			Dabei ist allerdings zu beachten, dass bei diesen Fits 2 Exponentialfunktionen gleichzeitig gefittet wurden, um deutlich zu erkennende Systematiken zu entfernen.  Diese wurden schon durch die Auswahl des Bereiches der Auszuwertenden Daten minimiert, könenn aber nicht ganz vermieden werden. (vgl. \ref{Daten::Kondensator})
 
 			\subsubsection{Fazit}
-				Wenn man diese gemessenen Werte mit den erwarteten für diese Wahl von Widerstand und Kondensator vergleicht, sieht man in \ref{Kondensator::Vergleich}, dass unsere Werte in einer $???? \sigma$-Umgebung liegen. \textbf{Da ich das Protokoll hier vorschreibe habe ich allerdings noch keine Ahnung was genau das heißt.}
+				Wenn man diese gemessenen Werte mit den erwarteten für diese Wahl von Widerstand und Kondensator vergleicht, sieht man in \ref{Kondensator::Vergleich}, dass unsere Werte in einer $1 \sigma$-Umgebung liegen. Das ist auch zu erwarten, da jedes Mal der gleiche Kondensator auf- und entladen wurde.
+				Die erwartete zeitkonstante von $\tau = \SI{0.26}{\second}$ ist auch gut innerhalb der Fehlergrenzen bestimmt.
 
 	\subsection{Spannungsstabilisierung mit der Z-Diode}
 
@@ -217,7 +218,7 @@
 					\end{minipage}
 					\begin{minipage}{0.29 \textwidth}
 						\begin{align*}
-							m &= 0 \pm 5.7 \\
+							\frac{U_A}{U_E} &= 0 \pm 5.7 \\
 							b &= \SI{130.5}{ \volt } \pm \SI{0.35}{\volt} \\
 							\frac{\chi^2}{NDF} &= 1.6
 						\end{align*}
@@ -255,7 +256,7 @@
 			\begin{figure}[H]
 				\centering
 
-				\includegraphics[width = 0.8 \textwidth]{Plots/rectifier/ausgang}
+				\includegraphics[width = 0.8 \textwidth]{Plots/rectifier/Rohdaten}
 
 				\caption{Aufgenommene Daten}
 				\label{Gleichrichter::Daten}
@@ -264,7 +265,7 @@
 			Die Amplitude der Sinusspannung wird durch das Anfitten einer Sinusfunktion der Form:
 
 			\begin{align*}
-				U(t) = U_0 \cdot \sin(\omega t + \varphi)
+				U(t) = U_0 \cdot \sin(\omega t + \varphi) + C
 			\end{align*}
 
 			bestimmt. Der Gleichspannungswert kann durch das Ablesen der Spitzenwerte der gleichgerichteten Spannungswerte ermittelt werden.
@@ -277,21 +278,46 @@
 				\end{minipage}
 				\begin{minipage}{0.29 \textwidth}
 					\begin{align*}
-						m &= \SI{1269.3}{} \pm \SI{5.7}{} \\
+						\omega &= \SI{1269.3}{} \pm \SI{5.7}{} \\
 						b &= \SI{130.5}{ \volt } \pm \SI{0.35}{\volt} \\
 						\frac{\chi^2}{NDF} &= 1.6
 					\end{align*}
 				\end{minipage}
 			\end{figure}
 
-			\begin{figure}[H]
-                \centering
-                \includegraphics[width = 0.8 \textwidth]{Plots/rectifier/Rohdaten}
+			Mit der bekannten Frequenz kann nun Phase, Amplitude und konstanter Offset des Eingangssignals bestimmt werden:
 
-                \caption{Gleichgerichtete Spannung}
+			\begin{figure}[H]
+				\begin{minipage}{0.69 \textwidth}
+					\includegraphics[width =  \textwidth]{Plots/rectifier/eingang}
+				\end{minipage}
+				\begin{minipage}{0.29 \textwidth}
+					\begin{align*}
+						U_0 &= \SI{2.03}{\volt} \pm \SI{0.001}{ \volt} \\
+						\varphi &= \SI{1}{\radian} \pm \SI{0.003}{\radian} \\
+						C &= \SI{-0.06}{ \volt } \pm \SI{0.001}{\volt} \\
+						\frac{\chi^2}{NDF} &= 3 \cdot 10^8
+					\end{align*}
+				\end{minipage}
 			\end{figure}
 
-			Damit kann man sehen dass die maximale Spannung der gleichgerichteten Spannung durch den Spannungsabfall ander Diode gesenkt wird, da die Amplitude der Sinusspannung allerdings höher als ihr Effektivwert ist, ist die gleichgerichtete Spannung trotzdem höher als die Wechselspannung.
+			Um die Eigenschaften des Ausgangssignals zu erhalten wird ein modifizierter Sinus angefittet, bei dem alle Spannungen ab einem Schwellenwert auf Null gesetzt werden.
+
+			\begin{figure}[H]
+				\begin{minipage}{0.69 \textwidth}
+					\includegraphics[width = \textwidth]{Plots/rectifier/ausgang}
+				\end{minipage}
+				\begin{minipage}{0.29 \textwidth}
+					\begin{align*}
+						U_0 &= \SI{1.8}{\volt} \pm \SI{0.023}{\volt} \\
+						\varphi &= \SI{1}{\radian} \pm \SI{0.003}{\radian} \\
+						C &= \SI{-0.5}{ \volt } \pm \SI{0.023}{\volt} \\
+						\frac{\chi^2}{NDF} &= 2.4 \cdot 10^7
+					\end{align*}
+				\end{minipage}
+			\end{figure}
+
+			Man kann sehen dass die Diode einen konstanten Offset von $\approx \SI{0.5}{\volt}$ erzeugt. Die Ausgangsamplitude sinkt durch weitere Effekte (Spannungsabfall am Widerstand, Messkabel, etc.) etwas ab, und Phase der Signale bleiben logischerweise gleich. Die Effektivspannung der Eingangsspannung von $U_{eff} = \frac{U_{0,E}}{\sqrt{2}} = \SI{1.43}{\volt}$ wird damit auf die etwas höhere Gleichspannung von $  U_{0,A} = \SI{1.8}{\volt}$ gleichgerichtet.
 
 
 	\subsection{Transistor}
@@ -326,13 +352,13 @@
                 \caption{Ausgangskennlinie}
             \end{figure}
 
-            Da eine Ausgangskennlinie nur für einen ganz bestimmten Basisstrom gilt, wurden 3 verschiedene Kurven für verschiedene Basisströme ($I_B \in \{ \SI{000}{\milli \ampere}, \SI{000}{\milli \ampere}, \SI{000}{\milli \ampere} \}$) aufgenommen und in einem Diagramm dargestellt. Man kann gut sehen, dass für höhere Basisströme der Transistor erst bei höheren Spannungen den Sättigungszustand erreicht.
+            Da eine Ausgangskennlinie nur für einen ganz bestimmten Basisstrom gilt, wurden 3 verschiedene Kurven für verschiedene Basisströme ($I_B \in \{ \SI{1}{\miro \ampere}, \SI{5}{\micro \ampere}, \SI{10}{\micro \ampere} \}$) aufgenommen und in einem Diagramm dargestellt. Man kann gut sehen, dass für höhere Basisströme der Transistor erst bei höheren Spannungen den Sättigungszustand erreicht.
 
 
     \paragraph{Stromsteuerkennlinie}
 
         Aus der Stromsteuerkennlinie lässt sich der Gleichstromverstärkungsfaktor $\beta$ aus der Steigung dieser berechnen. Dieser gibt an, um welchen Faktor der Basisstrom am Kollektor verstärkt wird.
-        Für die durchführung dieser Messung muss der Strom an der Basis des Transistors begrenzt werden, dies wird durch einen entsprechenden Vorwiederstand erreicht, der allerdings bekannt ein muss, um aus der Basis-Emitterspannung den Bas zu berechnen. Diese Berechnung wird schon in dem entsprechenden LabView Programm vorgenommen.
+        Für die durchführung dieser Messung muss der Strom an der Basis des Transistors begrenzt werden, dies wird durch einen entsprechenden Vorwiderstand erreicht, der allerdings bekannt ein muss, um aus der Basis-Emitterspannung den Bas zu berechnen. Diese Berechnung wird schon in dem entsprechenden LabView Programm vorgenommen.
 
         Um ihn zu berechnen, wird an die gemessenen Daten eine Lineare Regression durchgeführt. Bei dem angenommenen Modell
 
@@ -359,11 +385,73 @@
 
     \subsection{Verstärker}
 
+			\subsubsection{Aufbau und Durchführung}
+
+			Der Versuch wird wie in dem Schaltplan gezeigt aufgebaut, wobei allerdings der Koppelkondensator $C_K$ nicht verwendet wird.
+			Es wird an den Eingang des Verstärkers mit dem Funktionsgenerator eine Sinusspannung mit einer Frequenz von $f = \SI{1000}{\hertz} \pm \SI{1}{\hertz}$
+		  und einer Spannung von $U_{pp} = \SI{1}{\volt} \pm \SI{0.1}{\volt}$ peak-to-peak.
+			Eingangs- und Ausgangsspannungen werden dann mit dem in LabView erstellten Speicheroszilloskop aufgenommen und abgespeichert.
+
+			Nun wird der Koppelkondensator eingebaut und die Messung mit reduzierter Amplitude der Eingangsspannung $U_{pp} = \SI{40}{\milli \volt} \pm \SI{5}{\milli \volt}$ wiederholt.
+
+			\subsubsection{Auswertung}
+
+			\paragraph{Ohne Koppelkondensator}
+
+				Wenn man die Rohdaten betrachtet, kann man direkt sehen das das Ein- und Ausgangssignal $180 \circ$ zueinander Phasenverschoben sind. Dies wird durhch die Ein- und Ausgangskondensatoren hervorgerufen, die das Signal jeweils um $90 \circ$ verschieben. Außerdem ist die Amplitude des Ausgangssignales deutlich höher als die am Eingang.
+
+				\begin{figure}
+					\centering
+					\includegraphics{Plots/amp/SpannungGegZeitohne C3}
+					\caption{Rohdaten Verstärker}
+					\label{}
+				\end{figure}
+
+				Wenn man nun die Spitzenwerte der Ausgangsspannung abliest, und die peak to Peak Spannung bestimmt, sieht man, dass diese
+
+				\begin{align*}
+					U_{pp,aus} = \SI{}{\volt} \pm \SI{}{\volt}
+				\end{align*}
+
+				Zusammen mit der schon vorhandenen Eingangsspannung erbigt such ein Verstärkungsfaktor von:
+
+				\begin{align}
+					G = \frac{U_{pp,aus}}{U_{pp,ein}} = 0 \pm 0
+				\end{align}
+
+			\paragraph{Mit Koppelkondensator}
+
+				Auch hier sind die gleichen Beobachtungen wie weiter oben zu machen. Der wesentliche Unterschied ist, dass die Spannungsverstärkung viel größer als bei dem ersten Aufbau ausfällt. Wenn man wieder Spitzenspannungen abliest und daraus den Verstärkungsfaktor berechnet, beläuft sich dieser Aufbau::Z
+
+				\begin{align}
+					U_{pp,aus} &= \SI{}{} \pm \SI{}{} \\
+					G &= \frac{U_{pp,aus}}{U_{pp,ein}} = 0 \pm 0
+				\end{align}
 
 
     \subsection{Schmitt-Trigger}
 
+			\subsubsection{Aufbau und Durchführung}
+				Der Versuch wird wie in der Schaltskizze aufgebaut und die Messung mit dem LabView Programm \enquote{Schmitt-Trigger} gestartet.
+				Der Schmitt-Trigger funktioniert durch das umkippen der Zustände der zwei verbauten Transistoren. Wenn man den Einschaltschwellenwert überschreitet wird ein Transistor leifähig, wodurch der zweite seine Leitfähigkeit verliert. Durch diese Feedback-Schleife kippt das System schnell um, bis ein Transistor vollsändig ein- und der ander vollsändig ausgeschaltet ist. Durch zusätzliche Widerstände kann außerdem der Einschaltschwellenwert ein anderer als der Ausschaltscwellenwert sein, was eine Hysterese möglich macht.
 
+			\subsubsection{Auswertung}
+
+			\begin{figure}
+				\includegraphics{Plots/schmitt/schmitt_trigger}
+				\caption{Ein- und Ausschaltkurven}
+				\label{Schmitt}
+			\end{figure}
+
+			Man kann die unterschiedlichen Ein- und Ausschaltlevel deutlich erkennen. Auch das plötzliche Umkippen der Ausgangsspannung ist gut zu sehen.
+			Die berechneten Level lagen durch die Wahl der Widerstände bei:
+
+			\begin{align}
+				U_{on} &= \SI{2.7}{\volt} \\
+				U_{off} &= \SI{1.6}{\volt}
+			\end{align}
+
+			Auch hier treffen Vorhersage und Messergebnisse gut überein.
 
 \section{Anhang}
 	\subsection{Rohdaten}
@@ -430,13 +518,13 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Capacitor}
-				\caption{Frontend Wiederstandmessung}
+				\caption{Frontend widerstandmessung}
 			\end{figure}
 
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Capacitor}
-					\caption{Backend Wiederstandmessung}
+					\caption{Backend Widerstandmessung}
 				\end{figure}
 
 		\subsubsection{Schmitt Trigger}
