@@ -28,7 +28,7 @@ ib = np.array(ib)
 ic = np.array(ic)
 
 plt.figure(figsize=(8,6), dpi=1200)
-plt.plot(ic, ib)
+plt.plot(ib, ic)
 plt.xlabel("Basisstom /mA")
 plt.ylabel("Kollektorstrom /mA")
 plt.grid(True)
@@ -37,13 +37,12 @@ plt.tight_layout()
 plt.savefig(ppath + "/Stomsteuerkennline.png")
 plt.clf()
 
-linf = lambda x, m ,c: m * x + c
-opt, cov, chi = regression(linf, ic, ib, 10**-12 /np.sqrt(3) / rb * np.ones(len(ic)), xErr = 10**-12 / np.sqrt(3) / rc * np.ones(len(ib)))
+linf = lambda x, m: m * x
+opt, cov, chi = regression(linf, ib, ic, 10**-12 /np.sqrt(3) / rb * np.ones(len(ic)), xErr = 10**-12 / np.sqrt(3) / rc * np.ones(len(ib)))
 print("Gleichstromverstärkungsfaktor")
 print("m: {:.3e} \pm {:.3e} ".format(opt[0], np.sqrt(cov[0][0])))
-print("c: {:.3e} \pm {:.3e} ".format(opt[1], np.sqrt(cov[1][1])))
 print("chi/ndf: {:.3e}".format(chi))
-simple_figure(ic,10**-12/np.sqrt(3) / rb*np.ones(len(ic)),ib,10**-12/np.sqrt(3)/rc*np.ones(len(ic)),linf(ic, *opt),"Gleichstromverstärkungsfaktor","Basisstrom mA","Kollektorstrom mA",ppath+"/gsvf.png")
+simple_figure(ib,10**-12/np.sqrt(3) / rb*np.ones(len(ic)),ic,10**-12/np.sqrt(3)/rc*np.ones(len(ib)),linf(ib, *opt),"Gleichstromverstärkungsfaktor","Basisstrom mA","Kollektorstrom mA",ppath+"/gsvf.png")
 
 ib = list()
 ic = list()
