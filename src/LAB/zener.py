@@ -19,7 +19,7 @@ if not os.path.exists(path):
 
 resistors = [47, 100, 4700, 10000]
 arbeitspunkte = [(-3, -2.9), (-3.3, -3.2), (-2.8, -2.7), (-2.5, -2.4)]
- 
+
 print("Systematiken der Widerstandbestimmungsplots sind egal, weil es sich um eine Tangentensteigung als Näherung handelt. Es ist klar, dass das Modell und die Daten nicht zusammenpassen.")
 
 for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
@@ -54,11 +54,11 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
     ys = list()
     xs_err = list()
     ys_err = list()
-    for (x, y) in filter(lambda x: x[0] >= low_a and x[0] <= high_a, zip(uin, uout)):
+    for (x, y) in filter(lambda x: x[0] >= low_a and x[0] <= high_a, zip(uout, uin)):
         xs.append(x)
-        ys.append(y / r * 1000)
+        ys.append(y)
         xs_err.append(0.001 / np.sqrt(12))
-        ys_err.append(np.sqrt((0.001 / np.sqrt(12) / r)**2 + (y/r**2 * 0.1/np.sqrt(12))**2))
+        ys_err.append(0.001 / np.sqrt(12))
     xs = np.array(xs)
     ys = np.array(ys)
     xs_err = np.array(xs_err)
@@ -66,8 +66,8 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
 
     lin_func = lambda x, m, c: m*x+c
     opt, cov, chi_sq = regression(lin_func, xs, ys, ys_err, xErr=xs_err)
-    glaett = (r + opt[0]) * lin_func((high_a-low_a)/2, *opt) / ((high_a - low_a)/2)
-    glaett_err = np.sqrt(0.1**2 + cov[0][0]) * lin_func((high_a-low_a)/2, *opt) / ((high_a - low_a)/2)
+    glaett = opt[0]
+    glaett_err = np.sqrt(cov[0][0])
     print("""Differentieller Widerstand, Zener Diode mit Widerstand {}
 Widerstand\t: {:.3e} \pm {:.3e} Ohm
 Achsenabschnitt\t: {:.3e} \pm {:.3e} Ampere
