@@ -167,6 +167,7 @@
 
 				\begin{table}[H]
 					\centering
+					\label{Kondensator::Vergleich}
 					\begin{minipage}{0.4 \textwidth}
 						\begin{align*}
 							U_0 &= \SI{5.1}{\volt} \pm \SI{8.1}{\volt} \\
@@ -185,7 +186,7 @@
 					\end{minipage}
 				\end{table}
 
-			Dabei ist allerdings zu beachten, dass bei diesen Fits 2 Exponentialfunktionen gleichzeitig gefittet wurden, um deutlich zu erkennende Systematiken zu entfernen.  Diese wurden schon durch die Auswahl des Bereiches der Auszuwertenden Daten minimiert, könenn aber nicht ganz vermieden werden. (vgl. \ref{Daten::Kondensator})
+			Dabei ist allerdings zu beachten, dass bei diesen Fits 2 Exponentialfunktionen gleichzeitig gefittet wurden, um deutlich zu erkennende Systematiken zu entfernen. Diese wurden schon durch die Auswahl des Bereiches der Auszuwertenden Daten minimiert, könenn aber nicht ganz vermieden werden. (vgl. \ref{Daten::Kondensator})
 
 			\subsubsection{Fazit}
 				Wenn man diese gemessenen Werte mit den erwarteten für diese Wahl von Widerstand und Kondensator vergleicht, sieht man in \ref{Kondensator::Vergleich}, dass unsere Werte in einer $1 \sigma$-Umgebung liegen. Das ist auch zu erwarten, da jedes Mal der gleiche Kondensator auf- und entladen wurde.
@@ -327,20 +328,21 @@
 
 		\subsubsection{Auswertung}
 
-        Es wurden die \textbf{Eingangskennlinie}, \textbf{Ausgangskennlinie}, sowie die \textbf{Stromsteuerkennlinie}vermessen.
+        Es wurden die \textbf{Eingangskennlinie}, \textbf{Ausgangskennlinie}, sowie die \textbf{Stromsteuerkennlinie} vermessen.
 
         \paragraph{Eingangskennlinie}
 
-            \begin{figure}[H]
-                \centering
-                \includegraphics[width = 0.9 \textwidth]{Plots/Transistor/Einganskennline}
-                \caption{Eingangskennlinie}
-            \end{figure}
+					Es wird die Abhängigkeit des Basisstroms $I_B$ von der Basis-Emitterspannung $U_{BE}$ angegeben. Man kann gut sehen, dass sich in dem Transistor eine intrinsische Diode befindet, da der Basisstrom unterhalb eines Spannungspunktes beinahe $0$ beträgt. Hinter diesem Punkt allerdings, steigt der Strom exponentiell mit der Erhöhung von $U_{BE}$ an.
 
-            Es wird die Abhängigkeit des Basisstroms $I_B$ von der Basis-Emitterspannung $U_{BE}$ angegeben. Man kann gut sehen, dass sich in dem Transistor eine intrinsische Diode befindet, da der Basisstrom unterhalb eines Spannungspunktes beinahe $0$ beträgt. Hinter diesem Punkt allerdings, steigt der Strom exponentiell mit der Erhöhung von $U_{BE}$ an.
+	        \begin{figure}[H]
+	            \centering
+	            \includegraphics[width = 0.9 \textwidth]{Plots/Transistor/Einganskennline}
+	            \caption{Eingangskennlinie}
+	        \end{figure}
 
 
-        \paragraph{Ausgangskennlinie}
+
+		    \paragraph{Ausgangskennlinie}
 
 					Die Ausgangskennline gibt den fließenden Kollektorstrom bei einem festen Basisstrom abhängig von der Kollektor-Emitterspannung an.
 
@@ -357,13 +359,13 @@
 
     \paragraph{Stromsteuerkennlinie}
 
-        Aus der Stromsteuerkennlinie lässt sich der Gleichstromverstärkungsfaktor $\beta$ aus der Steigung dieser berechnen. Dieser gibt an, um welchen Faktor der Basisstrom am Kollektor verstärkt wird.
-        Für die durchführung dieser Messung muss der Strom an der Basis des Transistors begrenzt werden, dies wird durch einen entsprechenden Vorwiderstand erreicht, der allerdings bekannt ein muss, um aus der Basis-Emitterspannung den Bas zu berechnen. Diese Berechnung wird schon in dem entsprechenden LabView Programm vorgenommen.
+        Mit der Stromsteuerkennlinie lässt sich der Gleichstromverstärkungsfaktor(\textbf{GSVF}) $\beta$ aus der Steigung dieser berechnen. Dieser gibt an, um welchen Faktor der Basisstrom am Kollektor verstärkt wird.
+        Für die Durchführung dieser Messung muss der Strom an der Basis des Transistors begrenzt werden, dies wird durch einen entsprechenden Vorwiderstand erreicht, der allerdings bekannt ein muss, um aus der Basis-Emitterspannung den Basisstrom zu berechnen. Diese Berechnung wird schon in dem entsprechenden LabView Programm vorgenommen.
 
-        Um ihn zu berechnen, wird an die gemessenen Daten eine Lineare Regression durchgeführt. Bei dem angenommenen Modell
+        Um den GSVF zu berechnen, wird an die gemessenen Daten eine Lineare Regression durchgeführt. Bei dem angenommenen Modell
 
         \begin{align*}
-            I_C = \beta \cdot I_B + b
+            I_C = \beta \cdot I_B
         \end{align*}
 
         ergibt sich folgende Gerade:
@@ -380,7 +382,7 @@
             \end{minipage}
         \end{figure}
 
-				Damit verstärkt der Transistor einen in die Basis fließenden Gleichstrom um den Faktor $ \beta = 69$.
+				Damit verstärkt der Transistor einen in die Basis fließenden Gleichstrom um den Faktor $ \beta = 74$.
 
     \subsection{Verstärker}
 
@@ -390,6 +392,12 @@
 			Es wird an den Eingang des Verstärkers mit dem Funktionsgenerator eine Sinusspannung mit einer Frequenz von $f = \SI{1000}{\hertz} \pm \SI{1}{\hertz}$
 		  und einer Spannung von $U_{pp} = \SI{1}{\volt} \pm \SI{0.1}{\volt}$ peak-to-peak.
 			Eingangs- und Ausgangsspannungen werden dann mit dem in LabView erstellten Speicheroszilloskop aufgenommen und abgespeichert.
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.8 \textwidth]{Pictures/amp}
+				\caption{Aufbau Verstärkerschaltung (Quelle: Skript)}
+			\end{figure}
 
 			Nun wird der Koppelkondensator eingebaut und die Messung mit reduzierter Amplitude der Eingangsspannung $U_{pp} = \SI{40}{\milli \volt} \pm \SI{5}{\milli \volt}$ wiederholt.
 
@@ -402,7 +410,7 @@
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width = 0.8 \textwidth]{Plots/amp/SpannungGegZeitohne C3}
-					\caption{Rohdaten Verstärker}
+					\caption{Rohdaten Verstärker ohne C3}
 				\end{figure}
 
 				Wenn man nun die Spitzenwerte der Ausgangsspannung abliest, und die peak to Peak Spannung bestimmt, sieht man, dass diese
@@ -414,12 +422,18 @@
 				Zusammen mit der schon vorhandenen Eingangsspannung erbigt such ein Verstärkungsfaktor von:
 
 				\begin{align}
-					G = \frac{U_{pp,aus}}{U_{pp,ein}} = 42 \pm 4.2
+					G = \frac{U_{pp,aus}}{U_{pp,ein}} = 4.2 \pm 0.4
 				\end{align}
 
 			\paragraph{Mit Koppelkondensator}
 
-				Auch hier sind die gleichen Beobachtungen wie weiter oben zu machen. Der wesentliche Unterschied ist, dass die Spannungsverstärkung viel größer als bei dem ersten Aufbau ausfällt. Wenn man wieder Spitzenspannungen abliest und daraus den Verstärkungsfaktor berechnet, beläuft sich dieser Aufbau::Z
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width = 0.8 \textwidth]{Plots/amp/SpannungGegZeitmit C3}
+				\caption{Rohdaten Verstärker mit C3}
+			\end{figure}
+
+				Auch hier sind die gleichen Beobachtungen wie weiter oben zu machen. Der wesentliche Unterschied ist, dass die Spannungsverstärkung viel größer als bei dem ersten Aufbau ausfällt. Wenn man wieder Spitzenspannungen abliest und daraus den Verstärkungsfaktor berechnet, beläuft sich dieser auf:
 
 				\begin{align}
 					U_{pp,aus} &= \SI{6.0}{\volt} \pm \SI{0.1}{\volt} \\
@@ -431,7 +445,13 @@
 
 			\subsubsection{Aufbau und Durchführung}
 				Der Versuch wird wie in der Schaltskizze aufgebaut und die Messung mit dem LabView Programm \enquote{Schmitt-Trigger} gestartet.
-				Der Schmitt-Trigger funktioniert durch das umkippen der Zustände der zwei verbauten Transistoren. Wenn man den Einschaltschwellenwert überschreitet wird ein Transistor leifähig, wodurch der zweite seine Leitfähigkeit verliert. Durch diese Feedback-Schleife kippt das System schnell um, bis ein Transistor vollsändig ein- und der ander vollsändig ausgeschaltet ist. Durch zusätzliche Widerstände kann außerdem der Einschaltschwellenwert ein anderer als der Ausschaltscwellenwert sein, was eine Hysterese möglich macht.
+				Der Schmitt-Trigger funktioniert durch das umkippen der Zustände der zwei verbauten Transistoren. Wenn man den Einschaltschwellenwert überschreitet wird ein Transistor leifähig, wodurch der zweite seine Leitfähigkeit verliert. Durch diese Feedback-Schleife kippt das System schnell um, bis ein Transistor vollsändig ein- und der ander vollsändig ausgeschaltet ist. Durch zusätzliche Widerstände kann außerdem der Einschaltschwellenwert ein anderer als der Ausschaltschwellenwert sein, was eine Hysterese möglich macht.
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width = 0.8 \textwidth]{Pictures/schmitt}
+					\caption{Aufbau Schmitt-Trigger (Quelle: Skript)}
+				\end{figure}
 
 			\subsubsection{Auswertung}
 
@@ -449,7 +469,9 @@
 				U_{off} &= \SI{1.6}{\volt}
 			\end{align}
 
-			Auch hier treffen Vorhersage und Messergebnisse gut überein.
+			Auch hier treffen Vorhersage und Messergebnisse gut überein. Durch die oben genannten Eigenschaften, kann man den Schmitt-Trigger gut verwenden, um durch Dispersion in Übertragungskabeln ausgeschmierte Signale aufzubereiten oder um ein Pulsweitenmoduliertes Rechtecksignal aus einem Sinussignal zu gewinnen. Dabei kann die Pulsweite einfach über die Triggerschwellen eingestellt werden.
+
+\newpage
 
 \section{Anhang}
 	\subsection{Rohdaten}
@@ -497,16 +519,16 @@
 \newpage
 	\subsection{Programme}
 		\subsubsection{Zener-Diode}
-
+			\label{Programme::Z}
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Zener}
+			\includegraphics[width =  \textwidth]{Pictures/Programme/Frontend_Zener}
 			\caption{Frontend Zener-Diode}
 		\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Zener}
+				\includegraphics[width =  \textwidth]{Pictures/Programme/Backend_Zener}
 				\caption{Backend Zener-Diode}
 			\end{figure}
 
@@ -515,13 +537,13 @@
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Capacitor}
+				\includegraphics[width =  \textwidth]{Pictures/Programme/Frontend_Capacitor}
 				\caption{Frontend widerstandmessung}
 			\end{figure}
 
 				\begin{figure}[H]
 					\centering
-					\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Capacitor}
+					\includegraphics[width =  \textwidth]{Pictures/Programme/Backend_Capacitor}
 					\caption{Backend Widerstandmessung}
 				\end{figure}
 
@@ -529,27 +551,27 @@
 			\label{Programme::Schmitt}
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Schmitt}
+				\includegraphics[width = \textwidth]{Pictures/Programme/Frontend_Schmitt}
 				\caption{Frontend Schmitt-Trigger}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Schmitt}
+				\includegraphics[width =  \textwidth]{Pictures/Programme/Backend_Schmitt}
 				\caption{Backend Schmitt-Trigger}
 			\end{figure}
 
 		\subsubsection{Transistor}
-			\label{Programme::Schmitt}
+			\label{Programme::Transistor}
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Frontend_Transistor}
+				\includegraphics[width =  \textwidth]{Pictures/Programme/Frontend_Transistor}
 				\caption{Frontend Transistor}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width = 0.9 \textwidth]{Pictures/Programme/Backend_Transistor}
+				\includegraphics[width =  \textwidth]{Pictures/Programme/Backend_Transistor}
 				\caption{Backend Transistor}
 			\end{figure}
 
