@@ -21,8 +21,8 @@ ic = list()
 ube = list()
 for row in csv.reader(open("data/LAB/Tansistor/transistor_current.txt"), delimiter="\t"):
     ube.append(float(row[0].strip()))
-    ib.append(float(row[2].strip())/rb)
-    ic.append(float(row[1].strip())/rc)
+    ib.append(float(row[1].strip())/rb)
+    ic.append(float(row[2].strip())/rc)
 ube = np.array(ube)
 ib = np.array(ib)
 ic = np.array(ic)
@@ -39,7 +39,10 @@ plt.clf()
 
 linf = lambda x, m ,c: m * x + c
 opt, cov, chi = regression(linf, ic, ib, 10**-12 /np.sqrt(3) / rb * np.ones(len(ic)), xErr = 10**-12 / np.sqrt(3) / rc * np.ones(len(ib)))
-print(opt, np.sqrt(cov), chi)
+print("Gleichstromverstärkungsfaktor")
+print("m: {:.3e} \pm {:.3e} ".format(opt[0], np.sqrt(cov[0][0])))
+print("c: {:.3e} \pm {:.3e} ".format(opt[1], np.sqrt(cov[1][1])))
+print("chi/ndf: {:.3e}".format(chi))
 simple_figure(ic,10**-12/np.sqrt(3) / rb*np.ones(len(ic)),ib,10**-12/np.sqrt(3)/rc*np.ones(len(ic)),linf(ic, *opt),"Gleichstromverstärkungsfaktor","Basisstrom mA","Kollektorstrom mA",ppath+"/gsvf.png")
 
 ib = list()
