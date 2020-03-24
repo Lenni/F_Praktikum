@@ -352,7 +352,7 @@
                 \caption{Ausgangskennlinie}
             \end{figure}
 
-            Da eine Ausgangskennlinie nur für einen ganz bestimmten Basisstrom gilt, wurden 3 verschiedene Kurven für verschiedene Basisströme ($I_B \in \{ \SI{1}{\miro \ampere}, \SI{5}{\micro \ampere}, \SI{10}{\micro \ampere} \}$) aufgenommen und in einem Diagramm dargestellt. Man kann gut sehen, dass für höhere Basisströme der Transistor erst bei höheren Spannungen den Sättigungszustand erreicht.
+            Da eine Ausgangskennlinie nur für einen ganz bestimmten Basisstrom gilt, wurden 3 verschiedene Kurven für verschiedene Basisströme ($I_B \in \{ \SI{1}{\micro \ampere}, \SI{5}{\micro \ampere}, \SI{10}{\micro \ampere} \}$) aufgenommen und in einem Diagramm dargestellt. Man kann gut sehen, dass für höhere Basisströme der Transistor erst bei höheren Spannungen den Sättigungszustand erreicht.
 
 
     \paragraph{Stromsteuerkennlinie}
@@ -374,9 +374,8 @@
             \end{minipage}
             \begin{minipage}{0.29 \textwidth}
                 \begin{align*}
-                    \beta &= \SI{1269.3}{} \pm \SI{5.7}{} \\
-                    b &= \SI{130.5}{\milli \ampere} \pm \SI{0.35}{\milli \ampere} \\
-                    \frac{\chi^2}{NDF} &= 1.6
+                    \beta &= \SI{74}{} \pm \mathcal{O}(10^{-11}) \\
+                    \frac{\chi^2}{NDF} &= 10^{-4}
                 \end{align*}
             \end{minipage}
         \end{figure}
@@ -400,23 +399,22 @@
 
 				Wenn man die Rohdaten betrachtet, kann man direkt sehen das das Ein- und Ausgangssignal $180 \circ$ zueinander Phasenverschoben sind. Dies wird durhch die Ein- und Ausgangskondensatoren hervorgerufen, die das Signal jeweils um $90 \circ$ verschieben. Außerdem ist die Amplitude des Ausgangssignales deutlich höher als die am Eingang.
 
-				\begin{figure}
+				\begin{figure}[H]
 					\centering
-					\includegraphics{Plots/amp/SpannungGegZeitohne C3}
+					\includegraphics[width = 0.8 \textwidth]{Plots/amp/SpannungGegZeitohne C3}
 					\caption{Rohdaten Verstärker}
-					\label{}
 				\end{figure}
 
 				Wenn man nun die Spitzenwerte der Ausgangsspannung abliest, und die peak to Peak Spannung bestimmt, sieht man, dass diese
 
 				\begin{align*}
-					U_{pp,aus} = \SI{}{\volt} \pm \SI{}{\volt}
+					U_{pp,aus} = \SI{4.2}{\volt} \pm \SI{0.1}{\volt}
 				\end{align*}
 
 				Zusammen mit der schon vorhandenen Eingangsspannung erbigt such ein Verstärkungsfaktor von:
 
 				\begin{align}
-					G = \frac{U_{pp,aus}}{U_{pp,ein}} = 0 \pm 0
+					G = \frac{U_{pp,aus}}{U_{pp,ein}} = 42 \pm 4.2
 				\end{align}
 
 			\paragraph{Mit Koppelkondensator}
@@ -424,8 +422,8 @@
 				Auch hier sind die gleichen Beobachtungen wie weiter oben zu machen. Der wesentliche Unterschied ist, dass die Spannungsverstärkung viel größer als bei dem ersten Aufbau ausfällt. Wenn man wieder Spitzenspannungen abliest und daraus den Verstärkungsfaktor berechnet, beläuft sich dieser Aufbau::Z
 
 				\begin{align}
-					U_{pp,aus} &= \SI{}{} \pm \SI{}{} \\
-					G &= \frac{U_{pp,aus}}{U_{pp,ein}} = 0 \pm 0
+					U_{pp,aus} &= \SI{6.0}{\volt} \pm \SI{0.1}{\volt} \\
+					G &= \frac{U_{pp,aus}}{U_{pp,ein}} = 150 \pm 19
 				\end{align}
 
 
@@ -437,8 +435,8 @@
 
 			\subsubsection{Auswertung}
 
-			\begin{figure}
-				\includegraphics{Plots/schmitt/schmitt_trigger}
+			\begin{figure}[H]
+				\includegraphics[width = 0.8 \textwidth]{Plots/schmitt/schmitt_trigger}
 				\caption{Ein- und Ausschaltkurven}
 				\label{Schmitt}
 			\end{figure}
