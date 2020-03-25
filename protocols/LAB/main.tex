@@ -65,21 +65,21 @@
 					\caption{Schaltplan Steckbrett}
 				\end{figure}
 
-				Dann wurde auf dem PC mit der LabView Software ``Widerstandsmessung'' die Messung gestartet und anschließend die aufgenommenen Daten gespeichert.
+				Dann wird auf dem PC mit der LabView Software ``Widerstandsmessung'' die Messung gestartet und anschließend die aufgenommenen Daten gespeichert.
 
-				Diese Prozedur wurde dann mit 3 weiteren Widerständen wiederholt, wobei zu diesen jeweils ein passender Referenzwiderstand gewählt wurde.
+				Diese Prozedur wird dann mit 3 weiteren Widerständen wiederholt, wobei zu diesen jeweils ein passender Referenzwiderstand gewählt wurde.
 				Es ist außerdem darauf zu achten dass die Gesamtstromaufnahme der Schaltungen nie mehr als $\SI{10}{\milli \ampere}$ beträgt, da ansonsten die Spannungsversorgung der LabView Karte zusammenbricht.
 
 			\subsubsection{Auswertung}
 
 				Die Aufgenommenen Daten können aus dem Anhang \ref{Daten::Widerstand} entnommen werden.
 
-				Die Exportierten Daten stellen die die am zu vermessenden Widerstand abfallende Spannung, abhängig vom durch ihn fließenden Strom dar. Dabei ist zu beachten dass der Strom nicht direkt gemessen, sondern indirekt über den Spannungsabfallan einem Referenzwiderstand gemessen wurde. An diesen Datenpunkten kann nun eine lineare Regression durchgeführt werden, um anhand ihrer Steigung den Widerstand des Bauteil zu Charakterisieren. Dabei stellt die Modellfunktion eine Abhängigkeit der Werte in der Form:
+				Die Exportierten Daten stellen die am zu vermessenden Widerstand abfallende Spannung, abhängig vom durch ihn fließenden Strom dar. Dabei ist zu beachten dass der Strom nicht direkt gemessen, sondern indirekt über den Spannungsabfall an einem Referenzwiderstand gemessen wird. An diesen Datenpunkten kann nun eine lineare Regression durchgeführt werden, um anhand ihrer Steigung den Widerstand des Bauteils zu Charakterisieren. Dabei stellt die Modellfunktion eine Abhängigkeit der Werte in der Form:
 				\begin{align*}
 					U(I) = R \cdot I + b
 				\end{align*}
 				dar. Dabei kann man neben der $\chi^2$-Verteilung auch den Parameter b verwenden um die Qualität des Fits und der Daten zu beurteilen. Dieser sollte sehr klein sein, da er einen intrinsischen, konstanten Spannungsabfall beschreibt, wie er z.B. in einer Diode, nicht aber in einem Widerstand auftreten sollte.
-				Der Wert des y-Achsen Abschnittes wurde dann verwendet um den systematischen Fehler auf die Messwerte zu bestimmen, weswegen er in den finalen Ergebnissen verschwindet.
+				Der Wert von $b$ wird dann verwendet um den systematischen Fehler auf die Messwerte zu bestimmen, weswegen er in den finalen Ergebnissen verschwindet.
 
 				Führt man die lineare Regression durch, so erhält man folgendes Ergebnis:
 
@@ -107,7 +107,7 @@
 
 					\input{Tables/Resistors.tex}
 
-				Man kann sehen dass der erste Widerstand offensichtlich aus der Reihe fällt, so dass davon ausgegangen werden muss, dass aus versehen ein Widerstand mit $\SI{220}{\ohm}$ vermessen wurde.
+				Man kann sehen dass der erste Widerstand offensichtlich aus der Reihe fällt, so dass davon ausgegangen werden muss, dass aus Versehen ein Widerstand mit $\SI{220}{\ohm}$ vermessen wurde.
 
 
 		\subsection{Kondensator}
@@ -131,6 +131,8 @@
 					\item Gesamtsamples: $ 10000 $
 					\item Ladespannung: 10 V
 				\end{itemize}
+
+				\newpage
 
 			\subsubsection{Auswertung}
 
@@ -186,7 +188,7 @@
 					\end{minipage}
 				\end{table}
 
-			Dabei ist allerdings zu beachten, dass bei diesen Fits 2 Exponentialfunktionen gleichzeitig gefittet wurden, um deutlich zu erkennende Systematiken zu entfernen. Diese wurden schon durch die Auswahl des Bereiches der Auszuwertenden Daten minimiert, könenn aber nicht ganz vermieden werden. (vgl. \ref{Daten::Kondensator})
+			Dabei ist allerdings zu beachten, dass bei diesen Fits 2 Exponentialfunktionen gleichzeitig gefittet wurden, um deutlich zu erkennende Systematiken zu entfernen. Diese wurden schon durch die Auswahl des Bereiches der Auszuwertenden Daten minimiert, können aber nicht ganz vermieden werden. (vgl. \ref{Daten::Kondensator})
 
 			\subsubsection{Fazit}
 				Wenn man diese gemessenen Werte mit den erwarteten für diese Wahl von Widerstand und Kondensator vergleicht, sieht man in \ref{Kondensator::Vergleich}, dass unsere Werte in einer $1 \sigma$-Umgebung liegen. Das ist auch zu erwarten, da jedes Mal der gleiche Kondensator auf- und entladen wurde.
@@ -213,7 +215,7 @@
 				Diese Auswertung wird für alle 3 Vorwiederstände wiederholt und läuft immer gleich ab, weswegen hier nur eine beispielhafte Auswertung gezeigt wird.
 
 				\begin{figure}
-					\includegraphics{Plots/zener/spannungenZener_4700}
+					\includegraphics[width = \textwidth]{Plots/zener/spannungenZener_4700}
 					\caption{Zenerspannungen bei $R = \SI{4.7}{\kilo \ohm} $}
 				\end{figure}
 
@@ -265,7 +267,7 @@
 				\label{Gleichrichter::Daten}
 			\end{figure}
 
-			Die Amplitude der Sinusspannung wird durch das Anfitten einer Sinusfunktion der Form:
+			Die Amplitude der Sinusspannung wird durch das Anfitten einer Sinusfunktion der Form
 
 			\begin{align*}
 				U(t) = U_0 \cdot \sin(\omega t + \varphi) + C
@@ -283,7 +285,7 @@
 					\begin{align*}
 						\omega &= \SI{1269.3}{} \pm \SI{5.7}{} \\
 						b &= \SI{130.5}{ \volt } \pm \SI{0.35}{\volt} \\
-						\frac{\chi^2}{NDF} &= 1.6 \footnote{Eigentlich unrealistisch, aber wir haben keinen andern Wert}
+						\frac{\chi^2}{NDF} &= 1.6\footnote{Eigentlich unrealistisch, aber wir haben keinen anderen Wert}
 					\end{align*}
 				\end{minipage}
 			\end{figure}
@@ -392,7 +394,7 @@
 
 			Der Versuch wird wie in dem Schaltplan gezeigt aufgebaut, wobei allerdings der Koppelkondensator $C_K$ nicht verwendet wird.
 			Es wird an den Eingang des Verstärkers mit dem Funktionsgenerator eine Sinusspannung mit einer Frequenz von $f = \SI{1000}{\hertz} \pm \SI{1}{\hertz}$
-		  und einer Spannung von $U_{pp} = \SI{1}{\volt} \pm \SI{0.1}{\volt}$ peak-to-peak.
+		  und einer Peak-to-Peak Spannung von $U_{pp} = \SI{1}{\volt} \pm \SI{0.1}{\volt}$.
 			Eingangs- und Ausgangsspannungen werden dann mit dem in LabView erstellten Speicheroszilloskop aufgenommen und abgespeichert.
 
 			\begin{figure}[H]
