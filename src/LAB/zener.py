@@ -54,7 +54,7 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
     ys = list()
     xs_err = list()
     ys_err = list()
-    for (x, y) in filter(lambda x: x[0] >= low_a and x[0] <= high_a, zip(uout, uin)):
+    for (x, y) in filter(lambda x: x[0] >= low_a and x[0] <= high_a, zip(uin, uout)):
         xs.append(x)
         ys.append(y)
         xs_err.append(0.001 / np.sqrt(12))
@@ -66,8 +66,8 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
 
     lin_func = lambda x, m, c: m*x+c
     opt, cov, chi_sq = regression(lin_func, xs, ys, ys_err, xErr=xs_err)
-    glaett = opt[0]
-    glaett_err = np.sqrt(cov[0][0])
+    glaett = opt[0] * lin_func(xs[int(len(xs)/2)], *opt) / xs[int(len(xs)/2)]
+    glaett_err = np.sqrt(cov[0][0]) * lin_func(xs[int(len(xs)/2)], *opt) / xs[int(len(xs)/2)]
     print("""Differentieller Widerstand, Zener Diode mit Widerstand {}
 Widerstand\t: {:.3e} \pm {:.3e} Ohm
 Achsenabschnitt\t: {:.3e} \pm {:.3e} Ampere
