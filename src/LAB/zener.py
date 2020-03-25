@@ -18,7 +18,7 @@ if not os.path.exists(path):
     os.makedirs(path)
 
 resistors = [47, 100, 4700, 10000]
-arbeitspunkte = [(-3, -2.9), (-3.3, -3.2), (-2.8, -2.7), (-2.5, -2.4)]
+arbeitspunkte = [(-3, -2.9), (-3.3, -3.25), (-2.8, -2.75), (-2.5, -2.45)]
 
 print("Systematiken der Widerstandbestimmungsplots sind egal, weil es sich um eine Tangentensteigung als Näherung handelt. Es ist klar, dass das Modell und die Daten nicht zusammenpassen.")
 
@@ -54,11 +54,13 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
     ys = list()
     xs_err = list()
     ys_err = list()
+
     for (x, y) in filter(lambda x: x[0] >= low_a and x[0] <= high_a, zip(uin, uout)):
         xs.append(x)
         ys.append(y)
         xs_err.append(0.001 / np.sqrt(12))
         ys_err.append(0.001 / np.sqrt(12))
+
     xs = np.array(xs)
     ys = np.array(ys)
     xs_err = np.array(xs_err)
@@ -74,5 +76,4 @@ Achsenabschnitt\t: {:.3e} \pm {:.3e} Ampere
 chi_sq\t\t: {:.3e}
 Glättungsfaktor\t: {:.3e} \pm {:.3e} \n\n""".format(r, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]), chi_sq, glaett, glaett_err))
     simple_figure(xs, xs_err, ys, ys_err, lin_func(xs, *opt), "Glättungsfaktor bei {} $\Omega$".format(r),
-        "Eingangsspannung /V", "Ausgangsspannung /V", path + "/diff_res_{}.png".format(r))
-
+        "Ausgangsspannung /V", "Eingangsspannung /V", path + "/diff_res_{}.png".format(r))
