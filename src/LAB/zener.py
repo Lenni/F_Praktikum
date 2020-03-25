@@ -40,7 +40,7 @@ for r, (low_a, high_a) in zip(resistors, arbeitspunkte):
     plt.plot(uin, uout)
     plt.xticks(np.arange(uin[0], uin[-1], (uin[-1] - uin[0])/ticks_many))
     plt.yticks(np.arange(uout[0], uout[-1], (uout[-1] - uout[0])/ticks_many))
-    plt.ylabel("Eingangspannung /V")
+    plt.ylabel("Eingangsspannung /V")
     plt.xlabel("Ausgangsspannung /V")
     plt.grid(True)
     plt.axvspan(low_a, high_a, label="Arbeitsbereich", alpha=0.4)
