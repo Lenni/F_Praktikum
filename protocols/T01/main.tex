@@ -22,7 +22,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITEL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pSetTitlePrefix{Experiment}
 \pSetTitleNumber[T01]
-\pSetLongSubject{Physikalisches Fortgeschrittenenpraktikum - Gruppe 59} \pSetShortSubject{Group 59}
+\pSetLongSubject{Physikalisches Fortgeschrittenenpraktikum - Group 59} \pSetShortSubject{Group 59}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \setlength{\parindent}{0pt}
@@ -49,7 +49,120 @@
 
 \section{Introduction}
 
-\section{Experiment 1}
+	Because radiation is always present in the environment, be in in the form of cosmic rays, natural radon gas or nuclear fallout, it is of great interest to understand the properties of the different types of radiation.
+	Because the different types of ionizing radiation are very different in their properties, there also exist detectors which are optimized for different types of particles. The goal of the following experiments, is to unerstand the properties of those detectors and the radiation itself better.
+
+\section{Semiconductor Detector}
+
+	\subsection{Setup}
+
+		The Experiment consists of an $ ^{226}Ra$-Source, which is mounted on an x-y-z translation stage. On the tip of the source ar three holes, which form an equilateral triagnle together. With the help of two of the thee axis of the stage, the points are positioned centrally in front of the detector. For the different sections of the Experiment the data are recorded with the Genie200 Software installed on the PCs.
+
+		\paragraph{1}
+			The source is placed close to, but not directly on the detector. After that, a spectrum is recorded.
+
+		\paragraph{2}
+			The distance between the source and the detecor is increased step-by-step an a energy spectrum is recorded each time.
+
+		\paragraph{3}
+			A spectrum is recorded for the closest distance from the detector possible.
+
+		\paragraph{4}
+			The brass collimator is installed on the source and again, spectra are recorded, while moving the source away from the detector. This is coninued, until even the $^{214}Po$-Peak has disappeared.
+
+	\subsection{Analysis}
+
+		\paragraph{1}
+
+			In the spectrum, you can see the different peaks of $\alpha$-Decays with different energies. It is noticeable, that because of the small energy resolution of the detector, sometimes different peaks are indistinguishable. Therefore there are only 5 Peaks clearly visible, while there are 7 Peaks expected.
+
+			\begin{figure}
+				\includegraphics{Plots/silicon/Spectrum}
+				\caption{Energy Spectrum of $ ^{226}Ra$}
+				\label{SI::Spectrum}
+			\end{figure}
+
+		\paragraph{2}
+
+		\paragraph{3}
+			Using the recorded spectrum at the lowest possible distance, the channel position of each peak is computed. With the known ideal values of the energies of the corresponding particles, a linear calibration is computed by linear regression. As a result an energy calibration is obtained, which converts the channel number of the MCA to an energy value.
+
+			\begin{align}
+					E(n) &= m \cdot n + b
+			\end{align}
+
+			Where m is the energy-width of each channel and b is a constant energy offset.
+			Doing the Analysis yields the following Plots and coefficients:
+
+			\begin{figure}[H]
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/silicon/energy_linreg}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							m &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
+							b &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
+							\frac{\chi^2}{NDF} &= 000
+						\end{align*}
+					\end{minipage}
+				\end{figure}
+
+		\paragraph{4}
+
+			An energy calibration can also be computed for the different energies of the $^{241}Po-\alpha$ peak. By first determining the channel of the MCA with the peak and subsequently computing the expected energy from the thickness of the absorption layer a distance calibrationcan be obtained. By using the stopping power of air, the energy of the particle can be calculated.
+
+			\begin{figure}[H]
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/silicon/energy_linreg}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							m_d &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
+							b_d &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
+							\frac{\chi^2}{NDF} &= 000
+						\end{align*}
+					\end{minipage}
+				\end{figure}
+
+
+				The stopping power of air is $lalala$ therefore the distance-calibration can be scaled, to obtain the following calibration values:
+
+				\begin{align*}
+					m_e &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
+					b_e &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
+				\end{align*}
+
+			\paragraph{5}
+				The averange range of the particles is calculated by integrating the area under the peaks for each distance.
+				This results in the following:
+
+\section{Ionization Chamber}
+
+	\subsection{Setup}
+		 The high voltage power supply of the chamber of $\approx \SI{1}{\kilo \volt}$ is switched on. The amplifier is then adjusted, so that the amperemeter reads no current flowing. After that, the $^{226}Ra$ Source is placed centrally in front of the chamber, and moved closestto the grating, without touching it. After that the distance bewteen the source and the grating is increased in steps and on each step a spectrum is recorded.
+
+	\subsection{Analysis}
+
+		The Experiment yielded the following raw data:
+
+		\begin{figure}
+			%\includegraphics{/path/to/figure}
+			\caption{Raw Data Ionization Chamber}
+		\end{figure}
+
+
+
+\section{$\gamma$ spectrum}
+	\subsection{Setup}
+
+	There are 2 scintillator crystals (NaI(TI) and Plastic) provided. For each one of them a pulse height spectrum of a $^{137}Cs$ Source is recorded. The for each measurement Photomultiplier Tube voltage is set to $\SI{000}{\volt}$. To create the spectrum it is first necessary to amplify and shape the pulses coming from the PMT with the appropriate NIM-Modules, using the following settings:
+
+	\begin{itemize}
+		\item Amplifier
+			\begin{itemize}
+				\item
+			\end{itemize}
+	\end{itemize}
 
 
 \end{document}
