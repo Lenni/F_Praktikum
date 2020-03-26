@@ -89,16 +89,12 @@ plt.close('all')
 threshold = 2
 shield_data = [list() for i in range(4)]
 for mes_dist in tqdm(chain(range(2150, 2400, 40), [2475])):
-    print(1)
     events = np.array(list(map(lambda x: float(x.strip()), open("data/T01/Experiment 1/4/spectrum_{}.TKA".format(mes_dist)).read().split("\n")[2:-1])))
     plt.figure(figsize=(3,4), dpi=200)
     plt.plot(list(range(len(events))), events)
     upper_idx = 4093
-    print(len(events))
-    print(upper_idx)
     while events[upper_idx] < 10 * threshold:
         upper_idx = upper_idx - 1
-        print(upper_idx)
     lower_idx = upper_idx
     while events[lower_idx] > threshold:
         lower_idx = lower_idx - 1
@@ -110,9 +106,6 @@ for mes_dist in tqdm(chain(range(2150, 2400, 40), [2475])):
     shield_data[1].append(np.sqrt(0.01 ** 2 + 0.1 ** 2))
     shield_data[2].append(local_opt[0])
     shield_data[3].append(local_opt[1])
-    plt.axvspan(lower_idx, upper_idx, alpha=0.6)
-    plt.show()
-    plt.close('all')
 
 #
 # Curry data like if it's were a delicious sausage with fries
@@ -124,9 +117,8 @@ distance_err = np.array(shield_data[1])
 channel = np.array(shield_data[2])
 channel_err = np.array(shield_data[3])
 
-print(shield_data)
 
-mod_func = lambda x, c: c * x**2
+mod_func = lambda x, m, c: m * x + c
 kalibDis, kalibDisErr, chi_sq = regression(mod_func, distance, channel, channel_err, xErr = distance_err)
 simple_figure(distance, distance_err, channel, channel_err, mod_func(distance, *kalibDis), "Distance Calibration, 7.69 MeV",
     "Distance /cm", "Channel", "{}/dis_calib.png".format(ppath))
