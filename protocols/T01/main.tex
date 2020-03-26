@@ -5,12 +5,15 @@
 \usepackage{wrapfig}
 \usepackage{amsmath}
 \usepackage{hyperref}
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
 %Für Literaturverzeichnis
 
 \usepackage{biblatex}
 \addbibresource{Bibliography.bib}
 
 
+\newcommand{\xmark}{\ding{55}}%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Autoreninfo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Philipp Rosendahl Mat.-Nr: 378029\thanks{philipp.rosendahl@rwth-aachen.de}
@@ -145,28 +148,86 @@
 
 		The Experiment yielded the following raw data:
 
-		\begin{figure}
+		\begin{figure}[H]
 			%\includegraphics{/path/to/figure}
 			\caption{Raw Data Ionization Chamber}
 		\end{figure}
 
 
+\section{Scintillation Counter}
+	\subsection{Gamma spectrum}
+	\label{Gamma}
+		\subsubsection{Setup}
 
-\section{Gamma spectrum}
-	\subsection{Setup}
+		There are 2 scintillator crystals (NaI(TI) and Plastic) provided. For each one of them a pulse height spectrum of a $^{137}Cs$ Source is recorded. The for each measurement Photomultiplier Tube voltage is set to $\SI{840}{\volt}$. To create the spectrum it is first necessary to amplify and shape the pulses coming from the PMT with the appropriate NIM-Modules. The output of the modules was then connected to a MCA and an oscilloscope to display the measures pulses. For each of the crystals, a pulse height spectrum of the source is recorded.
 
-	There are 2 scintillator crystals (NaI(TI) and Plastic) provided. For each one of them a pulse height spectrum of a $^{137}Cs$ Source is recorded. The for each measurement Photomultiplier Tube voltage is set to $\SI{000}{\volt}$. To create the spectrum it is first necessary to amplify and shape the pulses coming from the PMT with the appropriate NIM-Modules, using the following settings:
-
-	\begin{itemize}
-		\item Amplifier
-			\begin{itemize}
-				\item
-			\end{itemize}
-	\end{itemize}
-
-	\subsection{Analysis}
+		\subsubsection{Analysis}
 
 
+	\subsection{Absorption in lead}
+	\ref{Absorption::Pb}
+		\subsubsection{Setup}
+			Using the NaI(TI) scintillator, a spectrum for different thicknesses of lead between the source and the scintillator is recorded. The PMT used is the same as in \ref{Gamma}, the voltage is again set to $\SI{840}{\volt}$.
 
+		\subsubsection{Analysis}
+
+
+	\subsection{Absorption in aluminium}
+	\ref{Absorption::Al}
+		\subsubsection{Setup}
+				For this experiment a different PMT and schintillator was used. The voltage for the PMT was set to $\SI{900}{\volt}$ and the scintillation crystal used, was the organic scintillator anthracen. After mounting the detector assembly in the shielding, a $^{90}Sr$ was placed on the tray below it, and with the help of a counter the count rate was measured. For each absorber there were three measurements performed, so that a mean and a standard deviation could be estimated.
+
+		\subsubsection{Analysis}
+
+	\section{Radiation protection}
+
+	\subsection{Measurements}
+		\paragraph{1}
+		The $\gamma$ dose rate near the closed safes with the radiation sources was measured from a distance of $\approx \SI{10}{\centi \metre}$.
+		Also, the areas of the different setups in the lab are measured and the highest instantaneous dose rate in a time frame of 1 Minute was noted down.
+
+		\paragraph{2}
+			The areas of the different experiments in the room were examined for contamination, especially the tools to move radiation sources, counting chambers and areas behind the lead shielding. Abnormally high count rates of the $\alpha - \beta - \gamma$ detector were noted and reported to the supervisor.
+
+	\subsubsection{Analysis}
+		\paragraph{1}
+
+			Some of the safes mentioned in the instruction could not be found, so instead the measurements were performed on the safes found in the room.
+			The different measurements resulted in the following data:
+
+			\begin{table}[H]
+				\centering
+				\caption{Dose rates}
+				\label{Dose::safes}
+				\begin{tabular}{|c|c|}
+					\hline
+					Safe & dose rate in $\frac{nSv}{h}$ \\
+					\hline
+					1		&		500 \\
+					4		&		282 \\
+					\hline
+				\end{tabular}
+			\end{table}
+
+			The legal limit for yearly radiation doses in Germany is $\SI{1}{\milli \sievert}$ for the regular population and $\SI{20}{\milli \sievert}$ for individuals who are professionally exposed to elevated levels of radiation. A person therefore has to stay $\approx \SI{2000}{\hour}$ in close distance to the safe with the highest dose rate to be exposed to a dose of $\SI{1}{\milli \sievert}$. It is safe to say that this is very unlikely and therefore the protection of the safes frm the radiation is suficcient.
+
+			For the dose rate near the setups nothing unusual (see \ref{Contamination}) was found, except the high dose rate above the shielding of the Mößbauer experiment, which could exceed $\SI{5}{\micro \sievert}$. This was by far the highest dose rate fount in the lab, which is not surprising, considering that the $^60Co$ source used in the experiment also has by far the highest activity of the sources used in the \textbf{Fortgeschrittenenpraktikum}.
+
+		\paragraph{2}
+		\label{Contamination}
+			The chambers and tools of each workplace were checked for contamination. The results are:
+
+			\begin{table}[H]
+				\centering
+				\caption{Contamination (\xmark = No, \checkmark = Yes)}
+				\begin{tabular}{|c|c|c|c|c|c|c|}
+					\hline
+					Experiment No. & T02 & T05 & T06 & T07 & T08 & T10 \\ \hline
+					Cont. Tools 	 & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark \\
+					Cont. chamber  & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark \\ \hline
+				\end{tabular}
+			\end{table}
+
+			In the end no contamination was found, but at some point a pair of pliers had a suspiciously high activity, which turned out to originate from the safe next to it.
 
 \end{document}
