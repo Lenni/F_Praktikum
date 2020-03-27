@@ -193,19 +193,20 @@
 	\subsection{Analysis}
 
 		\begin{figure}[H]
-			\includegraphics{Plots/ionisation_chamber/CurrentToDistance.png}
+			\centering
+			\includegraphics[width = 0.8 \textwidth]{Plots/ionisation_chamber/CurrentToDistance.png}
 			\caption{Raw Data Ionization Chamber}
 		\end{figure}
 
-    The markers in figure obove represent the raw data. The Plateau orignates by
-    the attenuation behaviour of $\alpha$ particles. They do not get attenuated
-    before they reach the chamber so they cause a constant current until first particles
+    The markers in figure above represent the raw data. The plateau is cause by
+    the attenuation behaviour of the $\alpha$ particles. They do not get attenuated
+    before they reach the chamber so they cause a constant current, until first particles
     get attenuated in the air. The maximum range of an $\alpha$ particle is about
-    $\SI{\5.0}{\centi\meters}$. Assuming the densitiy of dry air about $0.001\frac{g}{cm^3}$
+    $\SI{5.0}{\centi\metre}$. Assuming the densitiy of dry air is about $0.001\frac{g}{cm^3}$
     and an projected CDSA of $8.5\times10^{-3}\frac{g}{cm^2}$ (NIST) you can estimate an
     air equivalent of absorbing material of about $\SI{3.5}{\centi\meter}$. This
-    estimation is very uncertain, because the exact densitiy of air was not meassured and
-    there lack data beyond $\SI{5}{\centi\meter}$.
+    estimation is very uncertain, because the exact densitiy of air was not measured and
+    there is a lack of data beyond $\SI{5}{\centi\metre}$.
 
     To calculate the averange range of an $\alpha$ particle we need the hight of the plateau
     first. The hight is determined by the average current at the plateau. After that
@@ -214,9 +215,9 @@
     is calculated where the tangent line is eval to the half of the plateau's hight.
     The uncertainty of the slope of that tangent line is calculated via gaussion
     uncertainty propergation, which originates the main portion of the uncertainty
-    of the average range. The value of that slope is $-374 \pm 40\frac{1}{cm}$.
+    of the average range. The value of that slope is $(-374 \pm 40) \frac{1}{cm}$.
 
-    The so calculated average range is $\SI{4.6 \pm 0.4}{\centi\meter}$. The uncertainty
+    The so calculated average range is $\SI{4.6 \pm 0.4}{\centi\metre}$. The uncertainty
     of that value is quite big, because there are not enough values after the plateau
     to calculate more exact values with less uncertainty.
 
@@ -407,9 +408,9 @@
         the times of the area mass densitiy of absorber 7.
 
         The maximum energy of an particle is specified bei $E_{max} = ^{1.14}\sqrt{\frac{17}{\mu'}}$.
-        The energy uncertainty is propgated gaussian.
+        The energy uncertainty is propagated by gaussian error calculation.
 
-        $E_max = 2.177 MeV \pm 0.11MeV$
+        $E_{max} = 2.177 MeV \pm 0.11MeV$
 
         So there is a deviation of about one $\sigma$.
 
