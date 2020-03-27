@@ -60,5 +60,5 @@ chi_sq : {:.3e} \n
     ax_res.grid(True)
     ax_plot.grid(True)
 
-#    plt.savefig(filename)
+    plt.savefig(filename)
     plt.clf()
