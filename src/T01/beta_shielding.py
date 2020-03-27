@@ -43,12 +43,10 @@ a   : {} \pm {}
 a   :  \pm 
 chi/ndf:\t {}""".format(name, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]), chi_sq))
     simple_figure(xs, xerr, ys, yerr, exp(xs, *opt), name, "xlabel", "Counts",
-    "{}/{}.png".format(ppath, name))
+    "{}/{}.png".format(ppath, name.replace(' ', '_')))
 
 #    print("chisq: {}\n\n".format(np.sum(((ys-exp(xs,*opt))**2/((yerr) **2+(lambda x, mu, a, mu2, a2: a*mu*np.exp(x * mu)  + a2 * mu2 + np.exp(mu2 * x))(xs,*opt)**2) / (len(xs) - 2)))))
 
 deine_mum(thickness, cnt - rausch_cnt, 0.01 * np.ones(len(thickness)), np.sqrt(cnt + rausch_cnt), "attenuation coefficient unf" )
 deine_mum(dens, cnt - rausch_cnt, 0.01 * np.ones(len(dens)), np.sqrt(cnt + rausch_cnt), "mass attenuation coefficient unf" )
 
-deine_mum(thickness[:-3], (cnt - rausch_cnt)[:-3],0.01 * np.ones(len(thickness[:-3])), np.sqrt(cnt + rausch_cnt)[:-3], "attenuation coefficient" )
-deine_mum(dens[:-3], (cnt - rausch_cnt)[:-3], 0.01 * np.ones(len(thickness[:-3])), np.sqrt(cnt + rausch_cnt)[:-3], "mass attenuation coefficient" )

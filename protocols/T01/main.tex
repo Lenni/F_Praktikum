@@ -153,19 +153,123 @@
 \section{Scintillation Counter}
 	\subsection{Gamma spectrum}
 	\label{Gamma}
+        \subsubsection{$^{^137}Cs$ Decay}
+        $^{137} Cs$ decays with $\beta_-$ with an energy of $\SI{0.51}{\mega\electronvolt}$ to
+        $^{137}Ba^*$ which emits a photon with an energy of $\SI{0.66}{\mega\electronvolt}$.
+        This gamma peak will be the subject of the following discussion.
+
 		\subsubsection{Setup}
 
 		There are 2 scintillator crystals (NaI(TI) and Plastic) provided. For each one of them a pulse height spectrum of a $^{137}Cs$ Source is recorded. The for each measurement Photomultiplier Tube voltage is set to $\SI{840}{\volt}$. To create the spectrum it is first necessary to amplify and shape the pulses coming from the PMT with the appropriate NIM-Modules. The output of the modules was then connected to a MCA and an oscilloscope to display the measures pulses. For each of the crystals, a pulse height spectrum of the source is recorded.
 
 		\subsubsection{Analysis}
+            We expect to mesure all peaks emitted by the source.
+            \begin{figure}[H]
+                \includegraphics{Plots/Scinti/SpektrenNaI.png}
+                \caption{Gamma Spectrum NaI(Ti)-Scintillator}
+            \end{figure}
 
+            \begin{figure}[H]
+                \includegraphics{Plots/Scinti/SpektrenPlastic.png}
+                \caption{Gamma Spectrum Plastic-Scintillator}
+            \end{figure}
+            You can distinguish, that the NaI-Scintillator has a better resolution
+            than the Plastic Scintillator because the peaks of NaI(Ti)-Scintillator
+            are more narrow and larger. The relativ light yield and detection probability is the proportion
+            of the peak positions and the peak highs. Those are determined by the
+            paramter of normal distributions fitted at the peaks.
 
+			\begin{figure}[H]
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Scinti/PeakNaIBest.png}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							\mu &= 1091 \pm 1 \\
+							\sigma &= 142.2 \pm 0.9 \\
+                            hight &= 636.5 \pm 2.1 \\
+							\frac{\chi^2}{NDF} &= 1.072
+						\end{align*}
+					\end{minipage}
+                    \caption{$\gamma$ - Peak, NaI(Ti)-Scintillator}
+				\end{figure}
+
+			\begin{figure}[H]
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Scinti/PeakNaIBest.png}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							\mu &= 937 \pm 2 \\
+							\sigma &= 302 \pm 2.6 \\
+                            hight &= 178.2 \pm 0.7 \\
+							\frac{\chi^2}{NDF} &= 1.296
+						\end{align*}
+					\end{minipage}
+                    \caption{$\gamma$ - Peak, Plastic-Scintillator}
+				\end{figure}
+
+            The proportion $\frac{Plastic}{NaI(Ti)}$ is used because the NaI(Ti)
+            values are bigger, thus we get smaller errors on the proprtion because
+            of gaussion uncertainty propagation laws.
+
+            The relative light yield is $0.859 \pm 0.002$ and the relative detection
+            rate is $0.280 \pm 0.0015$.
 	\subsection{Absorption in lead}
 	\ref{Absorption::Pb}
 		\subsubsection{Setup}
 			Using the NaI(TI) scintillator, a spectrum for different thicknesses of lead between the source and the scintillator is recorded. The PMT used is the same as in \ref{Gamma}, the voltage is again set to $\SI{840}{\volt}$.
 
 		\subsubsection{Analysis}
+        The attenuation is the change of the intenstiby by travelling through a material.
+        The determine the intensity after passing a certain amount auf lead we again need
+        get the hight of the peaks in the spectrum. Therfore the same range of channels
+        as in the analysis above are used to fit a normal distribution to the data.
+        After that the logarithm of the peak hights in counts is plotted against the thickness of
+        the plates of lead to determine the attenuation coeffient and the product of
+        the density and the thicknesses to determine the mass attenuation coefficient.
+
+        The uncertainties of the peak hights are defined by the uncertainties of
+        the gaussian distributions and of the lengt by the statistic error of the
+        micrometer calliper.
+
+        The logarithm of the counts is used because a linear function is easier to
+        fit than an exponential function, so the programm runs more stable and
+        produces better results. Moreover the first the last both values are as
+        runaways discarded.
+
+        With the attenuation coefficient $\mu$ the model $m(x) = -\mu \times x + c$
+        is used.
+
+        $11.34\frac{g}{cm^3}$ is used as densitiy of lead.
+
+        \begin{figure}[H]
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Scinti/attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        $\mu$ &= $\SI{0.946 \pm 0.005}{\frac{1}{\centi\metre}}$ \\
+                        c &= 6.421 \pm 0.006 \\
+                        $\frac{\chi^2}{NDF}$ &= 4.14
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - attenuation}
+            \end{figure}
+
+        \begin{figure}[H]
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Scinti/mass_attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        $\mu$ &= $0.0834 \pm 0.005 \frac{cm^2}{g}$\\
+                        c &= $6.421 \pm 0.006$ \\
+                        $\frac{\chi^2}{NDF}$ &= 0.42
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - mass attenuation}
+            \end{figure}
 
 
 	\subsection{Absorption in aluminium}
@@ -174,6 +278,62 @@
 				For this experiment a different PMT and schintillator was used. The voltage for the PMT was set to $\SI{900}{\volt}$ and the scintillation crystal used, was the organic scintillator anthracen. After mounting the detector assembly in the shielding, a $^{90}Sr$ was placed on the tray below it, and with the help of a counter the count rate was measured. For each absorber there were three measurements performed, so that a mean and a standard deviation could be estimated.
 
 		\subsubsection{Analysis}
+        The attenuation coefficients of $\beta$ radiation in aluminium is determined
+        quite simular like the coefficients of $\gamma$ radiation in lead with the
+        difference, that exponential functions $I(x) = I_0 \times e^{- \mu \times x}$ are
+        used as model because after taking the logarithm of the counted values it is
+        hard to reduce further systematics.
+
+        It is reasonable to assume that another exponential function is required to
+        eliminate other attenuation effects. Using a sum of exponential function with
+        reasonably choosen start parameters, like attenuation coeffcients of provided
+        materials, results in exponential functions with similar exponents.
+        That reduces the $\frac{\chi^2}{NDF}$ but is not usefull for a further
+        analysis.
+
+        The uncertainties are the last digit of the thickness of the absorbers
+        or the area mass denisity respectively.
+
+        \begin{figure}[H]
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Beta/attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        $\mu$ &= $\SI{2.143 \pm 0.025}{\frac{1}{\centi\metre}}$ \\
+                        $I_0$ &= $8560 \pm 89$ \\
+                        $\frac{\chi^2}{NDF}$ &= 4.8
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - attenuation}
+            \end{figure}
+
+        \begin{figure}[H]
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Beta/mass_attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        $\mu$ &= $(7.73 \pm 0.07) \times 10^{-3} \frac{cm^2}{mg}$\\
+                        $c$ &= $6.421 \pm 0.006$ \\
+                        $\frac{\chi^2}{NDF}$ &= 4.4
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - mass attenuation}
+            \end{figure}
+
+        The appearing systematics might be the result of the non constant densitiy of
+        the aluminium absorbers. Absorper 7 has a area mass densitiy of $13.2 \frac{mg}{cm^2}$
+        and a thickness of $\SI{0.5}{\mili\meters}$ but absorber 13 with ten times the thickness
+        of absorber 7 has an area mass densitiy of $135 \frac{mg}{cm^2}$ wich is not
+        the times of the area mass densitiy of absorber 7.
+
+        The maximum energy of an particle is specified bei $E_{max} = ^{1.14}\sqrt{\frac{17}{\mu'}}$.
+        The energy uncertainty is propgated gaussian.
+
+        $E_max = 2.177 MeV \pm 0.11MeV$
+
+        So there is a deviation of about one $\sigma$.
 
 	\section{Radiation protection}
 
