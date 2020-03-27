@@ -99,41 +99,37 @@
 
 			\begin{figure}[H]
 					\begin{minipage}{0.69 \textwidth}
-						%\includegraphics[width = \textwidth]{Plots/silicon/energy_linreg}
+						\includegraphics[width = \textwidth]{Plots/HalbleterDetektor/energyCalibrationClosest}
 					\end{minipage}
 					\begin{minipage}{0.29 \textwidth}
 						\begin{align*}
-							m &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
-							b &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
-							\frac{\chi^2}{NDF} &= 000
+							m &= \SI{2.2}{\kilo \electronvolt} \pm \SI{3}{\kilo \electronvolt} \\
+							b &= \SI{3.8}{\mega \electronvolt} \pm \SI{2.6}{\mega \electronvolt} \\
+							\frac{\chi^2}{NDF} &= 0.005
 						\end{align*}
 					\end{minipage}
 				\end{figure}
 
 		\paragraph{4}
 
-			An energy calibration can also be computed for the different energies of the $^{241}Po-\alpha$ peak. By first determining the channel of the MCA with the peak and subsequently computing the expected energy from the thickness of the absorption layer a distance calibrationcan be obtained. By using the stopping power of air, the energy of the particle can be calculated.
+			An energy calibration can also be computed for the different energies of the $^{241}Po-\alpha$ peak. By first determining the channel of the MCA with the peak a distance calibration can be obtained.
+
+			By then using the distance calibration to calculate the expected distance those particled had left in air, when they hit the detector. Then the energy of a particle was looked up in a table provided by the NIST.
+			With those information, a relation between energy and distance was established. The corresponding channel numbers and calculated energies of the peaks were the used to perform a linear regression, to obtain the calibration parameters
 
 			\begin{figure}[H]
 					\begin{minipage}{0.69 \textwidth}
-						%\includegraphics[width = \textwidth]{Plots/silicon/energy_linreg}
+						\includegraphics[width = \textwidth]{Plots/HalbleterDetektor/dis_energy_calib}
 					\end{minipage}
 					\begin{minipage}{0.29 \textwidth}
 						\begin{align*}
-							m_d &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
-							b_d &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
-							\frac{\chi^2}{NDF} &= 000
+							m_e &= \SI{2.3}{\kilo \electronvolt} \pm \SI{0.1}{\kilo \electronvolt} \\
+							b_e &= \SI{1.6}{\mega \electronvolt} \pm \SI{0.4}{\mega \electronvolt} \\
+							\frac{\chi^2}{NDF} &= 0.005
 						\end{align*}
 					\end{minipage}
 				\end{figure}
 
-
-				The stopping power of air is $lalala$ therefore the distance-calibration can be scaled, to obtain the following calibration values:
-
-				\begin{align*}
-					m_e &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
-					b_e &= \SI{000}{\mega \electronvolt} \pm \SI{000}{\mega \electronvolt} \\
-				\end{align*}
 
 			\paragraph{5}
 				The averange range of the particles is calculated by integrating the area under the peaks for each distance.

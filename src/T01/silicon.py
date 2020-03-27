@@ -11,6 +11,15 @@ import csv
 
 import numpy as np
 
+
+def integrate(data, lower, upper):
+    range = np.arange(0, upper-lower, 1)
+    integrated = []
+    for i in range:
+        integrated.append(1000*0.001*np.sum(data[lower:lower+i]))
+    integrated = np.array(integrated) / np.sum(data[lower:upper])
+    return integrated
+
 ppath = "protocols/T01/Plots/HalbleiterDetektor"
 import os
 if not os.path.exists(ppath):
@@ -73,10 +82,10 @@ plt.close('all')
 linf = lambda x, m, c: m*x+c
 mus = np.array(mus)
 sigmas = np.array(sigmas)
-kalib_opt, kalib_cov, chi_sq = regression(linf, peak_energies, mus, sigmas)
+kalib_opt, kalib_cov, chi_sq = regression(linf, peak_energies, mus, sigmas/3)
 kalibMax = np.array([1.0/kalib_opt[0], -1.0 * kalib_opt[1]/kalib_opt[0]])
 kalibMaxCov = np.array([1.0/kalib_opt[0] **2 *np.sqrt(kalib_cov[0][0]),
-        (np.sqrt(kalib_cov[1][1])/kalib_opt[0])**2 + kalib_opt[1] * 1.0/kalib_opt[0] **2 *np.sqrt(kalib_cov[0][0])])
+        (np.sqrt(kalib_cov[1][1])/kalib_opt[0])**2 + kalib_opt[1] /kalib_opt[0]**2 * np.sqrt(kalib_cov[0][0])])
 print("Energie kalibrierung")
 print(kalibMax)
 print(np.sqrt(np.diag(kalibMaxCov)))
@@ -93,10 +102,13 @@ simple_figure(mus, sigmas, peak_energies, np.zeros(len(mus)), linf(mus, *kalibMa
 plt.close('all')
 
 
+eventsl = []
+
 threshold = 2
 shield_data = [list() for i in range(4)]
 for mes_dist in tqdm(chain(range(2150, 2400, 40), [2475])):
     events = np.array(list(map(lambda x: float(x.strip()), open("data/T01/Experiment 1/4/spectrum_{}.TKA".format(mes_dist)).read().split("\n")[2:-1])))
+    eventsl.append(events)
     plt.figure(figsize=(8, 6), dpi=1200)
     plt.plot(list(range(len(events))), events)
     upper_idx = 4093
@@ -105,6 +117,11 @@ for mes_dist in tqdm(chain(range(2150, 2400, 40), [2475])):
     lower_idx = upper_idx
     while events[lower_idx] > threshold:
         lower_idx = lower_idx - 1
+
+    integd = integrate(events, lower_idx, upper_idx)
+
+    print("Distance in cm:", integd[-1])
+
     local_opt, local_cov, local_chi_sq = do_normal_regression(np.array(list(range(lower_idx, upper_idx))),
         np.array(events[lower_idx:upper_idx]), np.array(np.sqrt(events[lower_idx:upper_idx])))
     print("mittelwert: {} \pm {}, Fehler: {} \pm {}, chi_sq: {}".format(local_opt[0], local_opt[1],
@@ -174,3 +191,28 @@ simple_figure(channel, channel_err, properties_energy[:,0], 0.5*np.ones(len(prop
     "Channel", "Energy MeV", "{}/dis_energy_calib.png".format(ppath))
 
 print(kalibEn)
+print(kalibEnErr)
+
+j = 0
+for events in eventsl:
+    lower = int(shield_data[2][j] - 2*shield_data[3][j])
+    upper = int(shield_data[2][j]+ 2*shield_data[3][j])
+
+    sum = [0]
+    sum_en = [0]
+
+    for channel in np.arange(lower, upper):
+        energy = mod_func(channel, *kalibEn)
+
+        match = min(nist_table[:, 0], key=lambda x: abs(x - energy))
+
+        for row in nist_table:
+            if row[0] == match:
+                stopping_power = float(row[1])*0.001
+
+        sum.append(sum[-1] + kalibEn[0]/stopping_power)
+        sum_en.append(sum_en[-1] + kalibEn[0])
+
+    print(mod_func(upper, *kalibEn) - mod_func(lower, *kalibEn))
+    print(sum_en[-1])
+    print(sum[-1])
