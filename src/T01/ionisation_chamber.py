@@ -53,6 +53,7 @@ y_searched_err = 0
 
 m_tan = (current[-2] - current[-3])/(distance[-2] - distance[-3])
 m_tan_err= np.sqrt(((current_err[-3])**2 + (current_err[-2]**2))/(distance[-2] - distance[-3])**2 +((current[-2] - current[-3])/(distance[-2] - distance[-3])**2 * distance_err[-2])**2)
+print("m_tan : {} \pm {}".format(m_tan, m_tan_err))
 c = current[-3] - m_tan*distance[-3]
 c_err = 0
 

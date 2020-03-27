@@ -53,9 +53,9 @@ chi_sq : {:.3e} \n
     ax_res.errorbar(x[lower:upper], y[lower:upper]-mod, yerr=y_prop_err, color="r", linewidth = 0,
         markersize=0, marker=",", elinewidth=1, capsize=2)
     ax_res.plot(x[lower:upper], np.zeros(len(x[lower:upper])))
-    ax_res.set_xlabel(x_label)
-    ax_plot.set_ylabel(y_label)
-    ax_res.set_ylabel("Deviation")
+    ax_res.set_xlabel("Channels")
+    ax_plot.set_ylabel("Events")
+    ax_res.set_ylabel("Diviation")
     ax_plot.set_title(name)
     ax_res.grid(True)
     ax_plot.grid(True)

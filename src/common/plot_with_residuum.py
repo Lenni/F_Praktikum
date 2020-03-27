@@ -19,7 +19,7 @@ def plot_with_residuum(x, x_err, y, y_err, mod, name, x_label, y_label, ax_plot,
     ax_res.plot(x, np.zeros(len(x)))
     ax_res.set_xlabel(x_label)
     ax_plot.set_ylabel(y_label)
-    ax_res.set_ylabel("Abweichung")
+    ax_res.set_ylabel("Deviation")
     ax_plot.set_title(name)
     ax_res.grid(True)
     ax_plot.grid(True)
