@@ -27,22 +27,28 @@ cnt = np.array(cnt)
 thickness = np.array(thickness)
 dens = np.array(dens)
 
-def deine_mum(xs, ys, yerr, name):
-    exp = lambda x, mu, a, mu2, a2: a*np.exp(-1.0 * x * mu) + a2*np.exp(-1.0 * mu2 * x)
+print(cnt)
+print(dens)
 
-    opt, cov, chi_sq = regression(exp, xs, ys, yerr)
+def deine_mum(xs, ys, xerr, yerr, name):
+    exp = lambda x, mu, a: a*np.exp(x * mu)#  + a2 * np.exp(mu2 * x)
+
+    linf = lambda x, mu, ln_a: ln_a - mu*x
+#opt[2], np.sqrt(cov[2][2]), opt[3], np.sqrt(cov[3][3]), 
+    opt, cov, chi_sq = regression(exp, xs, ys, yerr, xErr=xerr, beta0 = [-0.001535,610])#, 10**-10, 1])
     print("""{}
-\mu:\t {} \pm {}
-a:\t {} \pm {}
-\mu2:\t {} \pm {}
-a2:\t {} \pm {}
-chi/ndf:\t {} \n\n\n""".format(name, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]),
-        opt[2], np.sqrt(cov[2][2]), opt[3], np.sqrt(cov[3][3]), chi_sq))
-    simple_figure(xs, None, ys, yerr, exp(xs, *opt), name, "Distance /cm", "Counts",
+\mu : {} \pm {}
+a   : {} \pm {}
+\mu2:  \pm 
+a   :  \pm 
+chi/ndf:\t {}""".format(name, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]), chi_sq))
+    simple_figure(xs, xerr, ys, yerr, exp(xs, *opt), name, "xlabel", "Counts",
     "{}/{}.png".format(ppath, name))
 
-deine_mum(thickness, cnt - rausch_cnt, np.sqrt(cnt + rausch_cnt), "attenuation coefficient unf" )
-deine_mum(dens, cnt - rausch_cnt, np.sqrt(cnt + rausch_cnt), "mass attenuation coefficient unf" )
+#    print("chisq: {}\n\n".format(np.sum(((ys-exp(xs,*opt))**2/((yerr) **2+(lambda x, mu, a, mu2, a2: a*mu*np.exp(x * mu)  + a2 * mu2 + np.exp(mu2 * x))(xs,*opt)**2) / (len(xs) - 2)))))
 
-deine_mum(thickness[:-3], (cnt - rausch_cnt)[:-3], np.sqrt(cnt + rausch_cnt)[:-3], "attenuation coefficient" )
-deine_mum(dens[:-3], (cnt - rausch_cnt)[:-3], np.sqrt(cnt + rausch_cnt)[:-3], "mass attenuation coefficient" )
+deine_mum(thickness, cnt - rausch_cnt, 0.01 * np.ones(len(thickness)), np.sqrt(cnt + rausch_cnt), "attenuation coefficient unf" )
+deine_mum(dens, cnt - rausch_cnt, 0.01 * np.ones(len(dens)), np.sqrt(cnt + rausch_cnt), "mass attenuation coefficient unf" )
+
+deine_mum(thickness[:-3], (cnt - rausch_cnt)[:-3],0.01 * np.ones(len(thickness[:-3])), np.sqrt(cnt + rausch_cnt)[:-3], "attenuation coefficient" )
+deine_mum(dens[:-3], (cnt - rausch_cnt)[:-3], 0.01 * np.ones(len(thickness[:-3])), np.sqrt(cnt + rausch_cnt)[:-3], "mass attenuation coefficient" )
