@@ -7,6 +7,8 @@ from tqdm import tqdm
 
 import matplotlib.pyplot as plt
 
+import csv
+
 import numpy as np
 
 ppath = "protocols/T01/Plots/HalbleiterDetektor"
@@ -22,7 +24,7 @@ plt.grid(True)
 plt.xlabel("Channel")
 plt.ylabel("Events")
 plt.title("Sample in centered postion")
-plt.savefig("{}/CenteredPostion.png".format(ppath))
+plt.savefig("{}/CenteredPosition.png".format(ppath))
 plt.close('all')
 
 print("Äquvalenzdicke")
@@ -30,10 +32,13 @@ linf = lambda x, m, c: m*x+c
 abs_energy = np.array([4.78, 5.35, 6.0, 7.69])
 abs_pos = 25.1 - np.array([25.15, 24.25, 23.45, 21.15])
 opt, cov, chi_sq = regression(linf, abs_energy, abs_pos, 0.05 * np.ones(len(abs_pos)))
+
 print("""Steigung:\t {} \pm {}
 Abschn:\t {} \pm {}
 chi_sq:\t {}""".format(opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]), chi_sq))
+
 print("Äquivalenzdicke: {} \pm {}".format(-1.0 * opt[1], np.sqrt(cov[1][1])))
+
 simple_figure(abs_energy, None, abs_pos, 0.05 * np.ones(len(abs_pos)), linf(abs_energy, *opt),
    "Lineary Shielding", "Energy MeV", "distance cm", "{}/liearyShielding.png".format(ppath))
 
@@ -86,11 +91,13 @@ simple_figure(mus, sigmas, peak_energies, np.zeros(len(mus)), linf(mus, *kalibMa
 #
 #load data
 plt.close('all')
+
+
 threshold = 2
 shield_data = [list() for i in range(4)]
 for mes_dist in tqdm(chain(range(2150, 2400, 40), [2475])):
     events = np.array(list(map(lambda x: float(x.strip()), open("data/T01/Experiment 1/4/spectrum_{}.TKA".format(mes_dist)).read().split("\n")[2:-1])))
-    plt.figure(figsize=(3,4), dpi=200)
+    plt.figure(figsize=(8, 6), dpi=1200)
     plt.plot(list(range(len(events))), events)
     upper_idx = 4093
     while events[upper_idx] < 10 * threshold:
@@ -102,35 +109,68 @@ for mes_dist in tqdm(chain(range(2150, 2400, 40), [2475])):
         np.array(events[lower_idx:upper_idx]), np.array(np.sqrt(events[lower_idx:upper_idx])))
     print("mittelwert: {} \pm {}, Fehler: {} \pm {}, chi_sq: {}".format(local_opt[0], local_opt[1],
         np.sqrt(local_cov[0][0]), np.sqrt(local_cov[1][1]), chi_sq))
-    shield_data[0].append(25.1 - mes_dist / 100.0)
+    shield_data[0].append(25.1 - (mes_dist / 100.0))
     shield_data[1].append(np.sqrt(0.01 ** 2 + 0.1 ** 2))
     shield_data[2].append(local_opt[0])
     shield_data[3].append(local_opt[1])
+    plt.axvspan(lower_idx, upper_idx, alpha=0.6)
+    #plt.show()
+    plt.close('all')
 
-#
-# Curry data like if it's were a delicious sausage with fries
-#
-#
-#
+
+
 distance = np.array(shield_data[0])
 distance_err = np.array(shield_data[1])
 channel = np.array(shield_data[2])
 channel_err = np.array(shield_data[3])
 
 
-mod_func = lambda x, m, c: m * x + c
+distance = distance[0:-2]
+distance_err = distance_err[0:-2]
+channel =  channel[0:-2]
+channel_err = channel_err[0:-2]
+
+mod_func = lambda x, m, b: m*x + b
 kalibDis, kalibDisErr, chi_sq = regression(mod_func, distance, channel, channel_err, xErr = distance_err)
 simple_figure(distance, distance_err, channel, channel_err, mod_func(distance, *kalibDis), "Distance Calibration, 7.69 MeV",
     "Distance /cm", "Channel", "{}/dis_calib.png".format(ppath))
-print(chi_sq)
 
+print(kalibDis)
 
+distance_left = (channel - kalibDis[1])/kalibDis[0]
 
+nist_table = []
 
+#Now find energy values for this distance
 
+with open("data/T01/nist_table") as csvfile:
+    reader = csv.reader(csvfile, delimiter = " ")
+    for row in tqdm(reader):
+        nist_table.append(np.array([float(row[0]), float(row[1]), float(row[2])]))
 
+nist_table = np.array(nist_table)
 
+energy_left_ind = []
 
+for distances in distance_left:
+    energy_left_ind.append(min(nist_table[:,2], key=lambda x:abs(x-distances*0.001)))#Auf Luftdichte normalisieren
 
+energy_left_ind = np.array(energy_left_ind)
 
+properties_energy = []
+for element in energy_left_ind:
+    for row in tqdm(nist_table):
+        if row[2] == element:
+            properties_energy.append(row)
 
+properties_energy = np.array(properties_energy)
+
+distance = np.flip(distance)
+channel = np.flip(channel)
+channel_err = np.flip(channel_err)
+
+kalibEn, kalibEnErr, chi_sq = regression(mod_func, channel, properties_energy[:,0], 0.5*np.ones(len(properties_energy)), xErr = channel_err)
+simple_figure(channel, channel_err, properties_energy[:,0], 0.5*np.ones(len(properties_energy)), mod_func(channel, *kalibEn), "Energy Calibration, 7.69 MeV",
+    "Channel", "Energy MeV", "{}/dis_energy_calib.png".format(ppath))
+
+print(kalibEn)
