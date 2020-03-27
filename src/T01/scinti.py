@@ -130,7 +130,7 @@ def deine_mum(xs, ys, yerr, xerr, name, xlabel, beta0):
 I_0:\t {} \pm {}
 chi/ndf:\t {}""".format(name, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]),  chi_sq))
     simple_figure(xs, xerr, np.log(ys), 1/ys * yerr, linf(xs, *opt), name, xlabel, "Counts",
-    "{}/{}.png".format(ppath, name.replace(' ', '_'))
+    "{}/{}.png".format(ppath, name.replace(' ', '_')))
 
     print("chisq: {}\n\n".format(np.sum((np.log(ys)-linf(xs,*opt))**2/((1/ys * yerr) **2 + (opt[0] * xs *xerr) **2) / (len(xs) - 2))))
 
