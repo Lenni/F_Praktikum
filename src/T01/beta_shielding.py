@@ -41,5 +41,8 @@ chi/ndf:\t {} \n\n\n""".format(name, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt
     simple_figure(xs, None, ys, yerr, exp(xs, *opt), name, "Distance /cm", "Counts",
     "{}/{}.png".format(ppath, name))
 
-deine_mum(thickness, cnt - rausch_cnt, np.sqrt(cnt + rausch_cnt), "attenuation coefficient" )
-deine_mum(dens, cnt - rausch_cnt, np.sqrt(cnt + rausch_cnt), "mass attenuation coefficient" )
+deine_mum(thickness, cnt - rausch_cnt, np.sqrt(cnt + rausch_cnt), "attenuation coefficient unf" )
+deine_mum(dens, cnt - rausch_cnt, np.sqrt(cnt + rausch_cnt), "mass attenuation coefficient unf" )
+
+deine_mum(thickness[:-3], (cnt - rausch_cnt)[:-3], np.sqrt(cnt + rausch_cnt)[:-3], "attenuation coefficient" )
+deine_mum(dens[:-3], (cnt - rausch_cnt)[:-3], np.sqrt(cnt + rausch_cnt)[:-3], "mass attenuation coefficient" )
