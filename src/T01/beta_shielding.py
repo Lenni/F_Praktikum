@@ -43,7 +43,7 @@ a   : {} \pm {}
 a   :  \pm 
 chi/ndf:\t {}""".format(name, opt[0], np.sqrt(cov[0][0]), opt[1], np.sqrt(cov[1][1]), chi_sq))
     simple_figure(xs, xerr, ys, yerr, exp(xs, *opt), name, xlabel, "Counts",
-    "{}/{}_{}.png".format(ppath, name.replace(' ', '_', "unf")))
+    "{}/{}_{}.png".format(ppath, name.replace(' ', '_'), "unf"))
 
 #    print("chisq: {}\n\n".format(np.sum(((ys-exp(xs,*opt))**2/((yerr) **2+(lambda x, mu, a, mu2, a2: a*mu*np.exp(x * mu)  + a2 * mu2 + np.exp(mu2 * x))(xs,*opt)**2) / (len(xs) - 2)))))
 
