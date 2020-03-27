@@ -142,13 +142,33 @@
 
 	\subsection{Analysis}
 
-		The Experiment yielded the following raw data:
-
 		\begin{figure}[H]
-			%\includegraphics{/path/to/figure}
+			\includegraphics{Plots/ionisation_chamber/CurrentToDistance.png}
 			\caption{Raw Data Ionization Chamber}
 		\end{figure}
 
+    The markers in figure obove represent the raw data. The Plateau orignates by
+    the attenuation behaviour of $\alpha$ particles. They do not get attenuated
+    before they reach the chamber so they cause a constant current until first particles
+    get attenuated in the air. The maximum range of an $\alpha$ particle is about
+    $\SI{\5.0}{\centi\meters}$. Assuming the densitiy of dry air about $0.001\frac{g}{cm^3}$
+    and an projected CDSA of $8.5\times10^{-3}\frac{g}{cm^2}$ (NIST) you can estimate an
+    air equivalent of absorbing material of about $\SI{3.5}{\centi\meter}$. This
+    estimation is very uncertain, because the exact densitiy of air was not meassured and
+    there lack data beyond $\SI{5}{\centi\meter}$.
+
+    To calculate the averange range of an $\alpha$ particle we need the hight of the plateau
+    first. The hight is determined by the average current at the plateau. After that
+    the two values around the half of the plateau are gathered to make a linear
+    approximation like a tangent line near the average range. After that the distance
+    is calculated where the tangent line is eval to the half of the plateau's hight.
+    The uncertainty of the slope of that tangent line is calculated via gaussion
+    uncertainty propergation, which originates the main portion of the uncertainty
+    of the average range. The value of that slope is $-374 \pm 40\frac{1}{cm}$.
+
+    The so calculated average range is $\SI{4.6 \pm 0.4}{\centi\meter}$. The uncertainty
+    of that value is quite big, because there are not enough values after the plateau
+    to calculate more exact values with less uncertainty.
 
 \section{Scintillation Counter}
 	\subsection{Gamma spectrum}
