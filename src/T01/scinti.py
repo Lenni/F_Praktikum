@@ -82,9 +82,9 @@ NaICntErr = np.sqrt(NaICnt + RauschNaICnt)
 PlasticCntErr = np.sqrt(PlasticCnt + RauschPlasticCnt)
 
 opt1, cov1, noneval = analyse_back_peak(channels, NaICnt, NaICntErr, 280, 1.4, file_name = "{}/PeakNaIBest.png".format(ppath),
-        title="Peakcenter NaI", xlabel="Events", ylabel="Channel")
+        title="Peakcenter NaI", xlabel="Channel", ylabel="Events")
 opt2, cov2, noneval = analyse_back_peak(channels, PlasticCnt, PlasticCntErr, 280, 1.4, file_name = "{}/PeakPlasticBest.png".format(ppath),
-        title="Peakcenter Plastic", xlabel="Events", ylabel="Channel", lower = 700, upper=1400)
+        title="Peakcenter Plastic", xlabel="Channel", ylabel="Events", lower = 700, upper=1400)
 
 
 print("""Relative detection Rate, Platic / NaI \t: {:.3e} \pm {:.3e}

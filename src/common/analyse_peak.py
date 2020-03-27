@@ -55,7 +55,7 @@ chi_sq : {:.3e} \n
     ax_res.plot(x[lower:upper], np.zeros(len(x[lower:upper])))
     ax_res.set_xlabel(x_label)
     ax_plot.set_ylabel(y_label)
-    ax_res.set_ylabel("Diviation")
+    ax_res.set_ylabel("Deviation")
     ax_plot.set_title(name)
     ax_res.grid(True)
     ax_plot.grid(True)

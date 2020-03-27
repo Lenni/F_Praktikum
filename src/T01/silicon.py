@@ -201,7 +201,7 @@ for events in eventsl:
     sum = [0]
     sum_en = [0]
 
-    for channel in np.arange(lower, upper):
+    for channel in np.arange(0, upper):
         energy = mod_func(channel, *kalibEn)
 
         match = min(nist_table[:, 0], key=lambda x: abs(x - energy))
@@ -213,6 +213,6 @@ for events in eventsl:
         sum.append(sum[-1] + kalibEn[0]/stopping_power)
         sum_en.append(sum_en[-1] + kalibEn[0])
 
-    print(mod_func(upper, *kalibEn) - mod_func(lower, *kalibEn))
-    print(sum_en[-1])
-    print(sum[-1])
+        print(sum[-1])
+
+    j = j+1
