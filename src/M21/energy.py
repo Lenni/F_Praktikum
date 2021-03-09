@@ -117,7 +117,7 @@ def determineLineraty(energy, counts, count_unc_stat ,decr, tupl = None):
         #sigma=np.array(count_unc_stat[low:high]/np.array(counts[low:high])))
     plot_with_residuum(energy[low:high], (energy[1]-energy[0])/np.sqrt(12) * np.ones(len(energy[low:high])),
         counts[low:high], count_unc_stat[low:high], normal(energy[low:high], *popt),
-        decr + " unkorrigiertes Spektrum", "Energy keV","Ereignisse", data, res )
+        decr + " unkorrigiertes Spektrum", "Energie keV","Ereignisse", data, res )
     plt.savefig("protocols/M21/Plots/EnergyUnkorrigiert" + decr + ".png")
     plt.clf()
     plt.close('all')
@@ -208,6 +208,6 @@ print(fit_info_form_str.format("Peak 511", opt5[0], np.sqrt(cov5[0]),
 print(fit_info_form_str.format("Peak 1275", opt12[0], cov12[0],
     opt12[1], np.sqrt(cov12[1]), opt12[2], np.sqrt(opt12[2]), chiSq12 ))
 
-plt.savefig("protocols/M21/Plots/energy_resoltion.png")
+plt.savefig("protocols/M21/Plots/energy_resolution.png")
 plt.clf()
 plt.close('all')
