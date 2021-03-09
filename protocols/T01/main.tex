@@ -4,13 +4,24 @@
 \usepackage[paper=a4paper,left=20mm,right=20mm,top=20mm,bottom=20mm]{geometry}
 \usepackage{wrapfig}
 \usepackage{amsmath}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
 %Für Literaturverzeichnis
 
 \usepackage{biblatex}
 \addbibresource{Bibliography.bib}
 
 
+\newcommand{\xmark}{\ding{55}}%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Autoreninfo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \author{Philipp Rosendahl Mat.-Nr: 378029\thanks{philipp.rosendahl@rwth-aachen.de}
@@ -22,7 +33,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITEL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pSetTitlePrefix{Experiment}
 \pSetTitleNumber[T01]
-\pSetLongSubject{Physikalisches Fortgeschrittenenpraktikum - Gruppe 59} \pSetShortSubject{Group 59}
+\pSetLongSubject{Physikalisches Fortgeschrittenenpraktikum - Group 59} \pSetShortSubject{Group 59}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \setlength{\parindent}{0pt}
@@ -49,7 +60,409 @@
 
 \section{Introduction}
 
-\section{Experiment 1}
+	Because radiation is always present in the environment, be in in the form of cosmic rays, natural radon gas or nuclear fallout, it is of great interest to understand the properties of the different types of radiation.
+	Because the different types of ionizing radiation are very different in their properties, there also exist detectors which are optimized for different types of particles. The goal of the following experiments, is to unerstand the properties of those detectors and the radiation itself better.
 
+	The source code of the Analysis can be accessed on Github with this link: \url{https://github.com/Lenni/F_Praktikum/blob/T01-dev/}
+
+\section{Semiconductor Detector}
+
+	\subsection{Setup}
+
+		The Experiment consists of an $ ^{226}Ra$-Source, which is mounted on an x-y-z translation stage. On the tip of the source ar three holes, which form an equilateral triagnle together. With the help of two of the thee axis of the stage, the points are positioned centrally in front of the detector. For the different sections of the Experiment the data are recorded with the Genie200 Software installed on the PCs.
+
+		\paragraph{1}
+			The source is placed close to, but not directly on the detector. After that, a spectrum is recorded.
+
+		\paragraph{2}
+			The distance between the source and the detecor is increased step-by-step an a energy spectrum is recorded each time.
+
+		\paragraph{3}
+			A spectrum is recorded for the closest distance from the detector possible.
+
+		\paragraph{4}
+			The brass collimator is installed on the source and again, spectra are recorded, while moving the source away from the detector. This is coninued, until even the $^{214}Po$-Peak has disappeared.
+
+	\subsection{Analysis}
+
+		\paragraph{1}
+
+			In the spectrum, you can see the different peaks of $\alpha$-Decays with different energies. It is noticeable, that because of the small energy resolution of the detector, sometimes different peaks are indistinguishable. Therefore there are only 5 Peaks clearly visible, while there are 6 Peaks expected.
+			The Peaks are:
+			\begin{itemize}
+				\item $^{226}$Ra @ $\SI{4.78}{\mega \electronvolt}$ (red)
+				\item $^{222}$Ra @ $\SI{5.49}{\mega \electronvolt}$ and  $^{210}$Po @ $\SI{5.3}{\mega \electronvolt}$ (green)
+				\item $^{218}$Po @ $\SI{4.78}{\mega \electronvolt}$ (blue)
+				\item $^{214}$Po @ $\SI{7.69}{\mega \electronvolt}$ (yellow)
+			\end{itemize}
+
+			\begin{figure}[H]
+				\centering
+					\includegraphics[width = \textwidth]{Plots/HalbleiterDetektor/ClosestPostion}
+				\caption{Energy Spectrum of $ ^{226}$Ra}
+				\label{SI::Spectrum}
+			\end{figure}
+
+		\paragraph{2}
+
+		Under the assumption, that for the used energy scale, the stopping power is nearly linear, a linear function can be fitted to the distances at which a peak of a given energy disappeares. The slope of this function then corresponds to the attenuation by the changing distance, the constant represents fixed offsets introduced by shielding in the source or the detector.
+
+		\begin{figure}[H]
+				\begin{minipage}{0.69 \textwidth}
+					\includegraphics[width = \textwidth]{Plots/HalbleiterDetektor/liearyShielding}
+				\end{minipage}
+				\begin{minipage}{0.29 \textwidth}
+					\begin{align*}
+						m &= \SI{1.36}{\centi \metre \per \mega \electronvolt}\\ &\pm \SI{0.62}{\centi \metre \per \mega \electronvolt} \\
+						b &= \SI{6.5}{\centi \metre}\\ &\pm \SI{3.8}{\centi \metre} \\
+						\frac{\chi^2}{NDF} &= 1.6
+					\end{align*}
+				\end{minipage}
+			\end{figure}
+
+		Therefore the additional shielding introduced corresponds to $\SI{6.5}{\centi \metre}$ of air, which is actually very big. On the other Hand, the large uncertainty of this value has to be considered, because e.g an additional shielding effect of $\SI{2.7}{\centi \metre}$ seems a lot mor reasonable.
+
+		\paragraph{3}
+			Using the recorded spectrum at the lowest possible distance, the channel position of each peak is computed. With the known ideal values of the energies of the corresponding particles, a linear calibration is computed by linear regression. As a result an energy calibration is obtained, which converts the channel number of the MCA to an energy value.
+
+			\begin{align}
+					E(n) &= m \cdot n + b
+			\end{align}
+
+			Where m is the energy-width of each channel and b is a constant energy offset.
+			Doing the Analysis yields the following Plots and coefficients:
+
+			\begin{figure}[H]
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/HalbleiterDetektor/energyCalibrationClosest}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							m &= \SI{2.2}{\kilo \electronvolt}\\ &\pm \SI{3}{\kilo \electronvolt} \\
+							b &= \SI{3.8}{\mega \electronvolt}\\ &\pm \SI{2.6}{\mega \electronvolt} \\
+							\frac{\chi^2}{NDF} &= 0.005
+						\end{align*}
+					\end{minipage}
+				\end{figure}
+
+				It should be noted, that the assembly has a very high (but inaccurate) constant cutoff, which might be related to the large shielding in paragraph 2. The energy resolution of $\SI{2}{\kilo \electronvolt}$ per bin seems reasonable, considering that the detector is designd to detect particles up to $\SI{10}{\mega \electronvolt}$ and has 4096 bins.
+
+		\paragraph{4}
+
+			An energy calibration can also be computed for the different energies of the $^{241}Po-\alpha$ peak. By first determining the channel of the MCA with the peak a distance calibration can be obtained.
+
+			By then using the distance calibration to calculate the expected distance those particled had left in air, when they hit the detector. Then the energy of a particle was looked up in a table provided by the NIST.
+			With those information, a relation between energy and distance was established. The corresponding channel numbers and calculated energies of the peaks were the used to perform a linear regression, to obtain the calibration parameters
+
+			\begin{figure}[H]
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/HalbleiterDetektor/dis_energy_calib}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							m_e &= \SI{2.3}{\kilo \electronvolt}\\ &\pm \SI{0.1}{\kilo \electronvolt} \\
+							b_e &= \SI{1.6}{\mega \electronvolt}\\ &\pm \SI{0.4}{\mega \electronvolt} \\
+							\frac{\chi^2}{NDF} &= 0.005
+						\end{align*}
+					\end{minipage}
+				\end{figure}
+
+				The values obtained here and in the previous analysis are compatible, but the error on the constant factor is much smaller in this case. Therefore one could assume that the calibration was successful, considering that two different methods yielded results, which are compatible within their respective errors.
+
+
+			\paragraph{5}
+				The averange range of the particles is calculated by numerical integration of the reciprocal stopping power from channel 0 to the channel behind the peak. For each energy value, the stopping power of air was looked up in the NIST-Table\footnote{\url{https://github.com/Lenni/F_Praktikum/blob/T01-dev/data/T01/nist_table}}. For the different peak energies corresponding to different distances of the particles already flown, the following data were obtained:
+
+				\begin{align*}
+					R_1 &= \SI{1.47}{\centi \metre} \pm \SI{0.06}{\centi \metre} \\
+					R_2 &= \SI{1.89}{\centi \metre} \pm \SI{0.06}{\centi \metre} \\
+					R_3 &= \SI{2.32}{\centi \metre} \pm \SI{0.07}{\centi \metre} \\
+					R_4 &= \SI{2.66}{\centi \metre} \pm \SI{0.06}{\centi \metre} \\
+					R_5 &= \SI{2.99}{\centi \metre} \pm \SI{0.09}{\centi \metre} \\
+					R_6 &= \SI{3.18}{\centi \metre} \pm \SI{0.06}{\centi \metre} \\
+					R_7 &= \SI{3.31}{\centi \metre} \pm \SI{0.04}{\centi \metre} \\
+				\end{align*}
+
+				If it is now considered, that between each measurement the stage was moved by about $\SI{0.4}{\centi \metre}$ we can see, that the decrease in range left corresponds approximately to the distance, the stage is moved away from the detector.
+
+\section{Ionization Chamber}
+
+	\subsection{Setup}
+		 The high voltage power supply of the chamber of $\approx \SI{1}{\kilo \volt}$ is switched on. The amplifier is then adjusted, so that the amperemeter reads no current flowing. After that, the $^{226}Ra$ Source is placed centrally in front of the chamber, and moved closestto the grating, without touching it. After that the distance bewteen the source and the grating is increased in steps and on each step a spectrum is recorded.
+
+	\subsection{Analysis}
+
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width = 0.8 \textwidth]{Plots/ionisation_chamber/CurrentToDistance.png}
+			\caption{Raw Data Ionization Chamber}
+		\end{figure}
+
+    The markers in figure above represent the raw data. The plateau is cause by
+    the attenuation behaviour of the $\alpha$ particles. They do not get attenuated
+    before they reach the chamber so they cause a constant current, until first particles
+    get attenuated in the air. The maximum range of an $\alpha$ particle is about
+    $\SI{5.0}{\centi\metre}$. Assuming the densitiy of dry air is about $0.001\frac{g}{cm^3}$
+    and an projected CDSA of $8.5\times10^{-3}\frac{g}{cm^2}$ (NIST) you can estimate an
+    air equivalent of absorbing material of about $\SI{3.5}{\centi\meter}$. This
+    estimation is very uncertain, because the exact densitiy of air was not measured and
+    there is a lack of data beyond $\SI{5}{\centi\metre}$.
+
+    To calculate the averange range of an $\alpha$ particle we need the hight of the plateau
+    first. The hight is determined by the average current at the plateau. After that
+    the two values around the half of the plateau are gathered to make a linear
+    approximation like a tangent line near the average range. After that the distance
+    is calculated where the tangent line is eval to the half of the plateau's hight.
+    The uncertainty of the slope of that tangent line is calculated via gaussion
+    uncertainty propergation, which originates the main portion of the uncertainty
+    of the average range. The value of that slope is $(-374 \pm 40) \frac{1}{cm}$.
+
+    The so calculated average range is $\SI{4.6 \pm 0.4}{\centi\metre}$. The uncertainty
+    of that value is quite big, because there are not enough values after the plateau
+    to calculate more exact values with less uncertainty.
+
+\section{Scintillation Counter}
+	\subsection{Gamma spectrum}
+	\label{Gamma}
+        \subsubsection{$^{137}Cs$ Decay}
+        $^{137} Cs$ decays with $\beta_-$ with an energy of $\SI{0.51}{\mega\electronvolt}$ to
+        $^{137}Ba^*$ which emits a photon with an energy of $\SI{0.66}{\mega\electronvolt}$.
+        This gamma peak will be the subject of the following discussion.
+
+		\subsubsection{Setup}
+
+		There are 2 scintillator crystals (NaI(TI) and Plastic) provided. For each one of them a pulse height spectrum of a $^{137}Cs$ Source is recorded. The for each measurement Photomultiplier Tube voltage is set to $\SI{840}{\volt}$. To create the spectrum it is first necessary to amplify and shape the pulses coming from the PMT with the appropriate NIM-Modules. The output of the modules was then connected to a MCA and an oscilloscope to display the measures pulses. For each of the crystals, a pulse height spectrum of the source is recorded.
+
+		\subsubsection{Analysis}
+            We expect to measure all peaks emitted by the source.
+
+            \begin{figure}[H]
+							\centering
+                \includegraphics[width = 0.8 \textwidth]{Plots/Scinti/SpektrenNaI.png}
+                \caption{Gamma Spectrum NaI(Ti)-Scintillator}
+            \end{figure}
+
+            \begin{figure}[H]
+							\centering
+                \includegraphics[width = 0.8 \textwidth]{Plots/Scinti/SpektrenPlastic.png}
+                \caption{Gamma Spectrum Plastic-Scintillator}
+            \end{figure}
+            You can distinguish, that the NaI-Scintillator has a better resolution
+            than the Plastic Scintillator because the peaks of NaI(Ti)-Scintillator
+            are more narrow and larger. The relative light yield and detection probability is the proportion
+            of the peak positions and the peak highs. Those are determined by the
+            paramter of normal distributions fitted at the peaks.
+
+			\begin{figure}[H]
+				\centering
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Scinti/PeakNaIBest.png}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							\mu &= 1091 \pm 1 \\
+							\sigma &= 142.2 \pm 0.9 \\
+                            \text{height} &= 636.5 \pm 2.1 \\
+							\frac{\chi^2}{NDF} &= 1.072
+						\end{align*}
+					\end{minipage}
+                    \caption{$\gamma$ - Peak, NaI(Ti)-Scintillator}
+				\end{figure}
+
+			\begin{figure}[H]
+				\centering
+					\begin{minipage}{0.69 \textwidth}
+						\includegraphics[width = \textwidth]{Plots/Scinti/PeakNaIBest.png}
+					\end{minipage}
+					\begin{minipage}{0.29 \textwidth}
+						\begin{align*}
+							\mu &= 937 \pm 2 \\
+							\sigma &= 302 \pm 2.6 \\
+                            \text{height} &= 178.2 \pm 0.7 \\
+							\frac{\chi^2}{NDF} &= 1.296
+						\end{align*}
+					\end{minipage}
+                    \caption{$\gamma$ - Peak, Plastic-Scintillator}
+				\end{figure}
+
+            The proportion $\frac{Plastic}{NaI(Ti)}$ is used because the NaI(Ti)
+            values are bigger, thus we get smaller errors on the proprtion because
+            of gaussion uncertainty propagation laws.
+
+            The relative light yield is $0.859 \pm 0.002$ and the relative detection
+            rate is $0.280 \pm 0.0015$.
+	\subsection{Absorption in lead}
+	\label{Absorption::Pb}
+		\subsubsection{Setup}
+			Using the NaI(TI) scintillator, a spectrum for different thicknesses of lead between the source and the scintillator is recorded. The PMT used is the same as in \ref{Gamma}, the voltage is again set to $\SI{840}{\volt}$.
+
+		\subsubsection{Analysis}
+        The attenuation is the change of the intenstity by travelling through a material.
+        The determine the intensity after passing through a certain amount of lead, we again need to
+        get the hight of the peaks in the spectrum. Therefore the same range of channels
+        as in the analysis above are used to fit a normal distribution to the data.
+        After that the logarithm of the peak hights in counts is plotted against the thickness of
+        the plates of lead to determine the attenuation coeffient and the product of
+        the density and the thicknesses to determine the mass attenuation coefficient.
+
+        The uncertainties of the peak hights are defined by the uncertainties of
+        the gaussian distributions and those of the length, by the statistic error of the
+        micrometer calliper.
+
+        The logarithm of the counts is used because a linear function is easier to
+        fit than an exponential function, so the programm runs more stable and
+        produces better results. Moreover the first and the last value are discarded as runaways.
+
+        With the attenuation coefficient $\mu$ the model $m(x) = -\mu \cdot x + c$
+        is used.
+
+        $11.34\frac{g}{cm^3}$ is used as densitiy of lead.
+
+        \begin{figure}[H]
+					\centering
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Scinti/attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        	\mu&= \SI{0.946 \pm 0.005}{\frac{1}{\centi\metre}} \\
+                        	c &= 6.421 \pm 0.006 \\
+                        	\frac{\chi^2}{NDF} &= 4.14
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - attenuation}
+            \end{figure}
+
+        \begin{figure}[H]
+					\centering
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Scinti/mass_attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        \mu &= 0.0834 \pm 0.005 \frac{cm^2}{g}\\
+                        c &= 6.421 \pm 0.006 \\
+                        \frac{\chi^2}{NDF} &= 0.42
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - mass attenuation}
+            \end{figure}
+
+
+	\subsection{Absorption in aluminium}
+	\label{Absorption::Al}
+		\subsubsection{Setup}
+				For this experiment a different PMT and schintillator was used. The voltage for the PMT was set to $\SI{900}{\volt}$ and the scintillation crystal used, was the organic scintillator anthracen. After mounting the detector assembly in the shielding, a $^{90}Sr$ was placed on the tray below it, and with the help of a counter the count rate was measured. For each absorber there were three measurements performed, so that a mean and a standard deviation could be estimated.
+
+		\subsubsection{Analysis}
+        The attenuation coefficients of $\beta$ radiation in aluminium are determined
+        quite simular like the coefficients of $\gamma$ radiation in lead with the
+        difference, that exponential functions $I(x) = I_0 \cdot e^{- \mu \cdot x}$ are
+        used as model because after taking the logarithm of the counted values it is
+        hard to reduce further systematics.
+
+        It is reasonable to assume that another exponential function is required to
+        eliminate other attenuation effects. Using a sum of exponential function with
+        reasonably choosen start parameters, like attenuation coeffcients of provided
+        materials, results in exponential functions with similar exponents.
+        That reduces the $\frac{\chi^2}{NDF}$ but is not useful for a further
+        analysis.
+
+        The uncertainties are the last digit of the thickness of the absorbers
+        or the area mass density respectively.
+
+        \begin{figure}[H]
+					\centering
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Beta/attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        \mu &= \SI{2.143 \pm 0.025}{\frac{1}{\centi\metre}} \\
+                        I_0 &= 8560 \pm 89 \\
+                        \frac{\chi^2}{NDF} &= 4.8
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - attenuation}
+            \end{figure}
+
+        \begin{figure}[H]
+					\centering
+                \begin{minipage}{0.69 \textwidth}
+                    \includegraphics[width = \textwidth]{Plots/Beta/mass_attenuation_coefficient.png}
+                \end{minipage}
+                \begin{minipage}{0.29 \textwidth}
+                    \begin{align*}
+                        \mu &= (7.73 \pm 0.07) \cdot 10^{-3} \frac{cm^2}{mg}\\
+                        c &= 6.421 \pm 0.006 \\
+                        \frac{\chi^2}{NDF} &= 4.4
+                    \end{align*}
+                \end{minipage}
+                \caption{$\gamma$ - mass attenuation}
+            \end{figure}
+
+        The appearing systematics might be the result of the non constant densitiy of
+        the aluminium absorbers. Absorper 7 has a area mass densitiy of $13.2 \frac{mg}{cm^2}$
+        and a thickness of $\SI{0.5}{\milli \metre}$ but absorber 13 with ten times the thickness
+        of absorber 7 has an area mass densitiy of $135 \frac{mg}{cm^2}$ wich is not
+        the times of the area mass densitiy of absorber 7.
+
+        The maximum energy of an particle is specified bei $E_{max} = ^{1.14}\sqrt{\frac{17}{\mu'}}$.
+        The energy uncertainty is propagated by gaussian error calculation.
+
+        $E_{max} = 2.177 MeV \pm 0.11MeV$
+
+        So there is a deviation of about one $\sigma$.
+
+	\section{Radiation protection}
+
+	\subsection{Measurements}
+		\paragraph{1}
+		The $\gamma$ dose rate near the closed safes with the radiation sources was measured from a distance of $\approx \SI{10}{\centi \metre}$.
+		Also, the areas of the different setups in the lab are measured and the highest instantaneous dose rate in a time frame of 1 Minute was noted down.
+
+		\paragraph{2}
+			The areas of the different experiments in the room were examined for contamination, especially the tools to move radiation sources, counting chambers and areas behind the lead shielding. Abnormally high count rates of the $\alpha - \beta - \gamma$ detector were noted and reported to the supervisor.
+
+	\subsubsection{Analysis}
+		\paragraph{1}
+
+			Some of the safes mentioned in the instruction could not be found, so instead the measurements were performed on the safes found in the room.
+			The different measurements resulted in the following data:
+
+			\begin{table}[H]
+				\centering
+				\caption{Dose rates}
+				\label{Dose::safes}
+				\begin{tabular}{|c|c|}
+					\hline
+					Safe & dose rate in $\frac{nSv}{h}$ \\
+					\hline
+					1		&		500 \\
+					4		&		282 \\
+					\hline
+				\end{tabular}
+			\end{table}
+
+			The legal limit for yearly radiation doses in Germany is $\SI{1}{\milli \sievert}$ for the regular population and $\SI{20}{\milli \sievert}$ for individuals who are professionally exposed to elevated levels of radiation. A person therefore has to stay $\approx \SI{2000}{\hour}$ in close distance to the safe with the highest dose rate to be exposed to a dose of $\SI{1}{\milli \sievert}$. It is safe to say that this is very unlikely and therefore the protection of the safes frm the radiation is suficcient.
+
+			For the dose rate near the setups nothing unusual (see \ref{Contamination}) was found, except the high dose rate above the shielding of the Mößbauer experiment, which could exceed $\SI{5}{\micro \sievert}$. This was by far the highest dose rate fount in the lab, which is not surprising, considering that the $^60$Co source used in the experiment also has by far the highest activity of the sources used in the \textbf{Fortgeschrittenenpraktikum}.
+
+		\paragraph{2}
+		\label{Contamination}
+			The chambers and tools of each workplace were checked for contamination. The results are:
+
+			\begin{table}[H]
+				\centering
+				\caption{Contamination (\xmark = No, \checkmark = Yes)}
+				\begin{tabular}{|c|c|c|c|c|c|c|}
+					\hline
+					Experiment No. & T02 & T05 & T06 & T07 & T08 & T10 \\ \hline
+					Cont. Tools 	 & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark \\
+					Cont. chamber  & \xmark & \xmark & \xmark & \xmark & \xmark & \xmark \\ \hline
+				\end{tabular}
+			\end{table}
+
+			In the end no contamination was found, but at some point a pair of pliers had a suspiciously high activity, which turned out to originate from the safe next to it.
 
 \end{document}
