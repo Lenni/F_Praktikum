@@ -1,9 +1,13 @@
+import os
+import sys
+sys.path.append(os.environ['PWD'])
 
-from src.M21.sensitivity import *
-from src.M21.energy import *
-from src.M21.dcm import *
-from src.M21.weg_cal import *
-from src.M21.timediff import *
+from rausch import *
+from sensitivity import *
+from energy import *
+from dcm import *
+from weg_cal import *
+from timediff import *
 
 #
 # Vergleiche time distance und längen kalib

@@ -43,12 +43,15 @@ def do_normal_regression(x, y, yErr, xErr=None, beta0=None):
 #    output = modr.run()
 #    return output.beta, output.cov_beta, output.res_var/(len(x) - 3)
 
-def regression(model, x, y, yErr, xErr=None, beta0=None):
+def regression(model, x, y, yErr, xErr=None, beta0=None, bounds=None):
     if beta0 is None:
-        beta0, none = curve_fit(model, x, y, sigma = yErr)
+        if bounds is not None:
+            beta0, none = curve_fit(model, x, y, sigma = yErr, maxfev = 100000, bounds=bounds)
+        else:
+            beta0, none = curve_fit(model, x, y, sigma = yErr, maxfev = 100000)
     mod = odr.Model(lambda B, x: model(x, *B))
     data = odr.RealData(x,y, sx=xErr, sy = yErr)
-    modr = odr.ODR(data, mod, beta0=beta0)
+    modr = odr.ODR(data, mod, beta0=beta0, maxit=1_000)
     outp = modr.run()
     beta = outp.beta
     propagated_x_err = list()
